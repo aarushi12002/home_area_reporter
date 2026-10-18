@@ -1,0 +1,3 @@
+'use strict';
+const button=document.getElementById('research');
+(async()=>{try{const [tab]=await chrome.tabs.query({active:true,currentWindow:true});const url=new URL(tab.url);if(!['https:'].includes(url.protocol)||!/(^|\.)(redfin|zillow)\.com$/.test(url.hostname))throw new Error('Open a Redfin or Zillow property listing first.');const listing=url.origin+url.pathname;document.getElementById('context').textContent='Use this listing to start a Seattle ZIP-code check. Confirm the ZIP code on the next page.';button.disabled=false;button.onclick=()=>{const target=new URL(chrome.runtime.getURL('report.html'));target.searchParams.set('listing',listing);chrome.tabs.create({url:target.href});};}catch(error){document.getElementById('error').textContent=error.message;}})();

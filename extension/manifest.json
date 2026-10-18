@@ -1,0 +1,1 @@
+{"manifest_version":3,"name":"Home Area Reporter","version":"0.1.0","description":"Start a Seattle ZIP-code nearby-development check from a Redfin or Zillow listing.","permissions":["activeTab"],"action":{"default_popup":"popup.html"}}

@@ -145,3 +145,77 @@ test("not approved must not be presented as approval", () =>
     classify({ ...row, statuscurrent: "Not Approved" }).stage,
     "Status needs interpretation",
   ));
+
+test("pagination advances offsets and preserves earlier evidence on later HTTP failure", async () => {
+  const offsets = [];
+  const result = await fetchSource(SOURCES[0], "98109", {
+    pageSize: 1,
+    maxPages: 3,
+    fetcher: async (url) => {
+      const query = new URL(url).searchParams;
+      offsets.push(query.get("$offset"));
+      assert.equal(query.get("$limit"), "1");
+      assert.match(query.get("$order"), /permitnum/);
+      return offsets.length === 1
+        ? { ok: true, json: async () => [row] }
+        : { ok: false, status: 429 };
+    },
+  });
+  assert.deepEqual(offsets, ["0", "1"]);
+  assert.equal(result.status, "failed");
+  assert.equal(result.truncated, true);
+  assert.deepEqual(result.records, [row]);
+});
+
+test("malformed source payloads and invalid JSON are failures, not empty coverage", async () => {
+  for (const json of [
+    async () => ({ error: "bad query" }),
+    async () => {
+      throw SyntaxError("bad JSON");
+    },
+  ]) {
+    const result = await fetchSource(SOURCES[0], "98109", {
+      fetcher: async () => ({ ok: true, json }),
+    });
+    assert.equal(result.status, "failed");
+    assert.equal(result.records.length, 0);
+    assert.ok(result.error);
+  }
+});
+
+test("source deadline aborts retrieval and reports a timeout", async () => {
+  const result = await fetchSource(SOURCES[0], "98109", {
+    deadlineMs: 5,
+    fetcher: async (_url, { signal }) =>
+      new Promise((_resolve, reject) => {
+        signal.addEventListener(
+          "abort",
+          () => reject(new DOMException("aborted", "AbortError")),
+          { once: true },
+        );
+      }),
+  });
+  assert.equal(result.status, "failed");
+  assert.equal(result.error, "Source request timed out");
+});
+
+test("only the requested ZIP survives normalization; ZIP+4 stays usable", () => {
+  const result = normalize(
+    [
+      {
+        source: SOURCES[0],
+        records: [
+          { ...row, permitnum: "MATCH", originalzip: "98109-1234" },
+          { ...row, permitnum: "OTHER", originalzip: "98101" },
+          { ...row, permitnum: "MISSING", originalzip: null },
+        ],
+      },
+    ],
+    "98109",
+  );
+  assert.deepEqual(
+    result.projects.map((p) => p.id),
+    ["MATCH"],
+  );
+  assert.equal(result.excluded, 2);
+});

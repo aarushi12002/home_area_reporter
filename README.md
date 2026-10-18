@@ -31,7 +31,11 @@ npm run build
 node --check extension/popup.js
 python scripts/probe_sources.py
 ```
-Tests cover filtering, grouping, malformed inputs, unsafe links/origins, partial/all-source failures, caps and extension handoff. The metadata probe requires internet. A build or mocked test does not establish live source availability.
+The deterministic suite covers report evidence/filtering, explicit grouping, ZIP boundaries, unsafe links/origins, API status codes, cache expiry, concurrent request coalescing, outage recovery, pagination failures, malformed upstream responses, timeouts and extension handoff. Tests mock upstream APIs and need no credentials or live network.
+
+GitHub Actions runs `npm ci`, all tests, extension syntax validation and the production build on pushes and pull requests using Node 22. Workflow success does not enforce merge protection; required status checks must be configured separately.
+
+Live validation is separate: `python scripts/probe_sources.py` checks metadata, not report accuracy. Before releasing a connector or classification change, inspect real report evidence against official records, including an empty ZIP, a cap-limited ZIP and source failures. Browser checks must cover desktop/mobile report rendering, loading/error/empty/partial states, evidence links, print output and unpacked-extension handoff on both listing sites. Browser end-to-end automation and a reviewed real-record fixture set remain outstanding; VM extension tests are not browser tests.
 
 Live smoke check: both permit APIs returned records for 98109. The building-source 1,000-record cap was reached; the resulting report was correctly marked partial. Source event dates are often absent and are displayed as unknown; this is not a guarantee of upcoming construction.
 

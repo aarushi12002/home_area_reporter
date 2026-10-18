@@ -22,6 +22,10 @@ GitHub repository: https://github.com/aarushi12002/home_area_reporter (public, c
 ## Checks
 Run `npm test`, `npm run build`, `node --check extension/popup.js`, and optionally `python scripts/probe_sources.py`. The probe requires internet and only inspects source metadata. See README for local run and Vercel root-directory instructions.
 
+Implemented testing layers: deterministic Node tests for normalization, adapter failure/pagination/deadline behavior, the real API handler with mocked upstream fetches (including cache TTL, in-flight sharing and recovery), and VM-based extension handoff checks. GitHub Actions runs tests, extension syntax and a production build on push/PR with Node 22; no live APIs or credentials are required. The workflow supplies checks, not branch protection.
+
+Release validation still required: browser report/extension journeys and print/mobile layouts, plus a manually reviewed official-record fixture set to evaluate relevance and omissions. Metadata probes and live HTTP smoke checks establish availability only. They do not establish complete coverage, factual interpretation or forecast quality. Browser end-to-end automation remains planned.
+
 ## First implementation
 1. Implemented: website/extension ZIP input and validation; no exact-distance claims.
 2. Implemented: on-demand building + land-use API lookup, explicit permit grouping and filtering. Durable import/persistence remains next. Never imply permit issuance establishes construction started.

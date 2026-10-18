@@ -28,3 +28,6 @@ Run `node --check extension/popup.js`, `node --check extension/report.js`, and `
 3. Current transit schedule context with required attribution; keep future rail project coverage explicitly unresolved.
 4. Parking context only; policy-change detection waits for dated rules/announcements and reusable sources.
 5. Evidence fields and source coverage on every report; deployment + tests; private beta before payments.
+
+## Contribution documentation
+Read `AGENTS.md` and `agents_start.md` at the start of each contribution. This file is the canonical system design: update accepted decisions and implemented-versus-planned status here in place. Complete `wrapup.md`, including README updates, before finishing. Avoid parallel design files.

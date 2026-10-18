@@ -1,4 +1,0 @@
-'use strict';
-const value=new URL(location.href).searchParams.get('listing');
-if(value){try{const url=new URL(value);if(url.protocol==='https:'&&/(^|\.)(redfin|zillow)\.com$/.test(url.hostname)){const a=document.createElement('a');a.href=url.origin+url.pathname;a.textContent='Return to original listing';a.target='_blank';a.rel='noopener noreferrer';document.getElementById('listing').append(a);}}catch{document.getElementById('listing').textContent='Invalid listing URL.';}}
-document.getElementById('confirm').onsubmit=e=>{e.preventDefault();const zip=document.getElementById('zip').value;if(!/^\d{5}$/.test(zip))return;document.getElementById('result').textContent='ZIP '+zip+' captured for this session. Next implementation: verify Seattle dataset coverage and query stored active development records. No live research was run; an unsupported ZIP is not a no-projects result.';};

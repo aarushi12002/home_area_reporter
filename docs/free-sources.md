@@ -70,3 +70,6 @@ Not yet established: fully automated future rail, public infrastructure timeline
 
 ## Operational rules
 Use app tokens/rate-limit handling for Socrata. Store source-as-of and retrieval date separately. Snapshot metadata/licenses periodically and detect changes. Preserve raw status. Every claim carries evidence; no complete coverage claim. Nightly cached ingestion, async retries; never scrape every source per user request.
+
+## Implementation update — 2026-10-17
+The building and land-use datasets are now connected through `lib/report.mjs` and `/api/report`. Live ZIP 98109 lookup returned both sources; the building cap was reached and reported as partial. Other source categories remain inventory-only. Source calls are on-demand, not nightly ingestion; terms/metadata verification is distinct from integration. Date/status incompleteness and linked-permit duplicates remain explicit report limitations.

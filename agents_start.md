@@ -39,3 +39,4 @@ Read this file at the beginning of every contribution. These instructions apply 
 
 ## Verification and completion
 Run checks appropriate to changed behavior; avoid tests that only repeat implementation. A docs-only change needs link/path and consistency review, not network calls or full application tests. Follow `wrapup.md` before finishing.
+

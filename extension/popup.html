@@ -1,1 +1,26 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Home Lens</title><link rel="stylesheet" href="style.css"></head><body><h2>What’s planned nearby?</h2><p id="context">Checking the current tab…</p><button id="research" disabled>Check this home →</button><p id="error" role="alert"></p><small>Prototype: opens a research handoff, not a live generated report.</small><script src="popup.js"></script></body></html>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Home Area Reporter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h2>What’s changing in this ZIP?</h2>
+    <p id="context">Checking the listing tab…</p>
+    <label for="zip">Seattle ZIP code</label
+    ><input id="zip" inputmode="numeric" maxlength="5" placeholder="98109" />
+    <details>
+      <summary>Website connection</summary>
+      <label for="origin">Reporter website origin</label
+      ><input id="origin" type="url" value="http://localhost:3000" /><small
+        >Use localhost for development; replace with your Vercel HTTPS origin
+        after deployment. This setting lasts while the popup is open.</small
+      >
+    </details>
+    <p><button id="research" disabled>Open area report →</button></p>
+    <p id="error" role="alert"></p>
+    <small>Opens the website in a new tab. Seattle permit records only.</small>
+    <script src="popup.js"></script>
+  </body>
+</html>

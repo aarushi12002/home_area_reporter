@@ -7,6 +7,7 @@ import {
   validZip,
   SOURCES,
   fetchSource,
+  relevant,
 } from "../lib/report.mjs";
 const row = {
   permitnum: "100-LU",
@@ -46,6 +47,35 @@ test("issued does not imply construction started", () =>
     classify({ ...row, statuscurrent: "Issued" }).stage,
     "Permit / decision recorded",
   ));
+test("routine alterations are excluded unless they represent material housing development", () => {
+  assert.equal(
+    relevant({
+      description: "Construct alterations to kitchen and bathroom, subject to field inspection",
+      permittypemapped: "Building",
+    }),
+    false,
+  );
+  assert.equal(
+    relevant({
+      description:
+        "Construct initial tenant improvements for restaurant in existing mixed-use building",
+      permittypemapped: "Building",
+    }),
+    false,
+  );
+  assert.equal(
+    relevant({
+      description: "Construct alterations to convert building into 12 apartments",
+      permittypemapped: "Building",
+      housingunitsadded: "12",
+    }),
+    true,
+  );
+  assert.equal(
+    relevant({ description: "Construct new 40 unit apartment building" }),
+    true,
+  );
+});
 test("groups explicitly related permits and never sums units", () => {
   const a = { ...row, housingunitsadded: "20" };
   const b = {

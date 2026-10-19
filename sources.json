@@ -8,7 +8,8 @@
       "license": "Public Domain",
       "refresh": "Daily",
       "ready": "foundation",
-      "integration": "live_on_demand"
+      "integration": "persistent_scheduled_with_live_fallback",
+      "initial_service_areas": ["98101", "98102", "98103", "98104", "98105"]
     },
     {
       "id": "ht3q-kdvx",
@@ -16,7 +17,8 @@
       "license": "Public Domain",
       "refresh": "Daily",
       "ready": "foundation",
-      "integration": "live_on_demand"
+      "integration": "persistent_scheduled_with_live_fallback",
+      "initial_service_areas": ["98101", "98102", "98103", "98104", "98105"]
     },
     {
       "id": "gg89-k5p6",

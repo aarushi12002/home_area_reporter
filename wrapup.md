@@ -4,6 +4,7 @@ This is the mandatory end-of-contribution procedure, not a scratch log. Update e
 
 ## 1. Validate the change
 - Review the complete diff for accidental replacements, duplicate implementations, unrelated edits and secrets.
+- Run `npm run docs:check`. When setup commands, package scripts, environment variables, supported areas, routes, extension metadata or contributor workflow changed, update `docs/fresh-machine-setup.md`, README and the relevant canonical design text together.
 - Add/update regression coverage for changed behavior and run the checks required by `agents_start.md`. Report exact checks and results, including failures or checks not run. Never describe local passing tests as a successful remote CI run or claim merge protection without verifying it.
 - For docs-only changes, verify referenced paths exist, relative links resolve and design/status/pricing statements agree.
 - Distinguish a local syntax check from a browser test, live connector test, database migration or deployed verification.
@@ -44,4 +45,3 @@ Give a concise summary:
 4. The next actionable milestone when useful.
 
 Do not claim success from an attempted action or repeat the entire design in the final response.
-

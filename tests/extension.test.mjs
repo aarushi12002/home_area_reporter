@@ -2,43 +2,120 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import vm from "node:vm";
 import { readFileSync } from "node:fs";
-const script = readFileSync(
-  new URL("../extension/popup.js", import.meta.url),
-  "utf8",
-);
-async function popup(url, zip = "98109", origin = "http://localhost:3000") {
-  const el = {
-    research: { disabled: true },
-    context: {},
-    zip: { value: zip },
-    origin: { value: origin },
-    error: {},
+
+const script = readFileSync(new URL("../extension/popup.js", import.meta.url), "utf8");
+
+function element(initial = {}) {
+  return {
+    disabled: false,
+    hidden: false,
+    textContent: "",
+    value: "",
+    href: "",
+    children: [],
+    append(...children) {
+      this.children.push(...children);
+    },
+    replaceChildren(...children) {
+      this.children = children;
+    },
+    ...initial,
   };
-  const opened = [];
+}
+
+async function popup({
+  url = "https://www.redfin.com/example",
+  listing = { zip: "98103", address: "1 Example St", latitude: 47.6, longitude: -122.3 },
+  zip,
+  origin = "http://localhost:3000",
+} = {}) {
+  const ids = [
+    "research",
+    "error",
+    "origin",
+    "zip",
+    "context",
+    "results",
+    "headline",
+    "permitted",
+    "review",
+    "proposal",
+    "project-map",
+    "highlights",
+    "full-report",
+    "refresh",
+  ];
+  const el = Object.fromEntries(ids.map((id) => [id, element()]));
+  el.research.disabled = true;
+  el.origin.value = origin;
+  if (zip) el.zip.value = zip;
+  const requests = [];
   const context = {
     URL,
-    document: { getElementById: (id) => el[id] },
+    URLSearchParams,
+    console,
+    document: {
+      getElementById: (id) => el[id],
+      createElement: () => element(),
+    },
     chrome: {
-      tabs: { query: async () => [{ url }], create: (x) => opened.push(x) },
+      storage: {
+        local: {
+          get: async () => ({}),
+          set: async () => {},
+        },
+      },
+      tabs: { query: async () => [{ id: 7, url }] },
+      scripting: { executeScript: async () => [{ result: listing }] },
+    },
+    fetch: async (requestUrl) => {
+      requests.push(String(requestUrl));
+      return {
+        ok: true,
+        json: async () => ({
+          headline: "3 current documented projects in 98103",
+          counts: { permitted: 1, inReview: 2, earlyProposal: 0 },
+          highlights: [
+            {
+              address: "2 Example Ave",
+              summary: "New apartment building",
+              reasons: ["0.4 miles away", "In review"],
+            },
+          ],
+          refreshedAt: "2026-10-18T00:00:00.000Z",
+        }),
+      };
     },
   };
   await vm.runInNewContext(script, context);
-  return { el, opened };
+  return { el, requests };
 }
-test("Redfin and Zillow use the same ZIP report route without sending listing URL", async () => {
+
+test("Redfin and Zillow fetch a compact summary without sending the listing URL", async () => {
   for (const host of ["www.redfin.com", "www.zillow.com"]) {
-    const { el, opened } = await popup(`https://${host}/home?private=discard`);
-    el.research.onclick();
-    assert.equal(opened[0].url, "http://localhost:3000/report?zip=98109");
+    const state = await popup({ url: `https://${host}/home?private=discard` });
+    await state.el.research.onclick();
+    assert.equal(state.requests.length, 1);
+    assert.match(state.requests[0], /\/api\/area-summary\?/);
+    assert.match(state.requests[0], /zip=98103/);
+    assert.doesNotMatch(state.requests[0], /private|redfin|zillow/);
+    assert.equal(state.el.results.hidden, false);
+    assert.match(state.el["full-report"].href, /\/report\?/);
+    assert.match(state.el["project-map"].src, /\/map\?/);
+    assert.equal(state.el["project-map"].hidden, false);
+    assert.doesNotMatch(state.el["project-map"].src, /private|redfin|zillow/);
   }
 });
-test("rejects lookalike domains and malformed ZIP", async () => {
-  const r = await popup("https://zillow.com.evil.example/");
-  assert.equal(r.el.research.disabled, true);
-  const x = await popup("https://www.redfin.com/", "9810");
-  x.el.research.onclick();
-  assert.equal(x.opened.length, 0);
+
+test("rejects lookalike domains and unsupported ZIPs", async () => {
+  const lookalike = await popup({ url: "https://zillow.com.evil.example/" });
+  assert.equal(lookalike.el.research.disabled, true);
+  const unsupported = await popup({ listing: { zip: "98109" }, zip: "98109" });
+  await unsupported.el.research.onclick();
+  assert.equal(unsupported.requests.length, 0);
+  assert.match(unsupported.el.error.textContent, /98101 through 98105/);
 });
+
 test("rejects unsafe reporter origins", async () => {
   for (const origin of [
     "javascript:alert(1)",
@@ -46,8 +123,8 @@ test("rejects unsafe reporter origins", async () => {
     "https://user:pass@example.com",
     "https://example.com/some-path",
   ]) {
-    const r = await popup("https://www.redfin.com/", "98109", origin);
-    r.el.research.onclick();
-    assert.equal(r.opened.length, 0);
+    const state = await popup({ origin });
+    await state.el.research.onclick();
+    assert.equal(state.requests.length, 0);
   }
 });

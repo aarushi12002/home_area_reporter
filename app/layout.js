@@ -1,4 +1,5 @@
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 export const metadata = {
   title: "Home Area Reporter — What is changing in this ZIP?",
   description:

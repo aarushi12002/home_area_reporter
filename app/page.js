@@ -9,9 +9,8 @@ export default function Home() {
           in this area?
         </h1>
         <p className="intro">
-          Explore documented housing and development activity in a Seattle ZIP
-          code. See the original records, their status, and the questions worth
-          asking.
+          See a focused view of documented housing and development activity,
+          ranked for usefulness instead of receiving hundreds of permit rows.
         </p>
         <form action="/report">
           <label htmlFor="zip">Seattle ZIP code</label>
@@ -20,16 +19,17 @@ export default function Home() {
               id="zip"
               name="zip"
               required
-              pattern="98[0-9]{3}"
+              pattern="9810[1-5]"
               inputMode="numeric"
               maxLength={5}
-              placeholder="98109"
+              placeholder="98103"
+              title="Enter a ZIP code from 98101 through 98105"
             />
             <button>Check this area →</button>
           </div>
         </form>
         <p className="muted">
-          No account or payment required. Try 98109, 98103 or 98122.
+          Initial preview areas: 98101, 98102, 98103, 98104 and 98105.
         </p>
       </section>
       <section className="grid">
@@ -58,10 +58,8 @@ export default function Home() {
       <section className="notice">
         <h2>Free early release</h2>
         <p>
-          This first version queries the city’s public permit APIs on demand.
-          Searches may take up to 20 seconds. ZIP codes identify areas; this
-          report does not establish a project’s proximity or impact on a
-          particular home.
+            The focused view shows up to fifteen current highlights. Open the full
+            report only when you want source coverage and additional evidence.
         </p>
       </section>
     </main>

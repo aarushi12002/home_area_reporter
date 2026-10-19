@@ -3,11 +3,12 @@
 Read this file at the beginning of every contribution. These instructions apply to the whole repository; explicit user instructions take precedence.
 
 ## Establish current context before editing
-1. Read `AGENTS.md`, `README.md`, this file, and `wrapup.md`.
+1. Read `AGENTS.md`, `README.md`, this file, `wrapup.md`, and `docs/fresh-machine-setup.md`.
 2. Read the latest `docs/mvp-setup.md`: this is the canonical system design and implementation-status document. Read it from the current checkout/branch, not a previous conversation or cached copy.
 3. For data work, read `docs/free-sources.md` and `sources.json`; inspect the relevant adapter, schema and tests.
 4. Inspect repository status, current branch, recent relevant changes and existing files. Search with `rg` before creating or replacing anything. Preserve unrelated/uncommitted work.
 5. State the smallest intended change and identify which existing files own that behavior.
+6. If setup commands, package scripts, environment variables, supported areas, routes or extension metadata change, update the fresh-machine guide in the same contribution and run `npm run docs:check`.
 
 ## Build on what exists
 - Modify and extend the existing implementation, design document and tests in place.
@@ -38,5 +39,4 @@ Read this file at the beginning of every contribution. These instructions apply 
 - Do not change repository visibility or access, force-push, delete unrelated work, deploy publicly or make purchases unless authorized.
 
 ## Verification and completion
-Testing is a required part of implementation. Add or update meaningful regression tests for changed behavior, especially evidence correctness, filtering, incomplete coverage, failure recovery and API contracts. When fixing a bug, first reproduce it with a failing test when practical; verify the test passes after the fix. Keep default tests deterministic with synthetic records and mocked upstream APIs; never require secrets, private listings or live availability in ordinary CI. Run `npm test`, `npm run build` and extension syntax validation for application changes. Run relevant browser and live-source checks when those boundaries change; explicitly record checks not run and remaining release gaps. A green build does not prove source accuracy or browser usability. Avoid tests that only repeat implementation. A docs-only change needs link/path and consistency review, not network calls or full application tests. Follow `wrapup.md` before finishing.
-
+Testing is a required part of implementation. Add or update meaningful regression tests for changed behavior, especially evidence correctness, filtering, incomplete coverage, failure recovery and API contracts. When fixing a bug, first reproduce it with a failing test when practical; verify the test passes after the fix. Keep default tests deterministic with synthetic records and mocked upstream APIs; never require secrets, private listings or live availability in ordinary CI. Run `npm run docs:check`, `npm test`, `npm run build` and extension syntax validation for application changes. Run relevant browser and live-source checks when those boundaries change; explicitly record checks not run and remaining release gaps. A green build does not prove source accuracy or browser usability. Avoid tests that only repeat implementation. A docs-only change needs link/path and consistency review, not network calls or full application tests. Follow `wrapup.md` before finishing.

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+repository_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 1
+cd "$repository_root" || exit 1
+
+if ! command -v npm >/dev/null 2>&1; then
+  echo "Push blocked: npm is required to validate documentation/setup consistency." >&2
+  exit 1
+fi
+
+if ! npm run --silent docs:check; then
+  echo "Push blocked: update code and canonical setup documentation together." >&2
+  exit 1
+fi

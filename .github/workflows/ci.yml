@@ -18,6 +18,7 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
+      - run: npm run docs:check
       - run: npm test
       - run: node --check extension/popup.js
       - run: npm run build

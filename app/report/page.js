@@ -1,216 +1,281 @@
 "use client";
 import { useEffect, useState } from "react";
+import ProjectMap from "../../components/ProjectMap";
+
+const STAGES = {
+  permitted: "Permitted",
+  in_review: "In review",
+  early_proposal: "Early proposal",
+  uncertain: "Status needs review",
+};
+
+function ProjectCard({ project }) {
+  return (
+    <article className="project">
+      <div className="row">
+        <span className="eyebrow">
+          {STAGES[project.stage] || "Documented activity"}
+        </span>
+        {project.scaleBand && <span className="tag">{project.scaleBand}</span>}
+      </div>
+      <h2>{project.address || project.displayAddress}</h2>
+      <p>{project.summary}</p>
+      {project.reasons?.length > 0 && (
+        <p className="project-reasons">{project.reasons.join(" · ")}</p>
+      )}
+      {!project.reasons?.length && (
+        <p className="muted">
+          {project.status || project.originalStatus}
+          {project.lastActivityAt
+            ? ` · ${new Date(project.lastActivityAt).toLocaleDateString()}`
+            : " · Activity date unavailable"}
+        </p>
+      )}
+      <p className="muted">
+        {project.evidenceCount || 0} official record
+        {(project.evidenceCount || 0) === 1 ? "" : "s"}. A recorded permit or
+        decision does not confirm construction has started.
+      </p>
+      {project.sourceUrl && (
+        <a href={project.sourceUrl} target="_blank" rel="noreferrer">
+          Review official evidence ↗
+        </a>
+      )}
+    </article>
+  );
+}
+
 export default function Report() {
-  const [zip, setZip] = useState(""),
-    [data, setData] = useState(null),
-    [error, setError] = useState(""),
-    [loading, setLoading] = useState(true),
-    [attempt, setAttempt] = useState(0),
-    [visibleCount, setVisibleCount] = useState(20);
+  const [summary, setSummary] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [coverage, setCoverage] = useState([]);
+  const [nextCursor, setNextCursor] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [loadingFull, setLoadingFull] = useState(false);
+  const [fullOpen, setFullOpen] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const [context, setContext] = useState({
+    zip: "",
+    address: "",
+    query: "",
+    location: null,
+  });
+
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const zip = params.get("zip") || "";
+    const query = new URLSearchParams({ zip });
+    for (const key of ["lat", "lng"])
+      if (params.has(key)) query.set(key, params.get(key));
+    const latitude = Number(params.get("lat"));
+    const longitude = Number(params.get("lng"));
+    setContext({
+      zip,
+      address: params.get("address") || "",
+      query: query.toString(),
+      location:
+        params.has("lat") &&
+        params.has("lng") &&
+        Number.isFinite(latitude) &&
+        Number.isFinite(longitude)
+          ? { latitude, longitude }
+          : null,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!context.query) return;
     const controller = new AbortController();
-    const z = new URLSearchParams(window.location.search).get("zip") || "";
-    setZip(z);
     setLoading(true);
     setError("");
-    setData(null);
-    setVisibleCount(20);
-    if (!/^98\d{3}$/.test(z)) {
-      setError("Enter a five-digit Seattle-area ZIP beginning with 98.");
-      setLoading(false);
-      return () => controller.abort();
-    }
-    fetch("/api/report?zip=" + encodeURIComponent(z), {
-      signal: controller.signal,
-    })
-      .then(async (r) => {
-        const d = await r.json();
-        if (!r.ok && !d.coverage)
-          throw new Error(d.error || "Unable to generate report.");
-        return d;
+    fetch(`/api/area-summary?${context.query}`, { signal: controller.signal })
+      .then(async (response) => {
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error || "Unable to build summary.");
+        return body;
       })
-      .then(setData)
-      .catch((e) => {
-        if (e.name !== "AbortError") setError(e.message);
+      .then(setSummary)
+      .catch((requestError) => {
+        if (requestError.name !== "AbortError") setError(requestError.message);
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, [attempt]);
+  }, [attempt, context.query]);
+
+  async function loadProjects(cursor = "0") {
+    setLoadingFull(true);
+    setError("");
+    try {
+      const response = await fetch(
+        `/api/projects?${context.query}&cursor=${encodeURIComponent(cursor)}`,
+      );
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error || "Unable to load evidence.");
+      setProjects((current) =>
+        cursor === "0" ? body.items : [...current, ...body.items],
+      );
+      setCoverage(body.coverage || []);
+      setNextCursor(body.nextCursor);
+      setFullOpen(true);
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setLoadingFull(false);
+    }
+  }
+
+  const mapProjects = summary
+    ? [
+        ...new Map(
+          [...summary.highlights, ...(fullOpen ? projects : [])].map((project) => [
+            project.id,
+            project,
+          ]),
+        ).values(),
+      ]
+    : [];
+
   return (
     <main>
       <div className="row">
         <a href="/">← Check another ZIP</a>
-        {data && (
+        {summary && (
           <button className="secondary" onClick={() => window.print()}>
             Print / save PDF
           </button>
         )}
       </div>
-      <p className="eyebrow">AREA RESEARCH · FREE PREVIEW</p>
+      <p className="eyebrow">AREA RESEARCH · DOCUMENTED CHANGE PIPELINE</p>
       <h1>
-        {zip || "Seattle"}
+        {context.address || context.zip || "Seattle"}
         <br />
-        <span className="muted">Development brief.</span>
+        <span className="muted">What may change nearby.</span>
       </h1>
       {loading && (
         <section className="notice" role="status">
-          <h2>Checking official permit records…</h2>
+          <h2>Building a focused neighborhood view…</h2>
           <p>
-            Building and land-use sources are queried independently. This can
-            take up to 20 seconds; any unavailable source will stay visibly
-            marked.
+            Reviewing current documented projects without loading the full
+            permit archive.
           </p>
         </section>
       )}
       {error && (
         <section className="notice" role="alert">
           <p>{error}</p>
-          <button onClick={() => setAttempt((x) => x + 1)}>Try again</button>
+          {!summary && (
+            <button onClick={() => setAttempt((value) => value + 1)}>
+              Try again
+            </button>
+          )}
         </section>
       )}
-      {data && (
+      {summary && (
         <>
-          <section className="notice">
-            <h2>
-              {data.status === "unavailable"
-                ? "Sources unavailable"
-                : data.status === "partial"
-                  ? "Partial report — coverage gaps"
-                  : data.projects.length
-                    ? "Documented activity to investigate"
-                    : "No matching activity in the examined records"}
-            </h2>
-            <p>
-              {data.status === "unavailable"
-                ? "We could not complete either source search. No conclusion can be drawn about development in this ZIP."
-                : `${data.projects.length} grouped development record${data.projects.length === 1 ? "" : "s"} matched our filter.`}
-            </p>
-            {!data.projects.length && data.status !== "unavailable" && (
-              <p>
-                This may reflect an unsupported ZIP, missing ZIP fields, record
-                filters or limited coverage. It is not a “no development”
-                finding.
-              </p>
-            )}
+          <section className="notice summary-hero">
+            <p className="eyebrow">NEIGHBORHOOD SNAPSHOT</p>
+            <h2>{summary.headline}</h2>
+            <div className="pipeline-counts" aria-label="Documented project stages">
+              <div>
+                <strong>{summary.counts.permitted}</strong>
+                <span>Permitted</span>
+              </div>
+              <div>
+                <strong>{summary.counts.inReview}</strong>
+                <span>In review</span>
+              </div>
+              <div>
+                <strong>{summary.counts.earlyProposal}</strong>
+                <span>Early proposal</span>
+              </div>
+            </div>
             <p className="muted">
-              Retrieved {new Date(data.generatedAt).toLocaleString()} ·{" "}
-              {data.cached
-                ? "cached response; timestamps retained"
-                : "live API lookup"}
+              Official records refreshed{" "}
+              {summary.refreshedAt
+                ? new Date(summary.refreshedAt).toLocaleString()
+                : "recently"}
+              . These are documented stages, not predictions or confirmation of
+              construction.
             </p>
           </section>
-          <h2>Source coverage</h2>
-          <div className="grid coverage">
-            {data.coverage.map((s) => (
-              <article key={s.id}>
-                <h3>
-                  <a href={s.url} target="_blank" rel="noreferrer">
-                    {s.name} ↗
-                  </a>
-                </h3>
-                <p>
-                  {s.status === "ok"
-                    ? "Search succeeded"
-                    : s.status === "limited"
-                      ? "Query cap reached — incomplete"
-                      : "Source failed — incomplete"}
-                </p>
-                <p className="muted">
-                  {s.recordsExamined} records examined ·{" "}
-                  {new Date(s.retrievedAt).toLocaleString()}
-                </p>
-                {s.error && <p>{s.error}</p>}
-              </article>
-            ))}
+
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">PRIMARY VIEW</p>
+              <h2>Changes worth investigating</h2>
+            </div>
+            <span className="tag">Top {summary.highlights.length}</span>
           </div>
-          {data.status !== "ready" && (
+          <ProjectMap projects={mapProjects} location={context.location} />
+          {summary.highlights.map((project) => (
+            <ProjectCard project={project} key={project.id} />
+          ))}
+          {!summary.highlights.length && (
+            <section className="notice">
+              No recent, sufficiently supported project highlights are available
+              for this area.
+            </section>
+          )}
+
+          {!fullOpen && (
             <button
-              className="secondary"
-              onClick={() => setAttempt((x) => x + 1)}
+              className="secondary full-report-button"
+              disabled={loadingFull}
+              onClick={() => loadProjects("0")}
             >
-              Retry sources
+              {loadingFull
+                ? "Loading evidence…"
+                : `Open full report${summary.moreCount ? ` · ${summary.moreCount} more` : ""}`}
             </button>
           )}
-          <h2>Development records</h2>
-          <p>
-            Newest available source event dates first. Undated records follow;
-            their age and current relevance need verification.
-          </p>
-          <p className="muted">
-            Cancelled, completed, expired and routine administrative work are
-            filtered. Explicitly linked permits are grouped; other duplicates
-            may remain. Units are not summed.
-          </p>
-          <div className="projects">
-            {data.projects.slice(0, visibleCount).map((p) => (
-              <article className="project" key={p.id}>
-                <div className="row">
-                  <span className="eyebrow">{p.primary.stage}</span>
-                  <span className="tag">{p.primary.status}</span>
+
+          {fullOpen && (
+            <section className="full-report">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">FULL REPORT</p>
+                  <h2>Current project evidence</h2>
                 </div>
-                <h2>{p.address}</h2>
-                <p>{p.primary.description}</p>
-                <p>
-                  {p.primary.date
-                    ? "Source event date: " +
-                      p.primary.date +
-                      " (decision, issuance or application where supplied)"
-                    : "Source event date unavailable — age and current relevance unverified."}
-                </p>
-                {p.primary.added !== null && (
-                  <p>
-                    Housing units added, as recorded: {p.primary.added}
-                    {p.primary.removed !== null
-                      ? ` · removed: ${p.primary.removed}`
-                      : ""}
-                  </p>
-                )}
-                <div className="implication">
-                  <h3>What to investigate</h3>
-                  <p>{p.consideration}</p>
-                </div>
-                <details>
-                  <summary>
-                    Evidence · {p.records.length} linked record
-                    {p.records.length === 1 ? "" : "s"}
-                  </summary>
-                  {p.records.map((x) => (
-                    <div className="record" key={x.sourceId + x.id}>
-                      <a href={x.url} target="_blank" rel="noreferrer">
-                        {x.source} · {x.id} ↗
-                      </a>
-                      <p>Original status: {x.status}</p>
-                      {x !== p.primary && <p>{x.description}</p>}
-                    </div>
-                  ))}
-                </details>
-              </article>
-            ))}
-          </div>
-          {data.projects.length > visibleCount && (
-            <button
-              className="secondary"
-              onClick={() => setVisibleCount((x) => x + 20)}
-            >
-              Show 20 more records ({data.projects.length - visibleCount}{" "}
-              remaining)
-            </button>
-          )}
-          <section className="notice">
-            <h2>Read this report in context</h2>
-            <ul>
-              {data.limits.map((x) => (
-                <li key={x}>{x}</li>
+              </div>
+              {projects.map((project) => (
+                <ProjectCard project={project} key={project.id} />
               ))}
-            </ul>
-            <p>
-              City of Seattle datasets: Building Permits and Land Use Permits,
-              labeled Public Domain. Linked documents may carry separate rights.
-              This report is not a physical inspection or legal determination.
-            </p>
-          </section>
+              {nextCursor && (
+                <button
+                  className="secondary"
+                  disabled={loadingFull}
+                  onClick={() => loadProjects(nextCursor)}
+                >
+                  {loadingFull ? "Loading…" : "Show 20 more"}
+                </button>
+              )}
+              <details className="coverage-details">
+                <summary>Source coverage and limitations</summary>
+                {coverage.map((source) => (
+                  <article key={source.id}>
+                    <h3>
+                      <a href={source.url} target="_blank" rel="noreferrer">
+                        {source.name} ↗
+                      </a>
+                    </h3>
+                    <p>
+                      {source.status || "unknown"} ·{" "}
+                      {source.recordsReceived ?? source.recordsExamined ?? 0}{" "}
+                      records
+                    </p>
+                    {source.error && <p>{source.error}</p>}
+                  </article>
+                ))}
+                <p>
+                  This report covers connected official sources only. Missing
+                  records do not establish that no change is planned.
+                </p>
+              </details>
+            </section>
+          )}
         </>
       )}
     </main>

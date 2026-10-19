@@ -167,12 +167,134 @@ summary {
   padding: 12px 0;
   border-top: 1px solid var(--line);
 }
+.summary-hero h2 {
+  margin-top: 6px;
+}
+.pipeline-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+.pipeline-counts div {
+  padding: 14px;
+  border-top: 1px solid var(--line);
+}
+.pipeline-counts strong,
+.pipeline-counts span {
+  display: block;
+}
+.pipeline-counts strong {
+  font: 30px/1 Georgia, serif;
+}
+.pipeline-counts span,
+.project-reasons {
+  color: var(--muted);
+  font-size: 14px;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-top: 42px;
+}
+.section-heading h2 {
+  margin-top: 4px;
+}
+.project-map {
+  margin: 18px 0 28px;
+}
+.project-map-canvas {
+  height: 390px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--soft);
+}
+.project-map figcaption {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 8px;
+}
+.project-map-marker,
+.property-map-marker {
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+  color: white;
+  font: 700 12px/24px system-ui, sans-serif;
+  text-align: center;
+}
+.project-map-marker.stage-permitted {
+  background: #245d40;
+}
+.project-map-marker.stage-in_review {
+  background: #b06b18;
+}
+.project-map-marker.stage-early_proposal {
+  background: #396f9f;
+}
+.project-map-marker.stage-uncertain {
+  background: #6c6872;
+}
+.property-map-marker {
+  background: #162c22;
+  border-radius: 7px;
+  font-size: 19px;
+  line-height: 28px;
+}
+.leaflet-popup-content p {
+  margin: 6px 0;
+  line-height: 1.35;
+}
+.map-unavailable {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+  padding: 28px;
+  text-align: center;
+}
+.compact-map-page {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+.compact-map-page .project-map {
+  margin: 0;
+}
+.compact-map-page .project-map-canvas {
+  border: 0;
+  border-radius: 0;
+  height: 220px;
+}
+body:has(.compact-map-page) > header,
+body:has(.compact-map-page) > footer {
+  display: none;
+}
+.full-report-button {
+  width: 100%;
+  margin-top: 12px;
+}
+.full-report {
+  margin-top: 42px;
+}
+.coverage-details {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  margin-top: 32px;
+}
+.coverage-details article {
+  padding: 10px 0;
+}
 li {
   margin: 8px 0;
 }
 @media (max-width: 650px) {
   .grid,
-  .coverage {
+  .coverage,
+  .pipeline-counts {
     grid-template-columns: 1fr;
   }
   main {
@@ -180,6 +302,9 @@ li {
   }
   .project {
     padding: 18px;
+  }
+  .project-map-canvas {
+    height: 310px;
   }
   header {
     padding: 20px 18px;
@@ -206,6 +331,9 @@ li {
   }
   .project {
     break-inside: avoid;
+  }
+  .project-map {
+    display: none;
   }
   a {
     color: inherit;

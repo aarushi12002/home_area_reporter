@@ -6,21 +6,31 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h2>What’s changing in this ZIP?</h2>
+    <p class="eyebrow">DOCUMENTED CHANGE PIPELINE</p>
+    <h1>What may change nearby?</h1>
     <p id="context">Checking the listing tab…</p>
-    <label for="zip">Seattle ZIP code</label
-    ><input id="zip" inputmode="numeric" maxlength="5" placeholder="98109" />
+    <label for="zip">Seattle ZIP code</label>
+    <input id="zip" inputmode="numeric" maxlength="5" placeholder="98103" />
     <details>
       <summary>Website connection</summary>
-      <label for="origin">Reporter website origin</label
-      ><input id="origin" type="url" value="http://localhost:3000" /><small
-        >Use localhost for development; replace with your Vercel HTTPS origin
-        after deployment. This setting lasts while the popup is open.</small
-      >
+      <label for="origin">Reporter website origin</label>
+      <input id="origin" type="url" value="http://localhost:3000" />
+      <small>Use localhost for this development build.</small>
     </details>
-    <p><button id="research" disabled>Open area report →</button></p>
+    <button id="research" disabled>Check this area</button>
     <p id="error" role="alert"></p>
-    <small>Opens the website in a new tab. Seattle permit records only.</small>
+    <section id="results" hidden aria-live="polite">
+      <h2 id="headline"></h2>
+      <div class="counts">
+        <span><strong id="permitted">0</strong> permitted</span>
+        <span><strong id="review">0</strong> in review</span>
+        <span><strong id="proposal">0</strong> early</span>
+      </div>
+      <iframe id="project-map" title="Map of documented changes" hidden></iframe>
+      <div id="highlights"></div>
+      <a id="full-report" class="button-link" target="_blank">Open full report →</a>
+      <small id="refresh"></small>
+    </section>
     <script src="popup.js"></script>
   </body>
 </html>

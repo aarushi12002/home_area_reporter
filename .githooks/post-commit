@@ -1,0 +1,15 @@
+#!/bin/sh
+
+repository_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+cd "$repository_root" || exit 0
+
+if ! command -v npm >/dev/null 2>&1; then
+  echo "Post-commit documentation check skipped: npm is not available." >&2
+  exit 0
+fi
+
+if ! npm run --silent docs:check; then
+  echo "Post-commit warning: documentation/setup drift was detected." >&2
+  echo "Fix the reported mismatch and create a follow-up commit before pushing." >&2
+  exit 1
+fi

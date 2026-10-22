@@ -77,7 +77,15 @@ npm run db:ingest -- --zips=98103
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and test ZIP `98103`. Keep this terminal running while using the extension. The expected flow is summary cards and a numbered map, followed by paginated evidence after **Open full report**.
+Open [http://localhost:3000](http://localhost:3000) and test ZIP `98103`. Keep this terminal running while using the extension. The website snapshot first describes **What’s planned**, then **What it could mean**. Supported factors appear as grouped decision cards with concrete counts/largest single-plan values and icons. Test **All**, **Buying / renting a home** and **Retail / commercial** to change the cards and takeaways; unconnected topics move into the blurred Pro preview. The snapshot omits scoring-method and data-origin explanations; individual project cards retain their city-record links. Check the **Upgrade to Pro** dialog: these additional topics and checkout are coming soon, not currently unlockable. The **Projects in this ZIP** map sits beside the planned-change summary above 650px and stacks below it on smaller screens. Decision cards and stage counts follow, with project cards under **Project details**; **Open full report** loads paginated evidence. A partial live response displays its warning alongside the assessment. If the live lookup is truncated, use the existing complete database ingestion rather than suppressing the warning. The future source/access plan is in [free-sources.md](free-sources.md); no additional provider keys are needed for today's permit-only report.
+
+Above the snapshot, verify **About this ZIP**: for 98103, expect Adobe/Brooks Running, Metro Route 40/RapidRide E Line, PCC and Fremont Sunday Market. All five supported ZIPs have profiles. Check 98102 and 98105 for explicit Nearby labels on Fred Hutch (98109) and UW's Seattle campus (98195). Names link to official pages, with no additional provider key. The reviewed directory in `lib/zip-profile.mjs` is valid from 2026-10-21 until 2027-01-19; review and refresh its facts/dates before expiry, otherwise it is hidden. These are selected area highlights, not property-specific distances or a live transit/business feed.
+
+Verify the **Bus routes** toggle on the map: purple route lines appear around the ZIP with King County attribution; a source failure leaves project markers usable and offers retry. This overlay is route geography, not live arrival times or future service changes. **Parks & public improvements** shows selected reviewed city projects for 98101/98103/98104 plus qualifying civic permits. September 2026 is a past, unconfirmed target for Lower Woodland Playfield #1; the Ship Canal 2027 target is program-wide, and Hing Hay’s October 2026 target covers Phase I only. Medical care is a fourth **About this ZIP** group; outside-ZIP facilities remain labeled Nearby.
+
+Optional noise integration: obtain a HowLoud partner key and put `HOWLOUD_API_KEY` in `.env.local`, then restart the server. The free plan has fewer than 2,500 queries/month, single webpages and no caching. Keep the key server-side and confirm account-specific terms. Use **Pick noise location**, click a map location, then **Check Soundscore**; no automatic provider lookup is made. A missing key displays a connection-pending message, never a fabricated score or Pro paywall. No key has been provisioned or paid plan purchased by this contribution.
+
+The decision cards combine housing and local activity and add building height, shop/service plans, commercial space/use changes, on-site parking, demolition/site work and explicit seismic/access/fire-system upgrades. Cards without evidence stay hidden. **Example projects** expands supporting addresses and statuses. Counts are matching canonical projects in the available search, not confirmed business openings or complete area totals. Parking values refer to one plan, never street supply. Commercial fit-outs do not prove space is vacant or leasable. If this checkout uses a database, rerun `npm run db:ingest` after updating the expanded permit filters; the live fallback applies them without a migration.
 
 ## 6. Load the Chrome extension
 
@@ -87,7 +95,7 @@ Open [http://localhost:3000](http://localhost:3000) and test ZIP `98103`. Keep t
 4. Pin **Home Area Reporter**.
 5. Open a Redfin or Zillow listing in ZIP 98101, 98102, 98103, 98104 or 98105.
 6. Open the extension, keep **Website connection** set to `http://localhost:3000`, and choose **Check this area**.
-7. Confirm that up to fifteen cards, fifteen numbered map markers, the listing marker when coordinates are available, and zoom controls appear.
+7. Confirm that up to four compact decision highlights, fifteen project cards, fifteen numbered map markers, the listing marker when coordinates are available, and zoom controls appear.
 
 After pulling extension changes, return to `chrome://extensions` and click **Reload** on the extension card.
 

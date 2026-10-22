@@ -9,8 +9,8 @@ export default function Home() {
           in this area?
         </h1>
         <p className="intro">
-          See a focused view of documented housing and development activity,
-          ranked for usefulness instead of receiving hundreds of permit rows.
+          See what’s planned nearby, from new homes to larger buildings, and
+          what those changes could mean for the neighborhood.
         </p>
         <form action="/report">
           <label htmlFor="zip">Seattle ZIP code</label>
@@ -34,24 +34,21 @@ export default function Home() {
       </section>
       <section className="grid">
         <article>
-          <h2>Documented activity</h2>
+          <h2>What’s planned</h2>
           <p>
-            Building and land-use applications, project descriptions,
-            housing-unit fields and recorded decisions.
+            New housing plans, building proposals and city decisions.
           </p>
         </article>
         <article>
-          <h2>Traceable evidence</h2>
+          <h2>Check the source</h2>
           <p>
-            Official City of Seattle records with original permit statuses and
-            source links.
+            Links to Seattle’s city records so you can explore each project.
           </p>
         </article>
         <article>
-          <h2>Clear limits</h2>
+          <h2>A quick local picture</h2>
           <p>
-            Transit, parking and public infrastructure coverage are coming
-            later. Missing records do not mean no change.
+            Start with local building plans. A deeper Pro report is coming soon.
           </p>
         </article>
       </section>

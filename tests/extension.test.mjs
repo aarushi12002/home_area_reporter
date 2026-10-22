@@ -28,6 +28,7 @@ async function popup({
   listing = { zip: "98103", address: "1 Example St", latitude: 47.6, longitude: -122.3 },
   zip,
   origin = "http://localhost:3000",
+  decisionSignals = [],
 } = {}) {
   const ids = [
     "research",
@@ -37,6 +38,7 @@ async function popup({
     "context",
     "results",
     "headline",
+    "signals",
     "permitted",
     "review",
     "proposal",
@@ -74,6 +76,7 @@ async function popup({
         ok: true,
         json: async () => ({
           headline: "3 current documented projects in 98103",
+          decisionSignals,
           counts: { permitted: 1, inReview: 2, earlyProposal: 0 },
           highlights: [
             {
@@ -105,6 +108,19 @@ test("Redfin and Zillow fetch a compact summary without sending the listing URL"
     assert.equal(state.el["project-map"].hidden, false);
     assert.doesNotMatch(state.el["project-map"].src, /private|redfin|zillow/);
   }
+});
+
+test("popup renders four compact decision signals safely and clears them on repeat searches", async () => {
+  const state = await popup({ decisionSignals: Array.from({ length: 6 }, (_, index) => ({ title: index === 0 ? "<script>unsafe</script>" : `Signal ${index}`, metric: `${index + 1} matching plans` })) });
+  await state.el.research.onclick();
+  assert.equal(state.el.signals.hidden, false);
+  assert.equal(state.el.signals.children.length, 4);
+  assert.equal(state.el.signals.children[0].children[0].textContent, "<script>unsafe</script>");
+  await state.el.research.onclick();
+  assert.equal(state.el.signals.children.length, 4);
+  const empty = await popup();
+  await empty.el.research.onclick();
+  assert.equal(empty.el.signals.hidden, true);
 });
 
 test("rejects lookalike domains and unsupported ZIPs", async () => {

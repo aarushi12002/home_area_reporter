@@ -125,6 +125,18 @@ function appendHighlight(container, project) {
         const body = await response.json();
         if (!response.ok) throw new Error(body.error || "Area summary unavailable.");
         document.getElementById("headline").textContent = body.headline;
+        const signals = document.getElementById("signals");
+        signals.replaceChildren();
+        (body.decisionSignals || []).slice(0, 4).forEach((signal) => {
+          const card = document.createElement("div");
+          const title = document.createElement("span");
+          title.textContent = signal.title;
+          const metric = document.createElement("strong");
+          metric.textContent = signal.metric;
+          card.append(title, metric);
+          signals.append(card);
+        });
+        signals.hidden = !signals.children.length;
         document.getElementById("permitted").textContent = body.counts.permitted;
         document.getElementById("review").textContent = body.counts.inReview;
         document.getElementById("proposal").textContent = body.counts.earlyProposal;

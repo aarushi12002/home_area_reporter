@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <p class="eyebrow">DOCUMENTED CHANGE PIPELINE</p>
+    <p class="eyebrow">NEIGHBORHOOD SNAPSHOT</p>
     <h1>What may change nearby?</h1>
     <p id="context">Checking the listing tab…</p>
     <label for="zip">Seattle ZIP code</label>
@@ -21,6 +21,7 @@
     <p id="error" role="alert"></p>
     <section id="results" hidden aria-live="polite">
       <h2 id="headline"></h2>
+      <div id="signals" class="signals" hidden aria-label="Key neighborhood signals"></div>
       <div class="counts">
         <span><strong id="permitted">0</strong> permitted</span>
         <span><strong id="review">0</strong> in review</span>

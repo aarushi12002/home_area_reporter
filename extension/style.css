@@ -66,6 +66,27 @@ section {
   gap: 6px;
   margin: 12px 0;
 }
+.signals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.signals > div {
+  padding: 10px;
+  border: 1px solid #d5ddd2;
+  border-radius: 8px;
+}
+.signals span {
+  display: block;
+  font-size: 11px;
+  color: #59695f;
+}
+.signals strong {
+  display: block;
+  font-size: 16px;
+  margin-top: 4px;
+}
 .counts span {
   border-top: 1px solid #d5ddd2;
   padding-top: 8px;

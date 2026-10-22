@@ -17,8 +17,7 @@ export default function Layout({ children }) {
         </header>
         {children}
         <footer>
-          Public records, clearly bounded. No forecasts or complete-coverage
-          claims.
+          Based on Seattle city records. Plans can change.
         </footer>
       </body>
     </html>

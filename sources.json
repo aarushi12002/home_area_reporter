@@ -1,6 +1,7 @@
 {
   "scope": "Seattle ZIP-based area research",
   "checked_date": "2026-10-17",
+  "research_checked_date": "2026-10-21",
   "sources": [
     {
       "id": "76t5-zqzr",
@@ -9,7 +10,15 @@
       "refresh": "Daily",
       "ready": "foundation",
       "integration": "persistent_scheduled_with_live_fallback",
-      "initial_service_areas": ["98101", "98102", "98103", "98104", "98105"]
+      "initial_service_areas": [
+        "98101",
+        "98102",
+        "98103",
+        "98104",
+        "98105"
+      ],
+      "analysis_scope": "Material development, explicit business fit-outs/use changes, civic work and building upgrades; grouped resident/commercial signals with project examples",
+      "interpretation_limits": "No confirmed openings, vacancy, footfall, compliance, ongoing construction or price/demand forecasts; no aggregate unit/parking totals"
     },
     {
       "id": "ht3q-kdvx",
@@ -18,7 +27,15 @@
       "refresh": "Daily",
       "ready": "foundation",
       "integration": "persistent_scheduled_with_live_fallback",
-      "initial_service_areas": ["98101", "98102", "98103", "98104", "98105"]
+      "initial_service_areas": [
+        "98101",
+        "98102",
+        "98103",
+        "98104",
+        "98105"
+      ],
+      "analysis_scope": "Material development, explicit business fit-outs/use changes, civic work and building upgrades; grouped resident/commercial signals with project examples",
+      "interpretation_limits": "No confirmed openings, vacancy, footfall, compliance, ongoing construction or price/demand forecasts; no aggregate unit/parking totals"
     },
     {
       "id": "gg89-k5p6",
@@ -51,6 +68,143 @@
       "refresh": "One Time",
       "ready": "historical_context_only",
       "integration": "inventory_only"
+    }
+  ],
+  "reference_sources": [
+    {
+      "id": "reviewed_zip_profile_facts",
+      "name": "Manually reviewed ZIP workplaces, transport, shopping and medical highlights",
+      "integration": "manual_reviewed_reference",
+      "path": "lib/zip-profile.mjs",
+      "reviewed_at": "2026-10-21",
+      "review_until": "2027-01-19",
+      "initial_service_areas": [
+        "98101",
+        "98102",
+        "98103",
+        "98104",
+        "98105"
+      ],
+      "verification": "Names and public address/location facts checked against official organization pages; per-entry links retained",
+      "reuse_scope": "Short facts and original summaries only; no copied listing text, ratings, marketing descriptions, schedules or automated feed ingestion",
+      "limits": "Selected highlights, not complete coverage; nearby institutions explicitly labeled; no live hours, distance, headway or hiring claims"
+    },
+    {
+      "id": "reviewed_public_project_facts",
+      "name": "Selected Seattle Parks and SPU project facts",
+      "integration": "manual_reviewed_reference",
+      "path": "lib/public-projects.mjs",
+      "reviewed_at": "2026-10-21",
+      "review_until": "2027-01-19",
+      "initial_service_areas": [
+        "98101",
+        "98103",
+        "98104"
+      ],
+      "verification": "Official project pages reviewed; phase/program targets and elapsed unconfirmed dates preserved",
+      "reuse_scope": "Short facts, original summaries and official links; no bulk page copy",
+      "limits": "Selective references, not complete public-project coverage or automatic refresh"
+    }
+  ],
+  "planned_sources": [
+    {
+      "id": "king_county_metro_gtfs",
+      "name": "King County Metro GTFS and service alerts",
+      "topic": "transport",
+      "priority": 1,
+      "url": "https://kingcounty.gov/en/dept/metro/rider-tools/mobile-and-web-apps",
+      "access": "Public static-feed download; no key documented for static GTFS",
+      "license": "King County transit terms; required attribution",
+      "verification": "Documentation and terms reviewed; feed parsing not tested",
+      "integration": "planned_not_connected",
+      "limits": "Scheduled service and alerts do not prove future rail openings or improved journeys"
+    },
+    {
+      "id": "dd29065b5d01420e9686570c2b77502b",
+      "name": "Seattle Current Land Use Zoning Detail",
+      "topic": "zoning",
+      "priority": 1,
+      "url": "https://services.arcgis.com/ZOyb2t4B0UYuYNYH/arcgis/rest/services/Current_Land_Use_Zoning_Detail_2/FeatureServer",
+      "access": "Public ArcGIS layer",
+      "license": "PDDL in ArcGIS item metadata; retain city accuracy/service disclaimers",
+      "verification": "Item metadata and license fetched; feature schema and joins not tested",
+      "integration": "planned_not_connected",
+      "limits": "Not the official zoning map; verify ordinances and effective dates, archive snapshots"
+    },
+    {
+      "id": "fhfa_zip5_hpi",
+      "name": "FHFA annual five-digit ZIP house price indexes",
+      "topic": "historical_property_trends",
+      "priority": 1,
+      "url": "https://www.fhfa.gov/data/hpi/datasets?tab=master-hpi-data",
+      "access": "Public spreadsheet downloads; no download API key required",
+      "license": "Review dataset notices; FHFA non-endorsement notice required",
+      "verification": "Catalog, methodology and policy reviewed; per-ZIP coverage not tested",
+      "integration": "planned_not_connected",
+      "limits": "Annual developmental index for selected ZIPs; not a dollar valuation, advertised price or forecast"
+    },
+    {
+      "id": "census_acs5",
+      "name": "Census ACS five-year rent, housing and population estimates",
+      "topic": "rent_and_density_context",
+      "priority": 1,
+      "url": "https://www.census.gov/programs-surveys/acs/data/data-via-api.html",
+      "access": "Free registered API key required for all data queries",
+      "tables": [
+        "B25064",
+        "B25001",
+        "B01003"
+      ],
+      "license": "Federal statistics; retain Census citations and dataset notices",
+      "verification": "API documentation, key requirement and rent table reviewed; no key requested or data query run",
+      "integration": "planned_not_connected",
+      "limits": "Five-year estimates with margins of error; ZCTAs differ from postal ZIPs; not current asking rent"
+    },
+    {
+      "id": "sdot_capital_projects_candidate",
+      "name": "SDOT capital-project dashboard underlying data",
+      "topic": "public_investment_and_streets",
+      "priority": 2,
+      "url": "https://www.seattle.gov/transportation/about-us/asset-and-performance-management",
+      "access": "Public dashboard; underlying dataset endpoint to resolve",
+      "license": "Underlying dataset terms not yet verified",
+      "verification": "Official dashboard description reviewed; endpoint, schema and license unresolved",
+      "integration": "planned_not_connected",
+      "limits": "Describes monthly design/construction projects over $500,000; budget does not prove delivery"
+    },
+    {
+      "id": "reviewed_plans_and_lidar_candidate",
+      "name": "Seattle project plans plus DNR lidar",
+      "topic": "property_specific_views_and_daylight",
+      "priority": 3,
+      "url": "https://www.dnr.wa.gov/lidar",
+      "access": "Public downloads and city plan research; verify project-specific access",
+      "license": "Plan rights and selected lidar tile licenses to verify",
+      "verification": "Public source discovery only; no geometry model or tile/plan validation",
+      "integration": "planned_not_connected",
+      "limits": "Needs terrain, footprints, proposed massing and property floor/orientation; cannot infer blocked views from ZIP"
+    }
+  ],
+  "context_sources": [
+    {
+      "id": "king_county_metro_routes",
+      "name": "Current Metro route geometry",
+      "url": "https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/TRANSITROUTE_LINE_2647/FeatureServer/0",
+      "integration": "free_report_geographic_overlay",
+      "access": "Public ArcGIS query, no key",
+      "license": "County GIS use terms; copying/use permitted, sale prohibited without written agreement; retain disclaimers and attribution",
+      "verification": "Layer schema/status filters and live 98103 query checked 2026-10-21",
+      "limits": "ZIP vicinity envelopes, bus geography only, not live arrivals/future changes; no paid export clearance"
+    },
+    {
+      "id": "howloud_soundscore",
+      "name": "HowLoud Soundscore",
+      "url": "https://api.howloud.com/docs/",
+      "integration": "adapter_implemented_awaiting_partner_key",
+      "access": "HOWLOUD_API_KEY server-side; user-selected latitude/longitude",
+      "license": "Proprietary partner terms; published free tier: single webpages, fewer than 2500 monthly queries, no caching",
+      "verification": "Pricing and API documentation reviewed 2026-10-21; deterministic adapter checks only, real key/response not tested",
+      "limits": "No ZIP-wide score, no cache/persistence, no automatic lookup; production terms/quota/abuse controls pending"
     }
   ]
 }

@@ -47,7 +47,7 @@ test("issued does not imply construction started", () =>
     classify({ ...row, statuscurrent: "Issued" }).stage,
     "Permit / decision recorded",
   ));
-test("routine alterations are excluded unless they represent material housing development", () => {
+test("home maintenance stays excluded while explicit business fit-outs and housing work are useful", () => {
   assert.equal(
     relevant({
       description: "Construct alterations to kitchen and bathroom, subject to field inspection",
@@ -61,7 +61,7 @@ test("routine alterations are excluded unless they represent material housing de
         "Construct initial tenant improvements for restaurant in existing mixed-use building",
       permittypemapped: "Building",
     }),
-    false,
+    true,
   );
   assert.equal(
     relevant({

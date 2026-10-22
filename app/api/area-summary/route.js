@@ -1,6 +1,8 @@
 import { hasDatabaseConfig } from "../../../lib/db.mjs";
 import { liveAreaSummary } from "../../../lib/live-summary.mjs";
 import { INITIAL_SERVICE_AREAS } from "../../../lib/project-pipeline.mjs";
+import { getZipProfile } from "../../../lib/zip-profile.mjs";
+import { getPublicProjects } from "../../../lib/public-projects.mjs";
 import {
   areaIngested,
   databaseAreaSummary,
@@ -41,6 +43,8 @@ export async function GET(request) {
   } catch (error) {
     return Response.json({ error: error.message }, { status: 400 });
   }
+  const zipProfile = getZipProfile(zip);
+  const publicProjects = getPublicProjects(zip);
   try {
     let summary;
     if (
@@ -58,6 +62,8 @@ export async function GET(request) {
     return Response.json(
       {
         ...summary,
+        zipProfile,
+        publicProjects,
         status: summary.sourceStatus === "unavailable" ? "unavailable" : "ready",
         fullReportUrl: `/report?${query}`,
       },
@@ -68,7 +74,7 @@ export async function GET(request) {
     );
   } catch (error) {
     return Response.json(
-      { error: "Area summary is temporarily unavailable.", detail: error.message },
+      { error: "Area summary is temporarily unavailable.", detail: error.message, zipProfile, publicProjects },
       { status: 503 },
     );
   }

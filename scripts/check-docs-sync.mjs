@@ -64,6 +64,8 @@ if (!setup.includes(`Current extension manifest version: \`${manifest.version}\`
 
 for (const route of [
   "/api/area-summary",
+  "/api/transit",
+  "/api/soundscore",
   "/api/projects",
   "/api/projects/:id",
   "/api/internal/ingest",

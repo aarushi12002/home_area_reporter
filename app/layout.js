@@ -1,5 +1,6 @@
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
+import { Analytics } from "@vercel/analytics/next";
 export const metadata = {
   title: "Home Area Reporter — What is changing in this ZIP?",
   description:
@@ -19,6 +20,7 @@ export default function Layout({ children }) {
         <footer>
           Based on Seattle city records. Plans can change.
         </footer>
+        <Analytics />
       </body>
     </html>
   );

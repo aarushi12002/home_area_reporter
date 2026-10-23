@@ -4,13 +4,10 @@ export default function Home() {
       <section className="hero">
         <p className="eyebrow">Before the offer. Beyond the listing.</p>
         <h1>
-          What’s changing
-          <br />
-          in this area?
+          See tomorrow’s neighborhood before paying today’s price.
         </h1>
         <p className="intro">
-          Beyond the listing. See how nearby changes could affect your daily
-          life—and what you get for your money.
+          Your next neighborhood. Your money. Fewer surprises.
         </p>
         <form action="/report">
           <label htmlFor="zip">Seattle ZIP code</label>

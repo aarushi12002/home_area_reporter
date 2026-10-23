@@ -37,6 +37,7 @@ for (const script of [
   "docs:check",
   "db:migrate",
   "db:ingest",
+  "extension:package",
   "dev",
   "test",
   "build",
@@ -71,6 +72,7 @@ for (const route of [
   "/api/internal/ingest",
   "/map",
   "/report",
+  "/privacy",
 ])
   if (!design.includes(route)) errors.push(`docs/mvp-setup.md must document route ${route}`);
 

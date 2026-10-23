@@ -6,13 +6,14 @@ This is the canonical setup guide for a new contributor or a new Codex checkout.
 
 - Git and GitHub CLI authenticated for `aarushi12002/home_area_reporter`.
 - Node.js 22 or newer and npm.
+- Python 3 for release ZIP packaging and the deterministic package tests.
 - PostgreSQL 14 or newer.
 - Google Chrome for the unpacked extension.
 
 Homebrew is the simplest macOS installation path:
 
 ```sh
-brew install node@22 postgresql@14 gh
+brew install node@22 postgresql@14 gh python
 gh auth status
 node --version
 npm --version
@@ -95,11 +96,23 @@ The decision cards combine housing and local activity and add building height, s
 4. Pin **Home Area Reporter**.
 5. Open a Redfin or Zillow listing in ZIP 98101, 98102, 98103, 98104 or 98105.
 6. Open the extension, keep **Website connection** set to `http://localhost:3000`, and choose **Check this area**.
-7. Confirm that up to four compact decision highlights, fifteen project cards, fifteen numbered map markers, the listing marker when coordinates are available, and zoom controls appear.
+7. Confirm that up to four compact decision highlights, fifteen project cards, fifteen numbered map markers, the listing marker when listing-location sharing is enabled and coordinates are available, and zoom controls appear.
 
 After pulling extension changes, return to `chrome://extensions` and click **Reload** on the extension card.
 
-Current extension manifest version: `0.3.0`.
+Current extension manifest version: `0.4.0`.
+
+Listing-location sharing is off by default. Turn on **Include the listing location for nearby results** only when you want coordinates/address included in report requests/links. The popup links to `/privacy`. Verify ZIP-only requests contain no `lat`, `lng` or address, and confirm opting in restores location-aware behavior.
+
+For a store build, first verify the deployed HTTPS origin, then run:
+
+```sh
+npm run extension:package -- --origin=https://your-production-host
+```
+
+Use the actual verified origin, not this placeholder. The script writes the ZIP, unpacked release directory and resolved store listing under ignored `.local/releases/home-area-reporter-0.4.0/`. Use `--out=/absolute/new/path` for a subsequent build; it refuses an existing bundle. It copies only the manifest, popup HTML/JS/CSS and four PNG icons. Release host/frame permissions reference only the chosen origin, and saved localhost preferences cannot override the hidden production origin. The source `extension/` folder remains a local-development build.
+
+The owner must sign in to Vercel and the Chrome Web Store developer dashboard. Complete any publisher registration, fee and binding agreements personally when required. A 128px PNG icon and at least one valid screenshot are required by the store; prepare screenshots from the verified live product, complete privacy/permission declarations and contact details, then submit for review. An uploaded ZIP or review submission is not a live store listing. Do not record success until the store status is published and its installation link works.
 
 ## 7. Validate the checkout
 

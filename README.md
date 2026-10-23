@@ -43,7 +43,11 @@ Maps default to OpenStreetMap tiles for low-volume local development. Before a p
 3. Open a Redfin or Zillow listing and click the extension.
 4. The extension attempts to detect listing ZIP, address and coordinates. Confirm a supported ZIP, keep `http://localhost:3000` under **Website connection**, then click **Check this area**.
 
-The extension stores only the reporter origin in Chrome storage. Listing URL is never sent. Address and coordinates are used only in the current report URL/request and map and are not persisted. The compact map is served by the reporter website, so the extension does not load remote JavaScript. Normal source-coverage details are kept in the website's full report; the popup shows explicit errors only for unsupported, unavailable or invalid states.
+The extension stores only the reporter origin in Chrome storage. Listing URL is never sent. Listing-location sharing defaults off. When enabled, address/coordinates are used in the current report URL/request and map, without application-database or extension-storage persistence; browser history and hosting-provider logs can retain request URLs. Extension-context JavaScript is packaged locally; a same-origin website iframe renders the map separately. Normal source-coverage details are kept in the website's full report; the popup shows explicit errors only for unsupported, unavailable or invalid states.
+
+Release preparation is implemented for extension **0.4.0**: PNG icons, explicit listing-location opt-in, a `/privacy` page, store-listing/permission-disclosure text and a production packager. After the backend is deployed and verified, run `npm run extension:package -- --origin=https://your-production-host`. The generated ZIP pins host access and map frames to that origin, hides the development origin control and contains only the eight extension runtime/icon files. It is written under ignored `.local/releases/`; no credentials or development files are included. Python 3 is required for ZIP packaging/tests.
+
+Chrome Web Store upload, owner publisher-account setup, final contact details, screenshots, review submission and approval are still pending; no public store listing exists yet. Store listing copy lives in `extension/store-listing.json`, and packaging is owned by `scripts/package-extension.mjs`.
 
 ## Validation
 ```sh
@@ -83,3 +87,9 @@ Read [AGENTS.md](AGENTS.md) and [agents_start.md](agents_start.md) before editin
 
 ## Next milestone
 Complete this checkout's database setup and full permit ingestion, review grouping/ranking across 98101–98105, then add transit-service/alert context and zoning before historical FHFA/ACS market context. Follow the [source plan](docs/free-sources.md) for validation and remaining infrastructure, parking and view-analysis gaps.
+
+## Tracked follow-ups
+- [#1 Vercel deployment](https://github.com/aarushi12002/home_area_reporter/issues/1)
+- [#2 Homepage headline and conversion](https://github.com/aarushi12002/home_area_reporter/issues/2)
+- [#3 Google Analytics](https://github.com/aarushi12002/home_area_reporter/issues/3)
+- [#4 Marketing drafts for Reddit, X and forums](https://github.com/aarushi12002/home_area_reporter/issues/4)

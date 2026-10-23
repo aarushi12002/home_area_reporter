@@ -12,6 +12,7 @@
     "start": "next start",
     "test": "node --test tests/*.test.mjs",
     "docs:check": "node scripts/check-docs-sync.mjs",
+    "extension:package": "node scripts/package-extension.mjs",
     "hooks:install": "node scripts/install-git-hooks.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/db-migrate.mjs",

@@ -78,7 +78,10 @@ function appendHighlight(container, project) {
   let listing = { zip: "", address: "", latitude: null, longitude: null };
   try {
     const saved = await chrome.storage.local.get("reporterOrigin");
-    if (saved.reporterOrigin) originInput.value = saved.reporterOrigin;
+    // Release packages hide the development-only origin control. Ignore old
+    // localhost preferences when switching from an unpacked build to a release.
+    if (saved.reporterOrigin && originInput.type !== "hidden") originInput.value = saved.reporterOrigin;
+    try { document.getElementById("privacy-policy").href = `${validOrigin(originInput.value)}/privacy`; } catch {}
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const url = new URL(tab.url);
     if (
@@ -111,7 +114,9 @@ function appendHighlight(container, project) {
         const origin = validOrigin(originInput.value);
         await chrome.storage.local.set({ reporterOrigin: origin });
         const query = new URLSearchParams({ zip });
+        const includeLocation = document.getElementById("include-location").checked;
         if (
+          includeLocation &&
           Number.isFinite(listing.latitude) &&
           Number.isFinite(listing.longitude) &&
           listing.zip === zip
@@ -145,7 +150,7 @@ function appendHighlight(container, project) {
         body.highlights.forEach((project) => appendHighlight(highlights, project));
         const report = new URL("/report", origin);
         report.search = query;
-        if (listing.address && listing.zip === zip)
+        if (includeLocation && listing.address && listing.zip === zip)
           report.searchParams.set("address", listing.address);
         document.getElementById("full-report").href = report.href;
         const map = new URL("/map", origin);

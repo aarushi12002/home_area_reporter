@@ -29,6 +29,9 @@ async function popup({
   zip,
   origin = "http://localhost:3000",
   decisionSignals = [],
+  includeLocation = false,
+  originType = "text",
+  savedOrigin,
 } = {}) {
   const ids = [
     "research",
@@ -39,6 +42,8 @@ async function popup({
     "results",
     "headline",
     "signals",
+    "include-location",
+    "privacy-policy",
     "permitted",
     "review",
     "proposal",
@@ -50,6 +55,8 @@ async function popup({
   const el = Object.fromEntries(ids.map((id) => [id, element()]));
   el.research.disabled = true;
   el.origin.value = origin;
+  el.origin.type = originType;
+  el["include-location"].checked = includeLocation;
   if (zip) el.zip.value = zip;
   const requests = [];
   const context = {
@@ -63,7 +70,7 @@ async function popup({
     chrome: {
       storage: {
         local: {
-          get: async () => ({}),
+          get: async () => savedOrigin ? { reporterOrigin: savedOrigin } : {},
           set: async () => {},
         },
       },
@@ -102,12 +109,25 @@ test("Redfin and Zillow fetch a compact summary without sending the listing URL"
     assert.match(state.requests[0], /\/api\/area-summary\?/);
     assert.match(state.requests[0], /zip=98103/);
     assert.doesNotMatch(state.requests[0], /private|redfin|zillow/);
+    assert.doesNotMatch(state.requests[0], /lat=|lng=/);
+    assert.doesNotMatch(state.el["full-report"].href, /address=/);
     assert.equal(state.el.results.hidden, false);
     assert.match(state.el["full-report"].href, /\/report\?/);
     assert.match(state.el["project-map"].src, /\/map\?/);
     assert.equal(state.el["project-map"].hidden, false);
     assert.doesNotMatch(state.el["project-map"].src, /private|redfin|zillow/);
   }
+});
+
+test("location sharing is opt-in and release packages ignore stored localhost origins", async () => {
+  const optedIn = await popup({ includeLocation: true });
+  await optedIn.el.research.onclick();
+  assert.match(optedIn.requests[0], /lat=47.6/);
+  assert.match(optedIn.el["full-report"].href, /address=1/);
+  const release = await popup({ origin: "https://report.example", originType: "hidden", savedOrigin: "http://localhost:3000" });
+  await release.el.research.onclick();
+  assert.match(release.requests[0], /^https:\/\/report.example\//);
+  assert.equal(release.el["privacy-policy"].href, "https://report.example/privacy");
 });
 
 test("popup renders four compact decision signals safely and clears them on repeat searches", async () => {

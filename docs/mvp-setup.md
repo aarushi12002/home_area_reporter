@@ -98,11 +98,24 @@ Business-use matching reads a conversion’s proposed destination rather than it
 
 Housing and parking values are largest individual mentions, never added into area totals or net gains. Parking distinguishes explicit no-parking proposals/removal and excludes bicycle counts; it cannot establish street availability or loading rights. Demolition/site-work mentions imply only potential disruption if work proceeds, with no invented start date or ongoing-noise claim. Retrofitting/access work is evidence of scope, not completed compliance or a building-safety grade. Views/privacy need property geometry; commercial opportunity, footfall, demand, vacancy, rents, ROI, crime and school quality are not inferred. Public-infrastructure cards, the map position, transit overlay, medical profiles and optional noise integration keep their existing responsibilities.
 
+## Deployment and Chrome distribution preparation
+
+Extension 0.4.0 adds listing-location opt-in (off by default), local PNG icons and a popup privacy link. `/privacy` describes active-tab extraction, ZIP-only default requests, optional listing coordinates/address in report URLs, local origin storage, request-log/browser-history caveats, map/HowLoud providers, and the absence of Analytics in this release. Public contact details must be finalized with the owner’s publisher setup. No new data connector, Analytics collection or marketing publication is introduced.
+
+`scripts/package-extension.mjs` owns a distinct release-packaging responsibility. `npm run extension:package -- --origin=https://verified-production-host` creates an allowlisted eight-file ZIP in ignored `.local/releases/`, pins host permissions and map-frame CSP to that HTTPS origin, sets homepage URL, and replaces development connection controls with a hidden fixed origin. Production builds ignore saved localhost preferences. It rejects credentials, HTTP, paths/query/hash and localhost origins, and refuses to overwrite an existing output bundle. Python 3 standard-library ZIP support is required; source/development extension behavior remains available. `extension/store-listing.json` is the factual store-copy, single-purpose, permission and data-disclosure source; its resolved website/privacy links are emitted next to the package, outside the ZIP. Store screenshots and owner account/contact setup remain submission work.
+
+Vercel deployment and Chrome publication are requested but have not completed. Both currently require owner sign-in; record actual URLs/status after successful deployment/review rather than treating a package as a published extension. Vercel source uploads explicitly exclude `.env*`, local build/data directories and dependencies through `.vercelignore`; configure deployment secrets through provider environment settings. No publisher fee or account agreement has been accepted on the owner’s behalf.
+
+Four requested follow-ups are tracked as GitHub issues: #1 deployment, #2 homepage messaging, #3 Analytics and #4 marketing drafts. The last three are planned issues, not implemented features. Marketing drafts need destination/content review before posting.
+
 ## Planned source expansion
 
 The researched implementation plan is maintained in `docs/free-sources.md` and `sources.json.planned_sources`, separate from the connected Socrata inventory. First complete database-backed permit ingestion and reviewed grouping. Next connect Metro GTFS/service context and Seattle zoning polygons with adopted-ordinance/effective-date checks. Then add historical FHFA ZIP indexes and Census ACS rent/density estimates, validating ZIP/ZCTA coverage and Census's free API-key requirement. These are historical context, not forecasts or present property valuations. Capital projects and parking need further endpoint/geography/terms work; actual views/daylight require reviewed plans, terrain, massing and home-specific geometry. Current Metro route geometry is now a separate free context connector; full GTFS/alerts and the other planned connectors remain unimplemented. No external account has been created.
 
 ## Accepted implementation decisions
+
+### 2026-10-22
+- Prepare a store release with least-privilege production-host packaging, a public privacy page, explicit location-sharing choice, icons and factual listing disclosures. Complete deployment and publisher authentication before uploading/submitting. Keep Analytics and marketing as tracked follow-ups.
 
 ### 2026-10-21
 - Combine repeated density/economy scoring into actionable permit dimensions, add home/commercial views and compact extension highlights. Expand eligibility for explicit business-use and building-upgrade work, with conservative destination/negation matching and single-project metrics. Preserve public-infrastructure presentation and legacy score metadata.

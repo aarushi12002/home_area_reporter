@@ -55,6 +55,24 @@ small {
   color: #59695f;
   margin-top: 10px;
 }
+.location-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+}
+.location-option input {
+  width: 16px;
+  margin: 3px 0;
+  flex-shrink: 0;
+}
+.disclosure {
+  font-size: 11px;
+  color: #59695f;
+}
+#privacy-policy {
+  font-size: 12px;
+}
 section {
   border-top: 1px solid #d5ddd2;
   margin-top: 20px;

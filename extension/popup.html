@@ -11,6 +11,8 @@
     <p id="context">Checking the listing tab…</p>
     <label for="zip">Seattle ZIP code</label>
     <input id="zip" inputmode="numeric" maxlength="5" placeholder="98103" />
+    <label class="location-option"><input id="include-location" type="checkbox" /> Include the listing location for nearby results</label>
+    <p class="disclosure">We read this listing when you open the extension. Checking an area sends its ZIP to the reporter website. Turn on listing location to share coordinates and include the address when opening the full report.</p>
     <details>
       <summary>Website connection</summary>
       <label for="origin">Reporter website origin</label>
@@ -19,6 +21,7 @@
     </details>
     <button id="research" disabled>Check this area</button>
     <p id="error" role="alert"></p>
+    <a id="privacy-policy" href="http://localhost:3000/privacy" target="_blank" rel="noreferrer">Privacy</a>
     <section id="results" hidden aria-live="polite">
       <h2 id="headline"></h2>
       <div id="signals" class="signals" hidden aria-label="Key neighborhood signals"></div>

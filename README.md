@@ -47,7 +47,7 @@ The extension stores only the reporter origin in Chrome storage. Listing URL is 
 
 Release preparation is implemented for extension **0.4.0**: PNG icons, explicit listing-location opt-in, a `/privacy` page, store-listing/permission-disclosure text and a production packager. After the backend is deployed and verified, run `npm run extension:package -- --origin=https://your-production-host`. The generated ZIP pins host access and map frames to that origin, hides the development origin control and contains only the eight extension runtime/icon files. It is written under ignored `.local/releases/`; no credentials or development files are included. Python 3 is required for ZIP packaging/tests.
 
-Chrome Web Store upload, owner publisher-account setup, final contact details, screenshots, review submission and approval are still pending; no public store listing exists yet. Store listing copy lives in `extension/store-listing.json`, and packaging is owned by `scripts/package-extension.mjs`.
+Chrome publisher registration is complete. The owner reports a Vercel deployment; its live URL and production verification are pending. Chrome still requires the owner’s trader declaration and verified public contact email. Store upload, production screenshots, review submission and approval remain pending; no public store listing exists yet. Store listing copy lives in `extension/store-listing.json`, and packaging is owned by `scripts/package-extension.mjs`.
 
 ## Validation
 ```sh

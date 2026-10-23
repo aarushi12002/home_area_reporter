@@ -13,7 +13,11 @@
     "websiteContent": "Listing JSON-LD/title/text is processed locally to identify ZIP, address and coordinates.",
     "location": "The selected ZIP is sent to the reporter backend. Listing coordinates and the report address are shared only when the user opts into listing location.",
     "browsingActivity": "The active tab URL is checked locally to validate Redfin/Zillow; it is not sent to the backend. No browsing history or other tabs are read.",
-    "remoteCode": "All extension JavaScript is packaged locally. A same-origin website iframe renders the map; no server response is executed in the extension context."
+    "remoteCode": "All extension-context JavaScript is packaged locally. The popup embeds the production website /map in a cross-origin iframe, isolated from extension APIs. That website context loads its own map code; no server response is evaluated in the extension context. Declare this iframe in the dashboard remote-code justification."
   },
+  "remoteCodeUsed": true,
+  "dataDisclosureCategories": ["Personally identifiable information", "Location", "Web history", "Website content"],
+  "dataDisclosureScope": "Listing address and coordinates, selected ZIP, and local processing of current-tab URL/title/text. No browsing-history API, other-tab access, or listing-URL transmission. Address/coordinates are sent only after location opt-in.",
+  "supportUrl": "https://github.com/aarushi12002/home_area_reporter/issues",
   "reviewerInstructions": "Open a Redfin or Zillow listing in a supported ZIP and invoke the extension. Confirm or enter 98103, then choose Check this area. Verify summary highlights, map and Open full report. Listing-location sharing is optional and defaults off. No product login or payment is required. Provider availability can cause a partial permit response; unsupported ZIPs are explicitly rejected."
 }

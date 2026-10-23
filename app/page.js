@@ -9,8 +9,8 @@ export default function Home() {
           in this area?
         </h1>
         <p className="intro">
-          See what’s planned nearby, from new homes to larger buildings, and
-          what those changes could mean for the neighborhood.
+          Beyond the listing. See how nearby changes could affect your daily
+          life—and what you get for your money.
         </p>
         <form action="/report">
           <label htmlFor="zip">Seattle ZIP code</label>

@@ -5,7 +5,7 @@ export default function Privacy() {
     <main className="privacy-page">
       <p className="eyebrow">HOME AREA REPORTER</p>
       <h1>Privacy</h1>
-      <p className="muted">Updated October 22, 2026</p>
+      <p className="muted">Updated October 23, 2026</p>
       <h2>What the extension reads</h2>
       <p>When you open the extension on Redfin or Zillow, it checks the active tab’s URL and reads listing information on that page to find a ZIP code, address and coordinates. It may read the page title and text to find a supported ZIP. This extraction happens locally in your browser. We do not read your browsing history or other tabs.</p>
       <h2>What is sent to the reporter website</h2>

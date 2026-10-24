@@ -49,6 +49,16 @@ Release preparation is implemented for extension **0.4.0**: PNG icons, explicit 
 
 Chrome extension 0.4.0 (`gkcknhnphkocdbelbeggbeofcgkhdbmh`) was submitted on October 22, 2026 and is **pending Google review**, with automatic publication enabled after approval. It is pinned to the verified Vercel origin. Listing copy, two production screenshots, icon, permission/data disclosures and reviewer instructions are saved. Publisher registration, the owner’s trader declaration and contact-email verification are complete. The extension is not yet publicly installable; approval and publication remain pending. Store copy lives in `extension/store-listing.json`, and packaging is owned by `scripts/package-extension.mjs`.
 
+## Website analytics
+
+Google Analytics 4 is implemented for the top-level production website with visitor opt-in. The dedicated Home Area Reporter property is `560464819`, stream `16186613747`, public Measurement ID `G-4R4PJRD22N`. `lib/analytics.mjs` holds that public default; `NEXT_PUBLIC_GA_MEASUREMENT_ID` overrides it and `NEXT_PUBLIC_GA_ENABLED=false` disables collection. These are build-time public settings, not secrets; redeploy after changing them. The `.env.example` explicitly disables analytics for new local setups. Local development, preview hosts, extension popups and embedded maps do not send analytics.
+
+The tag stays blocked until **Allow analytics**. **No thanks** keeps it blocked; **Analytics preferences** can withdraw permission, clear this site's `_ga` cookies and reload to unload the tag. Events: `page_view`, `zip_search`, `report_loaded`, `audience_selected`, `full_report_opened`, `pro_interest`. Only fixed page names/actions, a coarse five-digit ZIP and categorical coverage/audience values are sent. Listing addresses/coordinates/URLs, query strings, raw referrers and document titles are excluded. Advertising consent stays denied, Google Signals/personalization are disabled, and no install/purchase event exists before those actions ship. Acquisition attribution is intentionally limited by omitting query strings and referrers.
+
+GA4 stream Enhanced Measurement is **off**; keep it off to avoid duplicate/history events and unwanted URL/form collection. Additional redaction covers `address`, `lat`, `lng`, `zip`, `url`, `listing_url`, `email`. Verify consent and events in the dedicated property's Realtime/DebugView before claiming production collection. The public privacy policy describes cookies, Google processing and choices. [Issue #3](https://github.com/aarushi12002/home_area_reporter/issues/3) tracks activation/verification.
+
+Seattle-wide expansion is planned in [issue #6](https://github.com/aarushi12002/home_area_reporter/issues/6) and the [canonical design](docs/mvp-setup.md): reviewed ZIP/jurisdiction coverage, resumable background ingestion, versioned Postgres report snapshots, indexed detail pagination and bounded map rendering. The five preview ZIPs remain the only enabled areas.
+
 ## Validation
 ```sh
 npm run docs:check
@@ -93,3 +103,4 @@ Complete this checkout's database setup and full permit ingestion, review groupi
 - [#2 Homepage headline and conversion](https://github.com/aarushi12002/home_area_reporter/issues/2)
 - [#3 Google Analytics](https://github.com/aarushi12002/home_area_reporter/issues/3)
 - [#4 Marketing drafts for Reddit, X and forums](https://github.com/aarushi12002/home_area_reporter/issues/4)
+- [#6 Seattle-wide ZIP coverage, storage and rendering](https://github.com/aarushi12002/home_area_reporter/issues/6)

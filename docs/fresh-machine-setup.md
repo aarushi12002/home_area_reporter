@@ -57,6 +57,10 @@ DATABASE_URL=postgresql://localhost/home_area_reporter
 
 To use Neon instead of local PostgreSQL, place its pooled connection string in `DATABASE_URL` and skip the Homebrew database creation. Never commit that connection string.
 
+Optional website analytics: `NEXT_PUBLIC_GA_MEASUREMENT_ID` overrides the configured public default `G-4R4PJRD22N`; `NEXT_PUBLIC_GA_ENABLED=false` disables collection. Copying `.env.example` leaves analytics disabled. With no override, production uses the dedicated stream only on `https://home-area-reporter.vercel.app`, after visitor opt-in. Variables are embedded at build time: rebuild/redeploy after edits. Localhost, preview hosts, extension popups and embedded maps are excluded even if the flag is enabled. Never put an Analytics API secret or account credential into these public variables.
+
+Before changing the GA4 stream, keep **Enhanced Measurement off** (including history pageviews, form interactions and outbound URLs); `send_page_view:false` alone does not disable history-based enhanced events. The current dedicated property is `560464819`, stream `16186613747`. Seven URL keys have extra redaction: `address`, `lat`, `lng`, `zip`, `url`, `listing_url`, `email`. In production, check that no Google tag loads before **Allow analytics**, **No thanks** keeps it absent, and **Analytics preferences** can withdraw consent and reload. Confirm sanitized events in Realtime/DebugView and test an address/coordinate-bearing report URL without sending those values. See README for the event list and canonical design for payload boundaries. Chrome-install/purchase events remain future work.
+
 ## 4. Schema and initial data
 
 Apply the committed migration and ingest the five initial Seattle ZIP codes, 98101 through 98105:

@@ -1,7 +1,7 @@
 {
   "scope": "Seattle ZIP-based area research",
   "checked_date": "2026-10-17",
-  "research_checked_date": "2026-10-21",
+  "research_checked_date": "2026-10-22",
   "sources": [
     {
       "id": "76t5-zqzr",
@@ -183,6 +183,30 @@
       "verification": "Public source discovery only; no geometry model or tile/plan validation",
       "integration": "planned_not_connected",
       "limits": "Needs terrain, footprints, proposed massing and property floor/orientation; cannot infer blocked views from ZIP"
+    },
+    {
+      "id": "seattle_boundary_candidate",
+      "name": "Official Seattle municipal boundary",
+      "topic": "seattle_zip_coverage_registry",
+      "priority": 1,
+      "url": "https://data.seattle.gov/dataset/Boundary/k473-p8hz",
+      "access": "Public catalog linking to Seattle GIS; resolve/version the underlying geometry download",
+      "license": "Dataset-specific reuse terms and notices to verify before import",
+      "verification": "Official catalog discovered 2026-10-22; geometry/schema/reuse not yet tested",
+      "integration": "planned_not_connected",
+      "limits": "Municipal boundary does not define postal ZIPs; use for reviewed city-intersection coverage only"
+    },
+    {
+      "id": "census_zcta_boundaries_candidate",
+      "name": "Census ZIP Code Tabulation Areas",
+      "topic": "seattle_zip_coverage_registry",
+      "priority": 1,
+      "url": "https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html",
+      "access": "Public Census TIGER/Line or cartographic downloads; pin geography vintage",
+      "license": "Federal geography; retain Census provenance and selected download notices",
+      "verification": "Official definition/limitations reviewed 2026-10-22; Seattle intersection/download schema not tested",
+      "integration": "planned_not_connected",
+      "limits": "Statistical approximation; not every postal ZIP has a ZCTA. Institutional/PO-box and cross-city cases require separate review"
     }
   ],
   "context_sources": [

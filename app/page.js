@@ -9,7 +9,7 @@ export default function Home() {
         <p className="intro">
           Your next neighborhood. Your money. Fewer surprises.
         </p>
-        <form action="/report">
+        <form action="/report" data-analytics="zip-search">
           <label htmlFor="zip">Seattle ZIP code</label>
           <div className="inputrow">
             <input

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import ProjectMap from "../../components/ProjectMap";
 import Soundscore from "../../components/Soundscore";
+import { trackAnalyticsEvent } from "../../lib/analytics.mjs";
 
 const STAGES = {
   permitted: "Permitted",
@@ -45,7 +46,7 @@ function DecisionSignals({ signals = [] }) {
         <h3>What this could mean for you</h3>
         <div className="audience-switch" role="group" aria-label="Tailor neighborhood signals">
           {[["all", "All"], ["home", "Buying / renting a home"], ["business", "Retail / commercial"]].map(([id, label]) => (
-            <button key={id} className="secondary" aria-pressed={audience === id} onClick={() => setAudience(id)}>{label}</button>
+            <button key={id} className="secondary" aria-pressed={audience === id} onClick={() => { setAudience(id); trackAnalyticsEvent("audience_selected", { audience: id }); }}>{label}</button>
           ))}
         </div>
       </div>
@@ -124,7 +125,7 @@ function ProPreview({ topics }) {
           {previewTopics.map(({ id, title }) => <span key={id}><FactorIcon type={id} />{title}</span>)}
         </div>
         <p>Future transit changes, zoning, property prices and rental trends.</p>
-        <button onClick={() => dialog.current.showModal()}>Upgrade to Pro <span aria-hidden="true">↗</span></button>
+        <button onClick={() => { dialog.current.showModal(); trackAnalyticsEvent("pro_interest"); }}>Upgrade to Pro <span aria-hidden="true">↗</span></button>
         <p className="pro-availability">Coming soon · These topics are not available yet.</p>
       </div>
       <dialog ref={dialog} className="pro-dialog" aria-labelledby="pro-dialog-heading">
@@ -265,7 +266,10 @@ export default function Report() {
         if (!response.ok) throw new Error(body.error || "Unable to build summary.");
         return body;
       })
-      .then(setSummary)
+      .then((body) => {
+        setSummary(body);
+        trackAnalyticsEvent("report_loaded", { zip: body.zip, coverage: body.sourceStatus === "partial" ? "partial" : body.sourceStatus === "unavailable" ? "unavailable" : "complete" });
+      })
       .catch((requestError) => {
         if (requestError.name !== "AbortError") setError(requestError.message);
       })
@@ -290,6 +294,7 @@ export default function Report() {
       setCoverage(body.coverage || []);
       setNextCursor(body.nextCursor);
       setFullOpen(true);
+      if (cursor === "0") trackAnalyticsEvent("full_report_opened");
     } catch (requestError) {
       setError(requestError.message);
     } finally {

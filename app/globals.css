@@ -36,6 +36,14 @@ footer {
   color: var(--muted);
   font-size: 13px;
 }
+.analytics-settings { max-width: 1160px; margin: auto; padding: 0 28px 24px; }
+.text-button { border: 0; min-height: 44px; padding: 4px 0; background: none; color: var(--brand); text-decoration: underline; font-size: 13px; }
+.analytics-consent { position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 850px; margin: auto; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); box-shadow: 0 8px 35px #0003; z-index: 1000; display: flex; align-items: center; gap: 20px; }
+.analytics-consent h2 { margin: 0 0 6px; font-size: 22px; }
+.analytics-consent p { margin: 0; font-size: 14px; }
+.analytics-actions { display: flex; gap: 10px; flex-shrink: 0; }
+@media (max-width: 650px) { .analytics-consent { flex-direction: column; align-items: stretch; bottom: 10px; left: 10px; right: 10px; } .analytics-actions button { flex: 1; } }
+@media print { .analytics-consent, .analytics-settings { display: none; } }
 .brand {
   font-size: 14px;
   letter-spacing: 2px;

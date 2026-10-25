@@ -13,16 +13,16 @@ export const maxDuration = 30;
 
 export async function GET(request) {
   const url = new URL(request.url), zip = url.searchParams.get("zip") || "";
-  if (!validPostalCode(zip)) return Response.json({ error: "Enter a five-digit ZIP code." }, { status: 400 });
+  if (!validPostalCode(zip)) return Response.json({ error: "Enter a five-digit ZIP code." }, { status: 400, headers: { "Cache-Control": "private, no-store" } });
   let location;
   try { location = locationFrom(url.searchParams); }
-  catch (error) { return Response.json({ error: error.message }, { status: 400 }); }
+  catch (error) { return Response.json({ error: error.message }, { status: 400, headers: { "Cache-Control": "private, no-store" } }); }
   const zipProfile = getZipProfile(zip), publicProjects = getPublicProjects(zip);
   const cacheControl = !location && [...url.searchParams.keys()].every((key) => key === "zip") ? "public, max-age=300, s-maxage=300" : "private, no-store";
   try {
     if (!serviceArea(zip)) {
       const baseline = await storedBaseline(zip);
-      if (!baseline) return Response.json({ error: "Reports for this ZIP are not available yet.", code: "UNSUPPORTED_AREA" }, { status: 400 });
+      if (!baseline) return Response.json({ error: "Reports for this ZIP are not available yet.", code: "UNSUPPORTED_AREA" }, { status: 400, headers: { "Cache-Control": "private, no-store" } });
       return Response.json({ zip, reportType: "baseline", status: "ready", headline: `Neighborhood snapshot for ${zip}`, baseline, highlights: [], decisionSignals: [], counts: { permitted: 0, inReview: 0, earlyProposal: 0 }, coverage: [], sourceStatus: "baseline_only", dataSource: "database", fullReportUrl: `/report?zip=${zip}`, refreshedAt: baseline.retrievedAt, coveredJurisdictions: [], sections: { permits: "not_connected", baseline: "ready" } }, { headers: { "Cache-Control": cacheControl } });
     }
     let summary = hasDatabaseConfig() ? await databaseAreaSummary(zip, { location }) : null;

@@ -57,6 +57,9 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
     assert.ok(response.headers.get("cache-control").startsWith(expected));
   }
 
+  const invalidLocation = await summaryRoute(new Request("https://example.test/api/area-summary?zip=98107&lat=bad&lng=-122.38"));
+  assert.equal(invalidLocation.status, 400);
+  assert.equal(invalidLocation.headers.get("cache-control"), "private, no-store");
   const page1 = await paginatedProjects("98107", { limit: 10 });
   const page2 = await paginatedProjects("98107", { cursor: page1.nextCursor, limit: 10 });
   const page3 = await paginatedProjects("98107", { cursor: page2.nextCursor, limit: 10 });

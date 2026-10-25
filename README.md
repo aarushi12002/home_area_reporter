@@ -81,6 +81,8 @@ GitHub Actions runs `npm ci`, all tests, extension syntax validation and the pro
 
 Live validation is separate: `python scripts/probe_sources.py` checks metadata, not report accuracy. Before releasing a connector or classification change, inspect real report evidence against official records, including empty, high-volume and source-failure cases. The report and compact map have been browser-smoke-tested locally, including rendered tiles, marker counts and paginated marker growth. Release checks must still cover loading/error/empty states, evidence links, print output and unpacked-extension behavior on both listing sites. Automated browser end-to-end coverage and a reviewed real-record fixture set remain outstanding; VM extension tests are not browser tests.
 
+Live acceptance retest (2026-10-25): 83 tests passed with real PostgreSQL, plus production API/browser checks for Seattle and national reports, ZIP validation, private caching, audience views, transit toggling, Pro availability, pagination and mobile layouts. One open map usability issue: markers overlap at the ZIP overview, so a pointer click can select a neighboring project. Zooming in or keyboard selection works; see the canonical verification section and issue #6.
+
 Local ingestion smoke check (2026-10-24): both citywide feeds completed twice and all 31 areas passed the local release gate; 3,027 visible projects were materialized. This is separate from production verification. The database stored complete active-source pagination rather than applying the old 1,000-record user-request ceiling. Source event dates can still be absent; undated and stale records remain available as evidence but are hidden from the primary view.
 
 ## MVP scope

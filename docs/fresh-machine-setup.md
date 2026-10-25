@@ -174,6 +174,7 @@ The PostgreSQL service normally remains available between terminal sessions. Sto
 - **Port 3000 is busy:** stop the other local server. The extension development manifest expects port 3000.
 - **Extension map or request fails:** confirm `npm run dev` is still running, reload the extension, and verify its Website connection is exactly `http://localhost:3000`.
 - **Seattle API throttling:** add a personal Socrata application token to `SOCRATA_APP_TOKEN` in `.env.local`; never place it in extension code.
+- **Map click opens a neighboring marker at the ZIP overview:** markers can overlap. Zoom in before selecting, or focus the numbered marker and press Enter. Decluttering remains a tracked usability issue.
 - **No listing coordinates:** the project cards still work. The map shows projects with source coordinates and omits only unlocated markers.
 - **Documentation check fails:** follow its reported missing command, variable, route, version or link; update code and canonical documentation together.
 

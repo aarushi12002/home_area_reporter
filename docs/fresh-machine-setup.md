@@ -139,7 +139,7 @@ node --input-type=module -e 'import { readFileSync, writeFileSync } from "node:f
 npx --yes vercel@65.2.0 deploy --prod --yes --local-config .local/acs-import.vercel.json
 ```
 
-The October 24 production attempt reached Census using the protected key but was rejected as “Invalid Key”; owner activation/value correction remains pending. Seattle reports stay available when an import/build fails.
+Production activation passed on October 24 after Census activation propagated: 33,772 ZCTA baselines (2024 vintage, 2020–2024 period), approximately 154 MB total database size, and all 31 Seattle permit areas still ready. Try `/report?zip=02139` for a leading-zero national baseline or `/report?zip=98004` for Bellevue historical context; these are separate from local permit coverage. Re-import only after reviewing a new ACS vintage; daily permit refreshes do not download Census data. Seattle reports stay available when an import/build fails.
 
 The importer rejects redacted placeholders, incomplete/non-JSON payloads and unavailable geography schemas before any database write. Upper/lower rent-median bounds and estimate/MOE annotations survive normalization. Reconcile received/imported counts, database size and representative baseline-only pages after the import; Seattle permit readiness is independent.
 

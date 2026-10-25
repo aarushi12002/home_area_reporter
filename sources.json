@@ -1,5 +1,5 @@
 {
-  "scope": "Seattle ZIP-based area research",
+  "scope": "Seattle municipal permit reports and national Census neighborhood baselines",
   "checked_date": "2026-10-17",
   "research_checked_date": "2026-10-24",
   "sources": [
@@ -144,6 +144,31 @@
       "license": "U.S. federal geographic data; retain Census provenance and vintage; not a legal postal-boundary product",
       "verification": "Fetched and intersected with 2020 ZCTAs on 2026-10-24",
       "path": "data/seattle-boundary.json"
+    },
+    {
+      "id": "census_acs5",
+      "name": "Census ACS five-year population, housing, tenure, rent and commuting estimates",
+      "topic": "rent_and_density_context",
+      "priority": 1,
+      "url": "https://www.census.gov/programs-surveys/acs/data/data-via-api.html",
+      "access": "Free registered API key required for all data queries",
+      "tables": [
+        "B01003",
+        "B25001",
+        "B25003",
+        "B25064",
+        "B08301"
+      ],
+      "license": "Federal statistics; retain Census citations and dataset notices",
+      "verification": "2026-10-24: activated protected Vercel key; 33,772 received/imported 2024 ACS ZCTAs. SQL reconciliation: 2,577 leading-zero codes; zero malformed codes, missing metric groups or negative stored estimates/MOEs. Representative live reports verified separately in the canonical design.",
+      "integration": "stored_national_baseline_live",
+      "limits": "Five-year estimates with margins of error; ZCTAs differ from postal ZIPs; not current asking rent",
+      "kind": "national_statistical_baseline",
+      "vintage": "2024",
+      "observation_period": "2020\u20132024",
+      "records": 33772,
+      "refresh": "Manual bulk import per reviewed ACS release; never on report viewing",
+      "api_url": "https://api.census.gov/data/2024/acs/acs5"
     }
   ],
   "planned_sources": [
@@ -182,23 +207,6 @@
       "verification": "Catalog, methodology and policy reviewed; per-ZIP coverage not tested",
       "integration": "planned_not_connected",
       "limits": "Annual developmental index for selected ZIPs; not a dollar valuation, advertised price or forecast"
-    },
-    {
-      "id": "census_acs5",
-      "name": "Census ACS five-year rent, housing and population estimates",
-      "topic": "rent_and_density_context",
-      "priority": 1,
-      "url": "https://www.census.gov/programs-surveys/acs/data/data-via-api.html",
-      "access": "Free registered API key required for all data queries",
-      "tables": [
-        "B25064",
-        "B25001",
-        "B01003"
-      ],
-      "license": "Federal statistics; retain Census citations and dataset notices",
-      "verification": "2026-10-24: key configured as a protected Vercel production secret. Actual Vercel-side import rejected by Census as Invalid Key before DB writes; activation/value correction required. E/M/EA/MA retained; no national baseline published.",
-      "integration": "import_implemented_blocked_invalid_key",
-      "limits": "Five-year estimates with margins of error; ZCTAs differ from postal ZIPs; not current asking rent"
     },
     {
       "id": "sdot_capital_projects_candidate",

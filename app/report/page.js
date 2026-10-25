@@ -332,14 +332,14 @@ export default function Report() {
       <h1>
         {context.address || context.zip || "Your area"}
         <br />
-        <span className="muted">What may change nearby.</span>
+        <span className="muted">{summary?.reportType === "baseline" ? "Your neighborhood snapshot." : "What may change nearby."}</span>
       </h1>
       {zipProfile && <ZipProfile profile={zipProfile} />}
       {loading && (
         <section className="notice" role="status">
-          <h2>Checking what’s planned nearby…</h2>
+          <h2>Loading your neighborhood report…</h2>
           <p>
-            Loading your neighborhood report.
+            Checking available coverage.
           </p>
         </section>
       )}
@@ -357,7 +357,7 @@ export default function Report() {
       {summary?.reportType === "baseline" && (
         <section className="notice">
           <h2>Your neighborhood at a glance</h2>
-          <p className="muted">Neighborhood estimates for {summary.baseline.provenance.observationPeriod || summary.baseline.vintage}. Local project coverage is not connected here yet.</p>
+          <p className="muted">Historical estimates for {summary.baseline.provenance.observationPeriod || summary.baseline.vintage}. Census areas approximate ZIPs; local project coverage is not connected here yet.</p>
           <div className="grid">
             {Object.entries(summary.baseline.metrics).map(([key, metric]) => (
               <article key={key}><h3>{metric.label}</h3><strong>{metric.displayValue || (metric.estimate == null ? "Not available" : metric.unit === "USD" ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(metric.estimate) : metric.estimate.toLocaleString())}</strong>

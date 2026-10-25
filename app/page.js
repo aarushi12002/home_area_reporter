@@ -26,7 +26,7 @@ export default function Home() {
           </div>
         </form>
         <p className="muted">
-          Seattle reports become available as each area passes review. Coverage varies by ZIP.
+          Seattle project reports and nationwide Census neighborhood snapshots. Coverage varies by ZIP.
         </p>
       </section>
       <section className="grid">

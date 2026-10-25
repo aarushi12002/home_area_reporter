@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { serviceArea } from "../lib/service-areas.mjs";
 
 const STAGE_LABEL = {
   permitted: "Permitted",
@@ -25,7 +26,7 @@ export default function ProjectMap({ projects = [], location = null, compact = f
   const [transitStatus, setTransitStatus] = useState("loading");
   const [transitAttempt, setTransitAttempt] = useState(0);
   const [pickingNoise, setPickingNoise] = useState(false);
-  const visibleProjects = projects.filter(
+  const visibleProjects = projects.slice(0, 100).filter(
     (project) =>
       coordinate(project.latitude) !== null && coordinate(project.longitude) !== null,
   );
@@ -121,7 +122,11 @@ export default function ProjectMap({ projects = [], location = null, compact = f
           maxZoom: 15,
           padding: compact ? [18, 18] : [34, 34],
         });
-      } else map.setView([47.65, -122.33], 12);
+      } else {
+        const vicinity = serviceArea(zip)?.bounds;
+        if (vicinity) map.fitBounds([[vicinity[1], vicinity[0]], [vicinity[3], vicinity[2]]], { maxZoom: 15 });
+        else map.setView([47.65, -122.33], 12);
+      }
       setMapReady(true);
     });
 

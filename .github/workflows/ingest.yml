@@ -1,0 +1,43 @@
+name: Refresh neighborhood reports
+on:
+  schedule:
+    - cron: '17 8 * * *'
+  workflow_dispatch:
+    inputs:
+      region:
+        description: Connected jurisdiction
+        type: choice
+        options: [seattle]
+        default: seattle
+      zips:
+        description: Optional comma-separated reviewed ZIPs (empty = all)
+        type: string
+        required: false
+permissions:
+  contents: read
+concurrency:
+  group: neighborhood-refresh-seattle
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
+      DATABASE_STORAGE_LIMIT_BYTES: ${{ vars.DATABASE_STORAGE_LIMIT_BYTES || '1000000000' }}
+      REQUESTED_REGION: ${{ inputs.region || 'seattle' }}
+      REQUESTED_ZIPS: ${{ inputs.zips }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Verify database configuration
+        run: test -n "$DATABASE_URL"
+      - run: npm run db:migrate
+      - run: npm run db:ingest -- --region="$REQUESTED_REGION" --zips="$REQUESTED_ZIPS"
+      - name: Coverage and capacity
+        run: npm run db:status

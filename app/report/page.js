@@ -91,6 +91,7 @@ function ZipProfile({ profile }) {
                 <li key={item.name}>
                   <a href={item.url} title={item.address} target="_blank" rel="noreferrer">{item.name}</a>
                   {item.relation === "nearby" && <span className="nearby-label">Nearby · {item.postalCode}</span>}
+                  {item.note && <small className="muted">{item.note}</small>}
                 </li>
               ))}
             </ul>
@@ -142,7 +143,7 @@ function ProPreview({ topics }) {
 
 function CompletionTarget({ timeline }) {
   if (!timeline) return <span className="timeline-unknown">Completion not announced</span>;
-  const title = timeline.pastTarget ? "Past target · completion unconfirmed" : timeline.kind === "phase_target" ? "Phase target" : timeline.kind === "program_target" ? "Program target" : "Estimated completion";
+  const title = timeline.kind === "construction_window" ? (timeline.pastTarget ? "Past construction window · update pending" : "Construction window") : timeline.pastTarget ? "Past target · completion unconfirmed" : timeline.kind === "phase_target" ? "Phase target" : timeline.kind === "program_target" ? "Program target" : "Estimated completion";
   return <span className={`completion-target${timeline.pastTarget ? " past-target" : ""}`}><span>{title}</span><strong>{timeline.label}</strong>{timeline.phase && <small>{timeline.phase}</small>}</span>;
 }
 
@@ -258,17 +259,17 @@ export default function Report() {
     const controller = new AbortController();
     setLoading(true);
     setError("");
-    fetch(`/api/area-summary?${context.query}`, { signal: controller.signal })
+    fetch(`/api/area-summary?${context.query}${attempt ? `&refresh=${attempt}` : ""}`, { signal: controller.signal, cache: attempt ? "no-store" : "default" })
       .then(async (response) => {
         const body = await response.json();
         setZipProfile(body.zipProfile || null);
         setPublicProjects(body.publicProjects || []);
-        if (!response.ok) throw new Error(body.error || "Unable to build summary.");
+        if (!response.ok || body.status === "preparing") throw new Error(body.error || "Unable to build summary.");
         return body;
       })
       .then((body) => {
         setSummary(body);
-        trackAnalyticsEvent("report_loaded", { zip: body.zip, coverage: body.sourceStatus === "partial" ? "partial" : body.sourceStatus === "unavailable" ? "unavailable" : "complete" });
+        trackAnalyticsEvent("report_loaded", { zip: body.zip, coverage: body.sourceStatus === "baseline_only" ? "baseline_only" : body.sourceStatus === "partial" ? "partial" : body.sourceStatus === "unavailable" ? "unavailable" : "complete" });
       })
       .catch((requestError) => {
         if (requestError.name !== "AbortError") setError(requestError.message);
@@ -279,15 +280,20 @@ export default function Report() {
     return () => controller.abort();
   }, [attempt, context.query]);
 
-  async function loadProjects(cursor = "0") {
+  async function loadProjects(cursor = "0", generation = summary?.generation) {
     setLoadingFull(true);
     setError("");
     try {
       const response = await fetch(
-        `/api/projects?${context.query}&cursor=${encodeURIComponent(cursor)}`,
+        `/api/projects?${context.query}&cursor=${encodeURIComponent(cursor)}${generation ? `&generation=${encodeURIComponent(generation)}` : ""}`,
       );
       const body = await response.json();
-      if (!response.ok) throw new Error(body.error || "Unable to load evidence.");
+      if (response.status === 409 && body.code === "REPORT_UPDATED") {
+        setProjects([]); setNextCursor(null); setFullOpen(false);
+        setSummary(null); setAttempt((value) => value + 1);
+        return;
+      }
+      if (!response.ok || body.status === "preparing") throw new Error(body.error || "Unable to load evidence.");
       setProjects((current) =>
         cursor === "0" ? body.items : [...current, ...body.items],
       );
@@ -310,7 +316,7 @@ export default function Report() {
             project,
           ]),
         ).values(),
-      ]
+      ].slice(0, 100)
     : [];
 
   return (
@@ -348,7 +354,20 @@ export default function Report() {
         </section>
       )}
       {!summary && <PublicProjects projects={publicProjects} />}
-      {summary && (
+      {summary?.reportType === "baseline" && (
+        <section className="notice">
+          <h2>Your neighborhood at a glance</h2>
+          <p className="muted">Neighborhood estimates for {summary.baseline.provenance.observationPeriod || summary.baseline.vintage}. Local project coverage is not connected here yet.</p>
+          <div className="grid">
+            {Object.entries(summary.baseline.metrics).map(([key, metric]) => (
+              <article key={key}><h3>{metric.label}</h3><strong>{metric.estimate == null ? "Not available" : metric.unit === "USD" ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(metric.estimate) : metric.estimate.toLocaleString()}</strong>
+                {metric.marginOfError != null && <p className="muted">Margin of error: ±{metric.marginOfError.toLocaleString()}</p>}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+      {summary && summary.reportType !== "baseline" && (
         <>
           <section className="notice summary-hero">
             <div className="snapshot-overview">
@@ -366,6 +385,8 @@ export default function Report() {
                     Some city records may be missing from this search.
                   </p>
                 )}
+                {summary.sharedZip && <p className="impact-coverage">This ZIP crosses city limits. Project coverage includes Seattle municipal records only.</p>}
+                {summary.awaitingUpdate && <p className="impact-coverage" role="status">An update is pending. Showing the last complete report.</p>}
               </div>
               <section className="snapshot-map" aria-labelledby="snapshot-map-title">
                 <div className="section-heading">

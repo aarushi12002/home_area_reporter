@@ -17,7 +17,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/db-migrate.mjs",
     "db:ingest": "node scripts/ingest.mjs",
-    "db:setup": "npm run db:migrate"
+    "db:setup": "npm run db:migrate",
+    "db:status": "node scripts/db-status.mjs",
+    "db:baseline": "node scripts/import-baseline.mjs"
   },
   "dependencies": {
     "dotenv": "^18.0.8",

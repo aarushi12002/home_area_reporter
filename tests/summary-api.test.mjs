@@ -12,7 +12,7 @@ test("summary endpoint rejects unsupported areas before source lookup", async (t
     calls++;
     return { ok: true, json: async () => [] };
   });
-  const response = await GET(request("zip=98109"));
+  const response = await GET(request("zip=98004"));
   assert.equal(response.status, 400);
   assert.equal(calls, 0);
 });

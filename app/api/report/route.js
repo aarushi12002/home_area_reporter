@@ -7,6 +7,7 @@ const cache = new Map();
 const pending = new Map();
 const TTL = 15 * 60 * 1000;
 export async function GET(request) {
+  if (process.env.NODE_ENV === "production") return Response.json({ error: "Use /api/area-summary for stored reports." }, { status: 410 });
   const zip = new URL(request.url).searchParams.get("zip") || "";
   if (!validZip(zip))
     return Response.json(

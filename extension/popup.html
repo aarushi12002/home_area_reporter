@@ -9,7 +9,7 @@
     <p class="eyebrow">NEIGHBORHOOD SNAPSHOT</p>
     <h1>What may change nearby?</h1>
     <p id="context">Checking the listing tab…</p>
-    <label for="zip">Seattle ZIP code</label>
+    <label for="zip">ZIP code</label>
     <input id="zip" inputmode="numeric" maxlength="5" placeholder="98103" />
     <label class="location-option"><input id="include-location" type="checkbox" /> Include the listing location for nearby results</label>
     <p class="disclosure">We read this listing when you open the extension. Checking an area sends its ZIP to the reporter website. Turn on listing location to share coordinates and include the address when opening the full report.</p>
@@ -25,7 +25,7 @@
     <section id="results" hidden aria-live="polite">
       <h2 id="headline"></h2>
       <div id="signals" class="signals" hidden aria-label="Key neighborhood signals"></div>
-      <div class="counts">
+      <div id="project-counts" class="counts">
         <span><strong id="permitted">0</strong> permitted</span>
         <span><strong id="review">0</strong> in review</span>
         <span><strong id="proposal">0</strong> early</span>

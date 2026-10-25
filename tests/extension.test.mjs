@@ -143,13 +143,13 @@ test("popup renders four compact decision signals safely and clears them on repe
   assert.equal(empty.el.signals.hidden, true);
 });
 
-test("rejects lookalike domains and unsupported ZIPs", async () => {
+test("rejects lookalike domains and malformed ZIPs", async () => {
   const lookalike = await popup({ url: "https://zillow.com.evil.example/" });
   assert.equal(lookalike.el.research.disabled, true);
-  const unsupported = await popup({ listing: { zip: "98109" }, zip: "98109" });
+  const unsupported = await popup({ listing: { zip: "9810" }, zip: "9810" });
   await unsupported.el.research.onclick();
   assert.equal(unsupported.requests.length, 0);
-  assert.match(unsupported.el.error.textContent, /98101 through 98105/);
+  assert.match(unsupported.el.error.textContent, /five-digit ZIP/);
 });
 
 test("rejects unsafe reporter origins", async () => {
@@ -162,5 +162,15 @@ test("rejects unsafe reporter origins", async () => {
     const state = await popup({ origin });
     await state.el.research.onclick();
     assert.equal(state.requests.length, 0);
+  }
+});
+
+
+test("new Seattle and leading-zero ZIPs are sent to backend coverage validation", async () => {
+  for (const zip of ["98109", "02108"]) {
+    const state = await popup({ listing: { zip }, zip });
+    await state.el.research.onclick();
+    assert.equal(state.requests.length, 1);
+    assert.match(state.requests[0], new RegExp(`zip=${zip}`));
   }
 });

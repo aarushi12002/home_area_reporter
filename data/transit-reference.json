@@ -1,0 +1,530 @@
+{
+  "reviewedAt": "2026-10-24",
+  "reviewUntil": "2027-01-22",
+  "source": "https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/TRANSITROUTE_LINE_2647/FeatureServer/0",
+  "note": "Selected current route geometry intersecting ZIP-vicinity envelopes; no frequency, travel-time, stop-distance or future-service claim.",
+  "profiles": {
+    "98101": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      }
+    ],
+    "98102": [
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 8",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=008",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 9",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=009",
+        "relation": "serves_area"
+      }
+    ],
+    "98103": [
+      {
+        "name": "Metro Route 4",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 5",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=005",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 13",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=013",
+        "relation": "serves_area"
+      }
+    ],
+    "98104": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      }
+    ],
+    "98105": [
+      {
+        "name": "Metro Route 31",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=031",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 32",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=032",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 43",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=043",
+        "relation": "serves_area"
+      }
+    ],
+    "98106": [
+      {
+        "name": "Metro Route 21",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 22",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 50",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=050",
+        "relation": "serves_area"
+      }
+    ],
+    "98107": [
+      {
+        "name": "Metro Route 4",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 13",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=013",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 17",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=017",
+        "relation": "serves_area"
+      }
+    ],
+    "98108": [
+      {
+        "name": "Metro Route 7",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 9",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=009",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 21",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+        "relation": "serves_area"
+      }
+    ],
+    "98109": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      }
+    ],
+    "98112": [
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 8",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=008",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 10",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=010",
+        "relation": "serves_area"
+      }
+    ],
+    "98115": [
+      {
+        "name": "Metro Route 40",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 45",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=045",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 48",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=048",
+        "relation": "serves_area"
+      }
+    ],
+    "98116": [
+      {
+        "name": "Metro Route 21",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 22",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 50",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=050",
+        "relation": "serves_area"
+      }
+    ],
+    "98117": [
+      {
+        "name": "Metro Route 17",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=017",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 28",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=028",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 40",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+        "relation": "serves_area"
+      }
+    ],
+    "98118": [
+      {
+        "name": "Metro Route 7",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 9",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=009",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 14",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=014",
+        "relation": "serves_area"
+      }
+    ],
+    "98119": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 4",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+        "relation": "serves_area"
+      }
+    ],
+    "98121": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      }
+    ],
+    "98122": [
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 4",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+        "relation": "serves_area"
+      }
+    ],
+    "98125": [
+      {
+        "name": "Metro Route 40",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 61",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=061",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 65",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=065",
+        "relation": "serves_area"
+      }
+    ],
+    "98126": [
+      {
+        "name": "Metro Route 21",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 22",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 50",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=050",
+        "relation": "serves_area"
+      }
+    ],
+    "98133": [
+      {
+        "name": "Metro Route 5",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=005",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 40",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 61",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=061",
+        "relation": "serves_area"
+      }
+    ],
+    "98134": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      }
+    ],
+    "98136": [
+      {
+        "name": "Metro Route 21",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 22",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 128",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=128",
+        "relation": "serves_area"
+      }
+    ],
+    "98144": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 4",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 7",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+        "relation": "serves_area"
+      }
+    ],
+    "98146": [
+      {
+        "name": "Metro Route 21",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 22",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 113",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=113",
+        "relation": "serves_area"
+      }
+    ],
+    "98154": [
+      {
+        "name": "Metro Route 1",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 2",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 3",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+        "relation": "serves_area"
+      }
+    ],
+    "98164": [
+      {
+        "name": "Metro Route 101",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=101",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 102",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=102",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 150",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=150",
+        "relation": "serves_area"
+      }
+    ],
+    "98174": [
+      {
+        "name": "Metro Route 101",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=101",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 102",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=102",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 150",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=150",
+        "relation": "serves_area"
+      }
+    ],
+    "98177": [
+      {
+        "name": "Metro Route 28",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=028",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 40",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+        "relation": "serves_area"
+      }
+    ],
+    "98178": [
+      {
+        "name": "Metro Route 7",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 101",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=101",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 102",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=102",
+        "relation": "serves_area"
+      }
+    ],
+    "98195": [
+      {
+        "name": "Metro Route 31",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=031",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 32",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=032",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 43",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=043",
+        "relation": "serves_area"
+      }
+    ],
+    "98199": [
+      {
+        "name": "Metro Route 17",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=017",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 24",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=024",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 31",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=031",
+        "relation": "serves_area"
+      }
+    ]
+  }
+}

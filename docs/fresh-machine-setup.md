@@ -63,18 +63,28 @@ Before changing the GA4 stream, keep **Enhanced Measurement off** (including his
 
 ## 4. Schema and initial data
 
-Apply the committed migration and ingest the five initial Seattle ZIP codes, 98101 through 98105:
+Apply the committed migrations and ingest every reviewed Seattle area in [the registry](../data/service-areas.json). The original five preview ZIPs are 98101 through 98105; production coverage now depends on stored readiness:
 
 ```sh
 npm run db:migrate
 npm run db:ingest
+npm run db:ingest
+npm run db:status
 ```
 
-The initial live ingestion can take several minutes and requires internet access. To refresh one area later, use:
+Each batch downloads both citywide feeds once, then partitions and publishes selected ZIPs. Two successful refreshes plus current neighborhood/transit references enable a new ZIP. A failed/truncated source or failed transaction preserves the prior report. Invalid ZIP/geometry rows are quarantined for 24 hours. Ingestion requires internet access and can take several minutes. To refresh one area later, use:
 
 ```sh
 npm run db:ingest -- --zips=98103
 ```
+
+### Background production refresh and national imports
+
+Set `DATABASE_URL` as a Vercel Production variable and as an encrypted GitHub Actions repository secret; never commit it. Set optional `SOCRATA_APP_TOKEN` in both environments if used. `.github/workflows/ingest.yml` runs daily at 08:17 UTC; dispatch it manually first, using region `seattle` and optional comma-separated ZIPs. Other regions are rejected until an adapter is verified. Remove the legacy Vercel cron only after the replacement succeeds. `CRON_SECRET` protects the legacy `/api/internal/ingest` endpoint; it is not needed by the Actions worker.
+
+`DATABASE_STORAGE_LIMIT_BYTES` defaults to 1000000000. Confirm the account allowance; the batch pauses at 80%. Use `npm run db:status` for readiness, last publication, batch failures and database size. Provider compute/transfer remain separate account checks. Recover delayed/disabled GitHub schedules through manual dispatch; public-repository schedules may be disabled after 60 days without activity.
+
+For optional national ACS context, register/activate a free `CENSUS_API_KEY`, keep it server-side, then run `npm run db:baseline -- --vintage=2024`. Imports validate the complete response and publish in a transaction. Preserve observation period, ZCTA geography, suppressed values and margins of error. This is historical context, not local permit coverage or current property pricing. No key is needed for Seattle permits. Future Overture Places and regional source connectors must pass source/terms/quality checks before activation.
 
 ## 5. Run the website
 
@@ -84,9 +94,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) and test ZIP `98103`. Keep this terminal running while using the extension. The website snapshot first describes **What’s planned**, then **What it could mean**. Supported factors appear as grouped decision cards with concrete counts/largest single-plan values and icons. Test **All**, **Buying / renting a home** and **Retail / commercial** to change the cards and takeaways; unconnected topics move into the blurred Pro preview. The snapshot omits scoring-method and data-origin explanations; individual project cards retain their city-record links. Check the **Upgrade to Pro** dialog: these additional topics and checkout are coming soon, not currently unlockable. The **Projects in this ZIP** map sits beside the planned-change summary above 650px and stacks below it on smaller screens. Decision cards and stage counts follow, with project cards under **Project details**; **Open full report** loads paginated evidence. A partial live response displays its warning alongside the assessment. If the live lookup is truncated, use the existing complete database ingestion rather than suppressing the warning. The future source/access plan is in [free-sources.md](free-sources.md); no additional provider keys are needed for today's permit-only report.
 
-Above the snapshot, verify **About this ZIP**: for 98103, expect Adobe/Brooks Running, Metro Route 40/RapidRide E Line, PCC and Fremont Sunday Market. All five supported ZIPs have profiles. Check 98102 and 98105 for explicit Nearby labels on Fred Hutch (98109) and UW's Seattle campus (98195). Names link to official pages, with no additional provider key. The reviewed directory in `lib/zip-profile.mjs` is valid from 2026-10-21 until 2027-01-19; review and refresh its facts/dates before expiry, otherwise it is hidden. These are selected area highlights, not property-specific distances or a live transit/business feed.
+Above the snapshot, verify **About this ZIP**: for 98103, expect Adobe/Brooks Running, Metro Route 40/RapidRide E Line, PCC and Fremont Sunday Market. All 31 reviewed city-intersecting areas have profiles; availability still requires database publication. Check 98102 and 98105 for explicit Nearby labels on Fred Hutch (98109) and UW's Seattle campus (98195). Names link to official pages, with no additional provider key. The original directory in `lib/zip-profile.mjs` is valid from 2026-10-21 until 2027-01-19; the 26 entries in `data/zip-profiles.json` are valid from 2026-10-24 until 2027-01-22; review and refresh its facts/dates before expiry, otherwise it is hidden. These are selected area highlights, not property-specific distances or a live transit/business feed.
 
-Verify the **Bus routes** toggle on the map: purple route lines appear around the ZIP with King County attribution; a source failure leaves project markers usable and offers retry. This overlay is route geography, not live arrival times or future service changes. **Parks & public improvements** shows selected reviewed city projects for 98101/98103/98104 plus qualifying civic permits. September 2026 is a past, unconfirmed target for Lower Woodland Playfield #1; the Ship Canal 2027 target is program-wide, and Hing Hay’s October 2026 target covers Phase I only. Medical care is a fourth **About this ZIP** group; outside-ZIP facilities remain labeled Nearby.
+Verify the **Bus routes** toggle on the map: purple route lines appear around the ZIP with King County attribution; a source failure leaves project markers usable and offers retry. This overlay is route geography, not live arrival times or future service changes. **Parks & public improvements** shows selected reviewed city projects, with additions for West Seattle, Lake City, Bitter Lake and Magnolia, plus qualifying civic permits. September 2026 is a past, unconfirmed target for Lower Woodland Playfield #1; the Ship Canal 2027 target is program-wide, and Hing Hay’s October 2026 target covers Phase I only. Medical care is a fourth **About this ZIP** group; outside-ZIP facilities remain labeled Nearby.
 
 Optional noise integration: obtain a HowLoud partner key and put `HOWLOUD_API_KEY` in `.env.local`, then restart the server. The free plan has fewer than 2,500 queries/month, single webpages and no caching. Keep the key server-side and confirm account-specific terms. Use **Pick noise location**, click a map location, then **Check Soundscore**; no automatic provider lookup is made. A missing key displays a connection-pending message, never a fabricated score or Pro paywall. No key has been provisioned or paid plan purchased by this contribution.
 
@@ -104,7 +114,7 @@ The decision cards combine housing and local activity and add building height, s
 
 After pulling extension changes, return to `chrome://extensions` and click **Reload** on the extension card.
 
-Current extension manifest version: `0.4.0`.
+Current extension manifest version: `0.5.0`.
 
 Listing-location sharing is off by default. Turn on **Include the listing location for nearby results** only when you want coordinates/address included in report requests/links. The popup links to `/privacy`. Verify ZIP-only requests contain no `lat`, `lng` or address, and confirm opting in restores location-aware behavior.
 
@@ -114,9 +124,9 @@ For a store build, first verify the deployed HTTPS origin, then run:
 npm run extension:package -- --origin=https://your-production-host
 ```
 
-Use the actual verified origin, not this placeholder. The script writes the ZIP, unpacked release directory and resolved store listing under ignored `.local/releases/home-area-reporter-0.4.0/`. Use `--out=/absolute/new/path` for a subsequent build; it refuses an existing bundle. It copies only the manifest, popup HTML/JS/CSS and four PNG icons. Release host/frame permissions reference only the chosen origin, and saved localhost preferences cannot override the hidden production origin. The source `extension/` folder remains a local-development build.
+Use the actual verified origin, not this placeholder. The script writes the ZIP, unpacked release directory and resolved store listing under ignored `.local/releases/home-area-reporter-0.5.0/`. Use `--out=/absolute/new/path` for a subsequent build; it refuses an existing bundle. It copies only the manifest, popup HTML/JS/CSS and four PNG icons. Release host/frame permissions reference only the chosen origin, and saved localhost preferences cannot override the hidden production origin. The source `extension/` folder remains a local-development build.
 
-The current verified origin is `https://home-area-reporter.vercel.app` (October 22, 2026). Extension 0.4.0 is submitted under Chrome item ID `gkcknhnphkocdbelbeggbeofcgkhdbmh`; use that existing item for subsequent releases rather than creating another listing. Saved production screenshots and privacy/reviewer disclosures are in the dashboard. Publisher contact-email verification is complete. The October 22, 2026 submission is pending Google review, with automatic publication enabled after approval; it is not yet publicly installable. Production uses the partial live-source fallback; cloud database ingestion and scheduled refresh have not been verified.
+The current verified origin is `https://home-area-reporter.vercel.app` (October 22, 2026). Extension 0.4.0 is submitted under Chrome item ID `gkcknhnphkocdbelbeggbeofcgkhdbmh`; use that existing item for subsequent releases rather than creating another listing. Saved production screenshots and privacy/reviewer disclosures are in the dashboard. Publisher contact-email verification is complete. The October 22, 2026 submission is pending Google review, with automatic publication enabled after approval; it is not yet publicly installable. That October 22 verification used the partial live fallback. The 0.5.0 batch release requires a production database and stored snapshots; current production verification is recorded in the canonical design.
 
 The owner must sign in to Vercel and the Chrome Web Store developer dashboard. Complete any publisher registration, fee and binding agreements personally when required. A 128px PNG icon and at least one valid screenshot are required by the store; prepare screenshots from the verified live product, complete privacy/permission declarations and contact details, then submit for review. An uploaded ZIP or review submission is not a live store listing. Do not record success until the store status is published and its installation link works.
 
@@ -131,7 +141,7 @@ node --check extension/popup.js
 npm run build
 ```
 
-The default tests do not require a database or live network. A successful build does not prove live source accuracy or unpacked-extension behavior, so manually test at least one supported listing after source, map or extension changes.
+The default deterministic tests need no database or live network. `tests/batch-db.test.mjs` additionally runs real PostgreSQL integration checks when `TEST_DATABASE_URL` points to a disposable development database server whose role can create/drop test databases. It creates a fresh random database and removes it afterward; CI supplies PostgreSQL 16. Never point this test at production. Example: `TEST_DATABASE_URL=postgresql://localhost/postgres npm test`. A successful build does not prove live source accuracy or unpacked-extension behavior, so manually test at least one supported listing after source, map or extension changes.
 
 ## 8. Restart and shutdown
 

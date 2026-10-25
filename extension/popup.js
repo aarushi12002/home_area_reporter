@@ -1,6 +1,7 @@
 "use strict";
 
-const SUPPORTED_ZIP = /^9810[1-5]$/;
+// Format only; coverage and readiness are determined by the backend.
+const SUPPORTED_ZIP = /^\d{5}$/;
 
 function extractListingContext() {
   const result = { zip: "", address: "", latitude: null, longitude: null };
@@ -32,7 +33,7 @@ function extractListingContext() {
     } catch {}
   }
   const pageText = `${document.title} ${document.body?.innerText || ""}`;
-  result.zip ||= pageText.match(/\b9810[1-5]\b/)?.[0] || "";
+  result.zip ||= pageText.match(/\b[A-Z]{2}\s+(\d{5})(?:-\d{4})?\b/)?.[1] || "";
   return result;
 }
 
@@ -101,7 +102,7 @@ function appendHighlight(container, project) {
         : `Listing ZIP detected: ${listing.zip}`;
     } else {
       document.getElementById("context").textContent =
-        "Confirm one of the initial Seattle ZIP codes: 98101–98105.";
+        "Enter the listing’s five-digit ZIP code to check coverage.";
     }
     button.disabled = false;
     button.onclick = async () => {
@@ -110,7 +111,7 @@ function appendHighlight(container, project) {
       try {
         const zip = document.getElementById("zip").value.trim();
         if (!SUPPORTED_ZIP.test(zip))
-          throw new Error("Enter a ZIP code from 98101 through 98105.");
+          throw new Error("Enter a five-digit ZIP code.");
         const origin = validOrigin(originInput.value);
         await chrome.storage.local.set({ reporterOrigin: origin });
         const query = new URLSearchParams({ zip });
@@ -128,11 +129,13 @@ function appendHighlight(container, project) {
         button.textContent = "Checking official records…";
         const response = await fetch(`${origin}/api/area-summary?${query}`);
         const body = await response.json();
-        if (!response.ok) throw new Error(body.error || "Area summary unavailable.");
+        if (!response.ok || body.status === "preparing") throw new Error(body.error || "Area summary unavailable.");
         document.getElementById("headline").textContent = body.headline;
         const signals = document.getElementById("signals");
         signals.replaceChildren();
-        (body.decisionSignals || []).slice(0, 4).forEach((signal) => {
+        const baselineOnly = body.reportType === "baseline";
+        const signalItems = baselineOnly ? Object.values(body.baseline.metrics).slice(0, 4).map((metric) => ({ title: metric.label, metric: metric.estimate == null ? "Not available" : metric.estimate.toLocaleString() })) : body.decisionSignals || [];
+        signalItems.slice(0, 4).forEach((signal) => {
           const card = document.createElement("div");
           const title = document.createElement("span");
           title.textContent = signal.title;
@@ -142,6 +145,8 @@ function appendHighlight(container, project) {
           signals.append(card);
         });
         signals.hidden = !signals.children.length;
+        const counts = document.getElementById("project-counts");
+        if (counts) counts.hidden = baselineOnly;
         document.getElementById("permitted").textContent = body.counts.permitted;
         document.getElementById("review").textContent = body.counts.inReview;
         document.getElementById("proposal").textContent = body.counts.earlyProposal;
@@ -156,9 +161,9 @@ function appendHighlight(container, project) {
         const map = new URL("/map", origin);
         map.search = query;
         const mapFrame = document.getElementById("project-map");
-        mapFrame.src = map.href;
-        mapFrame.hidden = false;
-        document.getElementById("refresh").textContent = body.refreshedAt
+        mapFrame.src = baselineOnly ? "about:blank" : map.href;
+        mapFrame.hidden = baselineOnly;
+        document.getElementById("refresh").textContent = baselineOnly ? "Historical neighborhood estimates. Local project coverage is not connected here yet." : body.refreshedAt
           ? `Official records refreshed ${new Date(body.refreshedAt).toLocaleString()}.`
           : "Based on connected official records.";
         document.getElementById("results").hidden = false;

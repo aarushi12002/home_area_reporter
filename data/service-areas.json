@@ -1,0 +1,386 @@
+{
+  "provenance": {
+    "provider": "U.S. Census Bureau",
+    "municipalBoundary": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer/28",
+    "municipalGeoid": "5363000",
+    "zctaLayer": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer/2",
+    "municipalVintage": "2024",
+    "zctaVintage": "2020",
+    "reviewedAt": "2026-10-24",
+    "note": "Generalized Census ZCTAs intersected with the 2024 Seattle incorporated-place boundary. Map envelopes are ZIP vicinity, not postal boundaries. Shared ZIP reports contain Seattle municipal records only."
+  },
+  "areas": [
+    {
+      "zip": "98101",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.351255,
+        47.603174,
+        -122.321353,
+        47.618511
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98102",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.338438,
+        47.618467,
+        -122.310437,
+        47.653024
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98103",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.358077,
+        47.63952,
+        -122.325713,
+        47.703218
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98104",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.345442,
+        47.590311,
+        -122.316783,
+        47.611907
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98105",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.331545,
+        47.647176,
+        -122.231924,
+        47.673977
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98106",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.372872,
+        47.513893,
+        -122.3315,
+        47.587377
+      ],
+      "shared": true,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98107",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.410879,
+        47.649932,
+        -122.354463,
+        47.676919
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98108",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.343288,
+        47.513631,
+        -122.290006,
+        47.571987
+      ],
+      "shared": true,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98109",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.358061,
+        47.617698,
+        -122.326073,
+        47.651037
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98112",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.318654,
+        47.613115,
+        -122.256908,
+        47.647558
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98115",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.330182,
+        47.663757,
+        -122.229681,
+        47.704308
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98116",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.425436,
+        47.557121,
+        -122.374004,
+        47.600639
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98117",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.419548,
+        47.673372,
+        -122.356917,
+        47.706293
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98118",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.293362,
+        47.507142,
+        -122.240183,
+        47.576115
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98119",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.387751,
+        47.618575,
+        -122.356574,
+        47.659353
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98121",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.369576,
+        47.60901,
+        -122.332975,
+        47.618615
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98122",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.328543,
+        47.599995,
+        -122.263651,
+        47.621242
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98125",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.330203,
+        47.700534,
+        -122.262323,
+        47.734093
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98126",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.38268,
+        47.512531,
+        -122.360053,
+        47.591537
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98133",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.360744,
+        47.700515,
+        -122.327164,
+        47.734136
+      ],
+      "shared": true,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98134",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.360105,
+        47.549855,
+        -122.316579,
+        47.59922
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98136",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.409757,
+        47.512442,
+        -122.380735,
+        47.560625
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98144",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.32006,
+        47.56899,
+        -122.261153,
+        47.601745
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98146",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.399833,
+        47.493203,
+        -122.334252,
+        47.514983
+      ],
+      "shared": true,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98154",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.334674,
+        47.605622,
+        -122.332911,
+        47.606799
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98164",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.332911,
+        47.605372,
+        -122.331148,
+        47.606551
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98174",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.33624,
+        47.60398,
+        -122.334479,
+        47.605158
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98177",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.392827,
+        47.70038,
+        -122.355572,
+        47.734302
+      ],
+      "shared": true,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98178",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.278235,
+        47.495523,
+        -122.219822,
+        47.519865
+      ],
+      "shared": true,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98195",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.312465,
+        47.64712,
+        -122.301507,
+        47.661262
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    },
+    {
+      "zip": "98199",
+      "jurisdictionId": "us-wa-seattle",
+      "bounds": [
+        -122.441231,
+        47.625312,
+        -122.376224,
+        47.678899
+      ],
+      "shared": false,
+      "geographyType": "zcta_vicinity"
+    }
+  ]
+}

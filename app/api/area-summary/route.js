@@ -1,81 +1,41 @@
-import { hasDatabaseConfig } from "../../../lib/db.mjs";
+import { databaseAreaSummary } from "../../../lib/project-repository.mjs";
 import { liveAreaSummary } from "../../../lib/live-summary.mjs";
-import { INITIAL_SERVICE_AREAS } from "../../../lib/project-pipeline.mjs";
+import { validPostalCode, sectionAvailability } from "../../../lib/service-areas.mjs";
+import { serviceArea, pendingReport, previewAllowed, storedBaseline } from "../../../lib/area-service.mjs";
+import { hasDatabaseConfig } from "../../../lib/db.mjs";
+import { locationFrom } from "../../../lib/report-cursor.mjs";
 import { getZipProfile } from "../../../lib/zip-profile.mjs";
 import { getPublicProjects } from "../../../lib/public-projects.mjs";
-import {
-  areaIngested,
-  databaseAreaSummary,
-  supportedArea,
-} from "../../../lib/project-repository.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-function locationFrom(searchParams) {
-  if (!searchParams.has("lat") || !searchParams.has("lng")) return null;
-  const latitude = Number(searchParams.get("lat"));
-  const longitude = Number(searchParams.get("lng"));
-  if (
-    !Number.isFinite(latitude) ||
-    !Number.isFinite(longitude) ||
-    latitude < -90 ||
-    latitude > 90 ||
-    longitude < -180 ||
-    longitude > 180
-  )
-    throw new Error("Invalid listing coordinates.");
-  return { latitude, longitude };
-}
-
 export async function GET(request) {
-  const url = new URL(request.url);
-  const zip = url.searchParams.get("zip") || "";
-  if (!INITIAL_SERVICE_AREAS.includes(zip))
-    return Response.json(
-      { error: "This preview currently supports Seattle ZIP codes 98101 through 98105." },
-      { status: 400 },
-    );
+  const url = new URL(request.url), zip = url.searchParams.get("zip") || "";
+  if (!validPostalCode(zip)) return Response.json({ error: "Enter a five-digit ZIP code." }, { status: 400 });
   let location;
+  try { location = locationFrom(url.searchParams); }
+  catch (error) { return Response.json({ error: error.message }, { status: 400 }); }
+  const zipProfile = getZipProfile(zip), publicProjects = getPublicProjects(zip);
+  const cacheControl = !location && [...url.searchParams.keys()].every((key) => key === "zip") ? "public, max-age=300, s-maxage=300" : "private, no-store";
   try {
-    location = locationFrom(url.searchParams);
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 400 });
-  }
-  const zipProfile = getZipProfile(zip);
-  const publicProjects = getPublicProjects(zip);
-  try {
-    let summary;
-    if (
-      hasDatabaseConfig() &&
-      (await supportedArea(zip)) &&
-      (await areaIngested(zip))
-    )
-      summary = await databaseAreaSummary(zip, { location });
-    else summary = await liveAreaSummary(zip, { location });
-    const query = new URLSearchParams({ zip });
-    if (location) {
-      query.set("lat", String(location.latitude));
-      query.set("lng", String(location.longitude));
+    if (!serviceArea(zip)) {
+      const baseline = await storedBaseline(zip);
+      if (!baseline) return Response.json({ error: "Reports for this ZIP are not available yet.", code: "UNSUPPORTED_AREA" }, { status: 400 });
+      return Response.json({ zip, reportType: "baseline", status: "ready", headline: `Neighborhood snapshot for ${zip}`, baseline, highlights: [], decisionSignals: [], counts: { permitted: 0, inReview: 0, earlyProposal: 0 }, coverage: [], sourceStatus: "baseline_only", dataSource: "database", fullReportUrl: `/report?zip=${zip}`, refreshedAt: baseline.retrievedAt, coveredJurisdictions: [], sections: { permits: "not_connected", baseline: "ready" } }, { headers: { "Cache-Control": cacheControl } });
     }
-    return Response.json(
-      {
-        ...summary,
-        zipProfile,
-        publicProjects,
-        status: summary.sourceStatus === "unavailable" ? "unavailable" : "ready",
-        fullReportUrl: `/report?${query}`,
-      },
-      {
-        status: summary.sourceStatus === "unavailable" ? 503 : 200,
-        headers: { "Cache-Control": "no-store" },
-      },
-    );
-  } catch (error) {
-    return Response.json(
-      { error: "Area summary is temporarily unavailable.", detail: error.message, zipProfile, publicProjects },
-      { status: 503 },
-    );
+    let summary = hasDatabaseConfig() ? await databaseAreaSummary(zip, { location }) : null;
+    if (!summary && previewAllowed(zip)) summary = await liveAreaSummary(zip, { location });
+    if (!summary) return Response.json(pendingReport(zip), { status: 202, headers: { "Cache-Control": "no-store" } });
+    const query = new URLSearchParams({ zip });
+    if (location) { query.set("lat", String(location.latitude)); query.set("lng", String(location.longitude)); }
+    const unavailable = summary.sourceStatus === "unavailable";
+    return Response.json({ ...summary, reportType: "local_projects", zipProfile, publicProjects, sections: sectionAvailability(zip, { profile: zipProfile, publicProjects }), status: unavailable ? "unavailable" : "ready", sharedZip: serviceArea(zip).shared, fullReportUrl: `/report?${query}` }, {
+      status: unavailable ? 503 : 200,
+      headers: { "Cache-Control": summary.dataSource !== "database" || unavailable ? "private, no-store" : cacheControl },
+    });
+  } catch {
+    return Response.json({ error: "Area summary is temporarily unavailable.", status: "unavailable", zipProfile, publicProjects }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }

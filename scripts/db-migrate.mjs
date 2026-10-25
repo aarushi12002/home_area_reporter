@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import { config } from "dotenv";
 import { closeDatabase, getDatabase } from "../lib/db.mjs";
+import { seedServiceAreas } from "../lib/ingestion.mjs";
 
 config({ path: ".env.local" });
 config();
@@ -31,6 +32,7 @@ try {
     console.log(`Applied ${name}`);
   }
   console.log("Database schema is current.");
+  await seedServiceAreas(sql);
 } finally {
   await closeDatabase();
 }

@@ -1,23 +1,12 @@
 import { config } from "dotenv";
 import { closeDatabase } from "../lib/db.mjs";
-import {
-  INITIAL_SERVICE_AREAS,
-} from "../lib/project-pipeline.mjs";
-import { ingestArea } from "../lib/ingestion.mjs";
-
-config({ path: ".env.local" });
-config();
-
-const argument = process.argv.find((value) => value.startsWith("--zips="));
-const zips = argument
-  ? argument.slice("--zips=".length).split(",").map((value) => value.trim())
-  : INITIAL_SERVICE_AREAS;
-
+import { SEATTLE_ZIPS } from "../lib/service-areas.mjs";
+import { runIngestionBatch } from "../lib/ingestion.mjs";
+config({ path: ".env.local", quiet: true }); config({ quiet: true });
+const option = (name) => process.argv.find((value) => value.startsWith(`--${name}=`))?.slice(name.length + 3);
 try {
-  for (const zip of zips) {
-    const result = await ingestArea(zip);
-    console.log(JSON.stringify(result));
-  }
-} finally {
-  await closeDatabase();
-}
+  const region = option("region") || "seattle";
+  if (region !== "seattle") throw new Error("This jurisdiction has no verified connector yet.");
+  const zips = option("zips") ? option("zips").split(",").map((zip) => zip.trim()) : SEATTLE_ZIPS;
+  console.log(JSON.stringify(await runIngestionBatch({ jurisdictionId: "us-wa-seattle", zips }), null, 2));
+} finally { await closeDatabase(); }

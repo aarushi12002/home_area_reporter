@@ -10,23 +10,23 @@ export default function Home() {
           Your next neighborhood. Your money. Fewer surprises.
         </p>
         <form action="/report" data-analytics="zip-search">
-          <label htmlFor="zip">Seattle ZIP code</label>
+          <label htmlFor="zip">ZIP code</label>
           <div className="inputrow">
             <input
               id="zip"
               name="zip"
               required
-              pattern="9810[1-5]"
+              pattern="[0-9]{5}"
               inputMode="numeric"
               maxLength={5}
               placeholder="98103"
-              title="Enter a ZIP code from 98101 through 98105"
+              title="Enter a five-digit ZIP code"
             />
             <button>Check this area →</button>
           </div>
         </form>
         <p className="muted">
-          Initial preview areas: 98101, 98102, 98103, 98104 and 98105.
+          Seattle reports become available as each area passes review. Coverage varies by ZIP.
         </p>
       </section>
       <section className="grid">

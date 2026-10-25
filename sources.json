@@ -1,7 +1,7 @@
 {
   "scope": "Seattle ZIP-based area research",
   "checked_date": "2026-10-17",
-  "research_checked_date": "2026-10-22",
+  "research_checked_date": "2026-10-24",
   "sources": [
     {
       "id": "76t5-zqzr",
@@ -9,7 +9,7 @@
       "license": "Public Domain",
       "refresh": "Daily",
       "ready": "foundation",
-      "integration": "persistent_scheduled_with_live_fallback",
+      "integration": "citywide_batch_with_development_preview",
       "initial_service_areas": [
         "98101",
         "98102",
@@ -18,7 +18,9 @@
         "98105"
       ],
       "analysis_scope": "Material development, explicit business fit-outs/use changes, civic work and building upgrades; grouped resident/commercial signals with project examples",
-      "interpretation_limits": "No confirmed openings, vacancy, footfall, compliance, ongoing construction or price/demand forecasts; no aggregate unit/parking totals"
+      "interpretation_limits": "No confirmed openings, vacancy, footfall, compliance, ongoing construction or price/demand forecasts; no aggregate unit/parking totals",
+      "coverage_registry": "data/service-areas.json",
+      "publication_gate": "Two complete refreshes plus current neighborhood/transit context"
     },
     {
       "id": "ht3q-kdvx",
@@ -26,7 +28,7 @@
       "license": "Public Domain",
       "refresh": "Daily",
       "ready": "foundation",
-      "integration": "persistent_scheduled_with_live_fallback",
+      "integration": "citywide_batch_with_development_preview",
       "initial_service_areas": [
         "98101",
         "98102",
@@ -35,7 +37,9 @@
         "98105"
       ],
       "analysis_scope": "Material development, explicit business fit-outs/use changes, civic work and building upgrades; grouped resident/commercial signals with project examples",
-      "interpretation_limits": "No confirmed openings, vacancy, footfall, compliance, ongoing construction or price/demand forecasts; no aggregate unit/parking totals"
+      "interpretation_limits": "No confirmed openings, vacancy, footfall, compliance, ongoing construction or price/demand forecasts; no aggregate unit/parking totals",
+      "coverage_registry": "data/service-areas.json",
+      "publication_gate": "Two complete refreshes plus current neighborhood/transit context"
     },
     {
       "id": "gg89-k5p6",
@@ -87,7 +91,12 @@
       ],
       "verification": "Names and public address/location facts checked against official organization pages; per-entry links retained",
       "reuse_scope": "Short facts and original summaries only; no copied listing text, ratings, marketing descriptions, schedules or automated feed ingestion",
-      "limits": "Selected highlights, not complete coverage; nearby institutions explicitly labeled; no live hours, distance, headway or hiring claims"
+      "limits": "Selected highlights, not complete coverage; nearby institutions explicitly labeled; no live hours, distance, headway or hiring claims",
+      "additional_path": "data/zip-profiles.json",
+      "reviewed_profile_count": 31,
+      "additional_reviewed_at": "2026-10-24",
+      "additional_review_until": "2027-01-22",
+      "coverage_registry": "data/service-areas.json"
     },
     {
       "id": "reviewed_public_project_facts",
@@ -103,7 +112,38 @@
       ],
       "verification": "Official project pages reviewed; phase/program targets and elapsed unconfirmed dates preserved",
       "reuse_scope": "Short facts, original summaries and official links; no bulk page copy",
-      "limits": "Selective references, not complete public-project coverage or automatic refresh"
+      "limits": "Selective references, not complete public-project coverage or automatic refresh",
+      "additional_reviewed_at": "2026-10-24",
+      "additional_review_until": "2027-01-22",
+      "additional_areas": [
+        "98116",
+        "98125",
+        "98133",
+        "98199"
+      ]
+    },
+    {
+      "id": "census_zcta_boundaries_candidate",
+      "name": "Census ZIP Code Tabulation Areas",
+      "topic": "seattle_zip_coverage_registry",
+      "priority": 1,
+      "url": "https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html",
+      "access": "Public Census TIGER/Line or cartographic downloads; pin geography vintage",
+      "license": "Federal geography; retain Census provenance and selected download notices",
+      "verification": "2020 ZCTAs intersected with Census ACS2024 Seattle incorporated-place GEOID 5363000 on 2026-10-24; 31 nontrivial intersections.",
+      "integration": "reviewed_registry_reference",
+      "limits": "Statistical approximation; not every postal ZIP has a ZCTA. Institutional/PO-box and cross-city cases require separate review",
+      "geometry_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer/2"
+    },
+    {
+      "id": "census_seattle_incorporated_place",
+      "name": "Seattle incorporated-place boundary, 2024 Census vintage",
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer/28",
+      "integration": "reviewed_registry_reference",
+      "geoid": "5363000",
+      "license": "U.S. federal geographic data; retain Census provenance and vintage; not a legal postal-boundary product",
+      "verification": "Fetched and intersected with 2020 ZCTAs on 2026-10-24",
+      "path": "data/seattle-boundary.json"
     }
   ],
   "planned_sources": [
@@ -156,8 +196,8 @@
         "B01003"
       ],
       "license": "Federal statistics; retain Census citations and dataset notices",
-      "verification": "API documentation, key requirement and rent table reviewed; no key requested or data query run",
-      "integration": "planned_not_connected",
+      "verification": "Importer and response/uncertainty tests implemented; activated CENSUS_API_KEY and real import still required.",
+      "integration": "optional_bulk_import_pending_key",
       "limits": "Five-year estimates with margins of error; ZCTAs differ from postal ZIPs; not current asking rent"
     },
     {
@@ -185,28 +225,27 @@
       "limits": "Needs terrain, footprints, proposed massing and property floor/orientation; cannot infer blocked views from ZIP"
     },
     {
-      "id": "seattle_boundary_candidate",
-      "name": "Official Seattle municipal boundary",
-      "topic": "seattle_zip_coverage_registry",
-      "priority": 1,
-      "url": "https://data.seattle.gov/dataset/Boundary/k473-p8hz",
-      "access": "Public catalog linking to Seattle GIS; resolve/version the underlying geometry download",
-      "license": "Dataset-specific reuse terms and notices to verify before import",
-      "verification": "Official catalog discovered 2026-10-22; geometry/schema/reuse not yet tested",
-      "integration": "planned_not_connected",
-      "limits": "Municipal boundary does not define postal ZIPs; use for reviewed city-intersection coverage only"
-    },
-    {
-      "id": "census_zcta_boundaries_candidate",
-      "name": "Census ZIP Code Tabulation Areas",
-      "topic": "seattle_zip_coverage_registry",
-      "priority": 1,
-      "url": "https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html",
-      "access": "Public Census TIGER/Line or cartographic downloads; pin geography vintage",
-      "license": "Federal geography; retain Census provenance and selected download notices",
-      "verification": "Official definition/limitations reviewed 2026-10-22; Seattle intersection/download schema not tested",
-      "integration": "planned_not_connected",
-      "limits": "Statistical approximation; not every postal ZIP has a ZCTA. Institutional/PO-box and cross-city cases require separate review"
+      "id": "overture_places",
+      "name": "Overture Places",
+      "url": "https://docs.overturemaps.org/guides/places/",
+      "integration": "sample_validated_not_published",
+      "license": "CDLA Permissive 2.0 / Apache 2.0 / CC0 1.0 by provider; retain provenance, applicable notices and license copies",
+      "verification": "2026-10-24: downloaded 4,192 places from release 2026-10-21.0 in a South Lake Union/Queen Anne sample; 309 permanently closed, 754 missing status, 673 missing website, 2 duplicate name/rounded-coordinate buckets. No app import/publication.",
+      "limits": "Filter/deduplicate selected destinations; existence confidence does not establish operating status, major-employer status or neighborhood reputation",
+      "sample": {
+        "release": "2026-10-21.0",
+        "bbox": [
+          -122.355,
+          47.62,
+          -122.325,
+          47.65
+        ],
+        "records": 4192,
+        "permanently_closed": 309,
+        "missing_status": 754,
+        "missing_website": 673,
+        "duplicate_name_coordinate_buckets": 2
+      }
     }
   ],
   "context_sources": [
@@ -229,6 +268,22 @@
       "license": "Proprietary partner terms; published free tier: single webpages, fewer than 2500 monthly queries, no caching",
       "verification": "Pricing and API documentation reviewed 2026-10-21; deterministic adapter checks only, real key/response not tested",
       "limits": "No ZIP-wide score, no cache/persistence, no automatic lookup; production terms/quota/abuse controls pending"
+    }
+  ],
+  "service_area_registry": "data/service-areas.json",
+  "reviewed_seattle_areas": 31,
+  "rejected_sources": [
+    {
+      "id": "seattle_boundary_candidate",
+      "name": "Official Seattle municipal boundary",
+      "topic": "seattle_zip_coverage_registry",
+      "priority": 1,
+      "url": "https://data.seattle.gov/dataset/Boundary/k473-p8hz",
+      "access": "Public catalog linking to Seattle GIS; resolve/version the underlying geometry download",
+      "license": "Dataset-specific reuse terms and notices to verify before import",
+      "verification": "Resolved official metadata on 2026-10-24: k473-p8hz describes 1936 aerial imagery boundaries, not Seattle municipal limits.",
+      "integration": "rejected_wrong_dataset",
+      "limits": "Municipal boundary does not define postal ZIPs; use for reviewed city-intersection coverage only"
     }
   ]
 }

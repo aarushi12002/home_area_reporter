@@ -1,0 +1,1254 @@
+{
+  "reviewedAt": "2026-10-24",
+  "reviewUntil": "2027-01-22",
+  "profiles": {
+    "98106": {
+      "area": "Delridge & Highland Park",
+      "character": "Delridge community institutions, with Westwood groceries nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Delridge Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98106",
+          "address": "5423 Delridge Way SW"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Westwood Village",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle/westwood-village/705/00825",
+          "postalCode": "98126",
+          "address": "2500 SW Barton St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Neighborcare Health \u00b7 High Point",
+          "url": "https://neighborcare.org/clinics/high-point",
+          "postalCode": "98126",
+          "address": "6020 35th Ave SW"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 21",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 22",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 50",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=050",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98107": {
+      "area": "Ballard",
+      "character": "Ballard library, groceries and neighborhood medical care.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Ballard Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98107",
+          "address": "5614 22nd Ave NW"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Ballard",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98107",
+          "address": "1451 NW 46th St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 Ballard",
+          "url": "https://www.uwmedicine.org/locations/primary-care-ballard",
+          "postalCode": "98107",
+          "address": "1455 NW Leary Way, Suite 250"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 4",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 13",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=013",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 17",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=017",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98108": {
+      "area": "Georgetown & South Park",
+      "character": "College training in Georgetown and community facilities in South Park.",
+      "work": [
+        {
+          "name": "South Seattle College \u00b7 Georgetown campus",
+          "url": "https://southseattle.edu/directions-and-maps-main-satellite-campuses/georgetown-campus-map",
+          "postalCode": "98108",
+          "address": "6737 Corson Ave S"
+        },
+        {
+          "name": "Seattle Public Library \u00b7 South Park Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98108",
+          "address": "8604 Eighth Ave S"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "Costco \u00b7 Seattle warehouse",
+          "url": "https://www.costco.com/w/-/wa/seattle-/1",
+          "postalCode": "98134",
+          "address": "4401 Fourth Ave S"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Neighborcare Health \u00b7 Rainier Beach",
+          "url": "https://neighborcare.org/clinics/rainier-beach",
+          "postalCode": "98118",
+          "address": "9245 Rainier Ave S"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 7",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 9",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=009",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 21",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98109": {
+      "area": "South Lake Union & Uptown",
+      "character": "Amazon offices, South Lake Union medical care and Uptown groceries.",
+      "work": [
+        {
+          "name": "Amazon \u00b7 Seattle offices",
+          "url": "https://aws.amazon.com/legal/marketingentities/",
+          "postalCode": "98109",
+          "address": "410 Terry Ave N"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Uptown",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98109",
+          "address": "500 Mercer St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 South Lake Union",
+          "url": "https://www.uwmedicine.org/locations/primary-care-south-lake-union",
+          "postalCode": "98109",
+          "address": "750 Republican St, Building F, Floor 2"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 1",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 2",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 3",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98112": {
+      "area": "Montlake & Madison Valley",
+      "character": "Montlake community facilities and Madison Valley groceries.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Montlake Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98112",
+          "address": "2401 24th Ave E"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Madison Valley",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98112",
+          "address": "2925 E Madison St, Suite B"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medical Center \u00b7 Montlake",
+          "url": "https://www.uwmedicine.org/locations/uw-medical-center-montlake",
+          "postalCode": "98195",
+          "address": "1959 NE Pacific St"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 2",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 8",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=008",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 10",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=010",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98115": {
+      "area": "Roosevelt & Northeast Seattle",
+      "character": "Neighborhood libraries, Green Lake groceries and medical care nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Northeast Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98115",
+          "address": "6801 35th Ave NE"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Green Lake Village",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98115",
+          "address": "450 NE 71st St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 Northgate",
+          "url": "https://www.uwmedicine.org/locations/primary-care-northgate",
+          "postalCode": "98125",
+          "address": "314 NE Thornton Place"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 40",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 45",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=045",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 48",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=048",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98116": {
+      "area": "West Seattle & Admiral",
+      "character": "West Seattle groceries and primary care, with community institutions nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 West Seattle Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98116",
+          "address": "2306 42nd Ave SW",
+          "note": "Check the branch page for the current reopening status."
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 West Seattle",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98116",
+          "address": "2749 California Ave SW"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Swedish West Seattle Primary Care",
+          "url": "https://www.swedish.org/locations/west-seattle-primary-care",
+          "postalCode": "98116",
+          "address": "4100 SW Alaska St, Suite B"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 21",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 22",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 50",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=050",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98117": {
+      "area": "Northwest Seattle",
+      "character": "Holman Road shopping, with Ballard institutions and medical care nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Ballard Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98107",
+          "address": "5614 22nd Ave NW"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Holman Road",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98117",
+          "address": "9999 Holman Rd NW"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 Ballard",
+          "url": "https://www.uwmedicine.org/locations/primary-care-ballard",
+          "postalCode": "98107",
+          "address": "1455 NW Leary Way, Suite 250"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 17",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=017",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 28",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=028",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 40",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98118": {
+      "area": "Columbia City & Rainier Beach",
+      "character": "Community libraries, Columbia City groceries and Rainier Beach medical care.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Columbia Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98118",
+          "address": "4721 Rainier Ave S"
+        },
+        {
+          "name": "Seattle Public Library \u00b7 Rainier Beach Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98118",
+          "address": "9125 Rainier Ave S"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Columbia City",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98118",
+          "address": "3610 S Edmunds St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Neighborcare Health \u00b7 Rainier Beach",
+          "url": "https://neighborcare.org/clinics/rainier-beach",
+          "postalCode": "98118",
+          "address": "9245 Rainier Ave S"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 7",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 9",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=009",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 14",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=014",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98119": {
+      "area": "Queen Anne & Interbay",
+      "character": "Seattle Pacific University and Interbay shopping, with Ballard care nearby.",
+      "work": [
+        {
+          "name": "Seattle Pacific University",
+          "url": "https://spu.edu/info/contact-us.asp",
+          "postalCode": "98119",
+          "address": "3307 Third Ave W"
+        },
+        {
+          "name": "Seattle Public Library \u00b7 Queen Anne Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98119",
+          "address": "400 W Garfield St"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Interbay",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98119",
+          "address": "1600 W Dravus St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 Ballard",
+          "url": "https://www.uwmedicine.org/locations/primary-care-ballard",
+          "postalCode": "98107",
+          "address": "1455 NW Leary Way, Suite 250"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 1",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 2",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 4",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98121": {
+      "area": "Belltown",
+      "character": "Downtown destinations, with Uptown shopping and South Lake Union care nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Central Library",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98104",
+          "address": "1000 Fourth Ave"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Uptown",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98109",
+          "address": "500 Mercer St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 South Lake Union",
+          "url": "https://www.uwmedicine.org/locations/primary-care-south-lake-union",
+          "postalCode": "98109",
+          "address": "750 Republican St, Building F, Floor 2"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 1",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 2",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 3",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98122": {
+      "area": "Central District",
+      "character": "Douglass-Truth Library and Central District groceries, with Harborview nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Douglass-Truth Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98122",
+          "address": "2300 E Yesler Way"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Central District",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98122",
+          "address": "2230 E Union St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Harborview Medical Center",
+          "url": "https://www.uwmedicine.org/locations/harborview-medical-center",
+          "postalCode": "98104",
+          "address": "325 Ninth Ave"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 2",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 3",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 4",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98125": {
+      "area": "Lake City & Northgate",
+      "character": "Lake City community facilities, Northgate groceries and primary care.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Lake City Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98125",
+          "address": "12501 28th Ave NE"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Northgate",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98125",
+          "address": "11100 Roosevelt Way NE"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 Northgate",
+          "url": "https://www.uwmedicine.org/locations/primary-care-northgate",
+          "postalCode": "98125",
+          "address": "314 NE Thornton Place"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 40",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 61",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=061",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 65",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=065",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98126": {
+      "area": "High Point & Westwood",
+      "character": "High Point library and medical care, plus Westwood Village groceries.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 High Point Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98126",
+          "address": "3411 SW Raymond St"
+        },
+        {
+          "name": "Seattle Public Library \u00b7 Southwest Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98126",
+          "address": "9010 35th Ave SW"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Westwood Village",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle/westwood-village/705/00825",
+          "postalCode": "98126",
+          "address": "2500 SW Barton St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Neighborcare Health \u00b7 High Point",
+          "url": "https://neighborcare.org/clinics/high-point",
+          "postalCode": "98126",
+          "address": "6020 35th Ave SW"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 21",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 22",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 50",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=050",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98133": {
+      "area": "North Seattle \u00b7 Seattle portion",
+      "character": "UW Medical Center\u2013Northwest and Broadview Library anchor the Seattle portion.",
+      "work": [
+        {
+          "name": "UW Medical Center \u00b7 Northwest",
+          "url": "https://www.uwmedicine.org/locations/uw-medical-center-northwest",
+          "postalCode": "98133",
+          "address": "1550 N 115th St"
+        },
+        {
+          "name": "Seattle Public Library \u00b7 Broadview Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98133",
+          "address": "12755 Greenwood Ave N"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Northgate",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98125",
+          "address": "11100 Roosevelt Way NE"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medical Center \u00b7 Northwest",
+          "url": "https://www.uwmedicine.org/locations/uw-medical-center-northwest",
+          "postalCode": "98133",
+          "address": "1550 N 115th St"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 5",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=005",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 40",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 61",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=061",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98134": {
+      "area": "SODO & Harbor Island",
+      "character": "Starbucks offices and Costco\u2019s Seattle warehouse, with Harborview nearby.",
+      "work": [
+        {
+          "name": "Starbucks \u00b7 Seattle offices",
+          "url": "https://www.starbucks.com/business/landlord-faq/contacting-starbucks",
+          "postalCode": "98134",
+          "address": "2401 Utah Ave S"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "Costco \u00b7 Seattle warehouse",
+          "url": "https://www.costco.com/w/-/wa/seattle-/1",
+          "postalCode": "98134",
+          "address": "4401 Fourth Ave S"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Harborview Medical Center",
+          "url": "https://www.uwmedicine.org/locations/harborview-medical-center",
+          "postalCode": "98104",
+          "address": "325 Ninth Ave"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 1",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 2",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 3",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98136": {
+      "area": "Morgan Junction & Southwest Seattle",
+      "character": "Morgan Junction groceries, with Southwest Library and High Point care nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Southwest Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98126",
+          "address": "9010 35th Ave SW"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "West Seattle Thriftway",
+          "url": "https://www.westseattlethriftway.com/",
+          "postalCode": "98136",
+          "address": "4201 SW Morgan St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Neighborcare Health \u00b7 High Point",
+          "url": "https://neighborcare.org/clinics/high-point",
+          "postalCode": "98126",
+          "address": "6020 35th Ave SW"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 21",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 22",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 128",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=128",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98144": {
+      "area": "Beacon Hill & Mount Baker",
+      "character": "Beacon Hill community facilities and Rainier Avenue shopping.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Beacon Hill Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98144",
+          "address": "2821 Beacon Ave S"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Rainier",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98144",
+          "address": "2707 Rainier Ave S"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Harborview Medical Center",
+          "url": "https://www.uwmedicine.org/locations/harborview-medical-center",
+          "postalCode": "98104",
+          "address": "325 Ninth Ave"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 1",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 4",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=004",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 7",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98146": {
+      "area": "Southwest Seattle \u00b7 Seattle portion",
+      "character": "Southwest Seattle\u2019s city-edge area, with Westwood shopping nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Southwest Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98126",
+          "address": "9010 35th Ave SW"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Westwood Village",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle/westwood-village/705/00825",
+          "postalCode": "98126",
+          "address": "2500 SW Barton St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Neighborcare Health \u00b7 High Point",
+          "url": "https://neighborcare.org/clinics/high-point",
+          "postalCode": "98126",
+          "address": "6020 35th Ave SW"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 21",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=021",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 22",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=022",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 113",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=113",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98154": {
+      "area": "Downtown \u00b7 compact ZIP",
+      "character": "A compact downtown area, with Central Library and shopping nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Central Library",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98104",
+          "address": "1000 Fourth Ave"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Downtown Corner Market",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98101",
+          "address": "1320 Fourth Ave"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Harborview Medical Center",
+          "url": "https://www.uwmedicine.org/locations/harborview-medical-center",
+          "postalCode": "98104",
+          "address": "325 Ninth Ave"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 1",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=001",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 2",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=002",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 3",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=003",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98164": {
+      "area": "Downtown \u00b7 library vicinity",
+      "character": "A compact downtown area around Fourth Avenue, with Central Library nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Central Library",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98104",
+          "address": "1000 Fourth Ave"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Downtown Corner Market",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98101",
+          "address": "1320 Fourth Ave"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Harborview Medical Center",
+          "url": "https://www.uwmedicine.org/locations/harborview-medical-center",
+          "postalCode": "98104",
+          "address": "325 Ninth Ave"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 101",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=101",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 102",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=102",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 150",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=150",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98174": {
+      "area": "Downtown \u00b7 compact ZIP",
+      "character": "A compact downtown area, with Central Library and shopping nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Central Library",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98104",
+          "address": "1000 Fourth Ave"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Downtown Corner Market",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98101",
+          "address": "1320 Fourth Ave"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Harborview Medical Center",
+          "url": "https://www.uwmedicine.org/locations/harborview-medical-center",
+          "postalCode": "98104",
+          "address": "325 Ninth Ave"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 101",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=101",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 102",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=102",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 150",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=150",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98177": {
+      "area": "Broadview \u00b7 Seattle portion",
+      "character": "Northwest Seattle\u2019s city-edge area, with Broadview facilities nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Broadview Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98133",
+          "address": "12755 Greenwood Ave N"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Holman Road",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98117",
+          "address": "9999 Holman Rd NW"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medical Center \u00b7 Northwest",
+          "url": "https://www.uwmedicine.org/locations/uw-medical-center-northwest",
+          "postalCode": "98133",
+          "address": "1550 N 115th St"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 28",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=028",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 40",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=040",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98178": {
+      "area": "Southeast Seattle \u00b7 Seattle portion",
+      "character": "Seattle\u2019s southeast edge, with Rainier Beach institutions and care nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Rainier Beach Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98118",
+          "address": "9125 Rainier Ave S"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "PCC \u00b7 Columbia City",
+          "url": "https://www.pccmarkets.com/store-locator",
+          "postalCode": "98118",
+          "address": "3610 S Edmunds St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Neighborcare Health \u00b7 Rainier Beach",
+          "url": "https://neighborcare.org/clinics/rainier-beach",
+          "postalCode": "98118",
+          "address": "9245 Rainier Ave S"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 7",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=007",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 101",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=101",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 102",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=102",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98195": {
+      "area": "University of Washington",
+      "character": "UW\u2019s Seattle campus and Montlake medical center, with U District shopping nearby.",
+      "work": [
+        {
+          "name": "University of Washington \u00b7 Seattle campus",
+          "url": "https://www.washington.edu/contact/",
+          "postalCode": "98195",
+          "address": "1410 NE Campus Parkway, campus directions address"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "University Village",
+          "url": "https://uvillage.com/contact-us/",
+          "postalCode": "98105",
+          "address": "2623 NE University Village St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medical Center \u00b7 Montlake",
+          "url": "https://www.uwmedicine.org/locations/uw-medical-center-montlake",
+          "postalCode": "98195",
+          "address": "1959 NE Pacific St"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 31",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=031",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 32",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=032",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 43",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=043",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    },
+    "98199": {
+      "area": "Magnolia",
+      "character": "Magnolia community facilities, with Interbay shopping and Ballard care nearby.",
+      "work": [
+        {
+          "name": "Seattle Public Library \u00b7 Magnolia Branch",
+          "url": "https://www.spl.org/hours-and-locations",
+          "postalCode": "98199",
+          "address": "2801 34th Ave W"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "QFC \u00b7 Interbay",
+          "url": "https://www.qfc.com/stores/grocery/wa/seattle",
+          "postalCode": "98119",
+          "address": "1600 W Dravus St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "UW Medicine Primary Care \u00b7 Ballard",
+          "url": "https://www.uwmedicine.org/locations/primary-care-ballard",
+          "postalCode": "98107",
+          "address": "1455 NW Leary Way, Suite 250"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Metro Route 17",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=017",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 24",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=024",
+          "relation": "serves_area"
+        },
+        {
+          "name": "Metro Route 31",
+          "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=031",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-10-24",
+      "reviewUntil": "2027-01-22"
+    }
+  }
+}

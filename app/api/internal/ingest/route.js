@@ -1,4 +1,4 @@
-import { ingestInitialAreas } from "../../../../lib/ingestion.mjs";
+import { runIngestionBatch } from "../../../../lib/ingestion.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,7 +11,7 @@ export async function GET(request) {
   )
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   try {
-    const results = await ingestInitialAreas();
+    const results = await runIngestionBatch();
     return Response.json({ ok: true, results });
   } catch (error) {
     return Response.json(

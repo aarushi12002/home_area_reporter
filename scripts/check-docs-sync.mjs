@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { INITIAL_SERVICE_AREAS } from "../lib/project-pipeline.mjs";
+import { SERVICE_AREAS } from "../lib/service-areas.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (path) => readFileSync(resolve(root, path), "utf8");
@@ -37,6 +38,8 @@ for (const script of [
   "docs:check",
   "db:migrate",
   "db:ingest",
+  "db:status",
+  "db:baseline",
   "extension:package",
   "dev",
   "test",
@@ -59,12 +62,16 @@ for (const zip of INITIAL_SERVICE_AREAS) {
   if (!design.includes(zip) && !design.includes("98101–98105"))
     errors.push(`docs/mvp-setup.md must cover supported ZIP ${zip}`);
 }
+for (const path of [setupPath, "README.md", "docs/mvp-setup.md"]) requireText(path, "data/service-areas.json", "the shared coverage registry");
+const sourceInventory = JSON.parse(read("sources.json"));
+if (sourceInventory.reviewed_seattle_areas !== SERVICE_AREAS.length || sourceInventory.service_area_registry !== "data/service-areas.json") errors.push("sources.json must match the reviewed coverage registry");
 
 if (!setup.includes(`Current extension manifest version: \`${manifest.version}\`.`))
   errors.push(`${setupPath} must record extension manifest version ${manifest.version}`);
 
 for (const route of [
   "/api/area-summary",
+  "/api/service-areas",
   "/api/transit",
   "/api/soundscore",
   "/api/projects",
@@ -103,5 +110,5 @@ if (errors.length) {
 }
 
 console.log(
-  `Documentation/setup consistency check passed (${envVariables.length} env variables, ${INITIAL_SERVICE_AREAS.length} service areas, extension ${manifest.version}).`,
+  `Documentation/setup consistency check passed (${envVariables.length} env variables, ${SERVICE_AREAS.length} reviewed areas, ${INITIAL_SERVICE_AREAS.length} legacy previews, extension ${manifest.version}).`,
 );

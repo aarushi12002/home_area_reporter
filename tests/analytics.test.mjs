@@ -103,6 +103,7 @@ test("blocked preference storage keeps GA off", () => {
 
 test("only documented event names and fixed categorical/coarse ZIP parameters survive", () => {
   assert.deepEqual(eventParameters("zip_search", { zip: "98103", email: "secret@example.test" }), { zip: "98103" });
+  assert.deepEqual(eventParameters("zip_search", { zip: "02108", lat: 42.36 }), { zip: "02108" });
   assert.deepEqual(eventParameters("zip_search", { zip: "98103?address=private" }), {});
   assert.equal(eventParameters("__proto__", {}), null);
   assert.equal(analyticsPage("/map?address=private"), null);

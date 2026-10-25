@@ -330,7 +330,7 @@ export default function Report() {
         )}
       </div>
       <h1>
-        {context.address || context.zip || "Seattle"}
+        {context.address || context.zip || "Your area"}
         <br />
         <span className="muted">What may change nearby.</span>
       </h1>
@@ -339,7 +339,7 @@ export default function Report() {
         <section className="notice" role="status">
           <h2>Checking what’s planned nearby…</h2>
           <p>
-            Looking through Seattle’s building plans and permits.
+            Loading your neighborhood report.
           </p>
         </section>
       )}

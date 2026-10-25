@@ -4,7 +4,7 @@ import Analytics from "../components/Analytics";
 export const metadata = {
   title: "Home Area Reporter — What is changing in this ZIP?",
   description:
-    "Source-backed Seattle development applications and permit research.",
+    "Development plans and neighborhood context by ZIP.",
 };
 export default function Layout({ children }) {
   return (
@@ -14,11 +14,11 @@ export default function Layout({ children }) {
           <a className="brand" href="/">
             HOME AREA REPORTER
           </a>
-          <span>Seattle · free early preview</span>
+          <span>Free early preview</span>
         </header>
         {children}
         <footer>
-          Based on Seattle city records. Plans can change.
+          Coverage varies by area. Plans can change.
           <a href="/privacy">Privacy</a>
         </footer>
         <Analytics />

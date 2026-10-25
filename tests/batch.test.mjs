@@ -116,12 +116,42 @@ test("new ZIPs without published reports are preparing and never trigger live so
 });
 
 test("national baseline preserves suppressed values and uncertainty, and requires a key", async () => {
-  const fields = Object.values(BASELINE_METRICS).flatMap(([id]) => [`${id}E`, `${id}M`]);
+  const fields = Object.values(BASELINE_METRICS).flatMap(([id]) => [`${id}E`, `${id}M`, `${id}EA`, `${id}MA`]);
   const headers = ["NAME", ...fields, "zip code tabulation area"];
-  const row = ["ZCTA5 02108", ...fields.map((_, i) => i === 0 ? "-666666666" : "5"), "02108"];
+  const row = ["ZCTA5 02108", ...fields.map((field, i) => field.endsWith("A") ? null : i === 0 ? "-666666666" : "5"), "02108"];
   const result = normalizeBaseline([headers, row]);
   assert.equal(result[0].zip, "02108"); assert.equal(result[0].metrics.population.estimate, null);
   assert.equal(result[0].metrics.population.marginOfError, 5);
   assert.throws(() => normalizeBaseline([headers, row, row]), /duplicate/);
   await assert.rejects(fetchBaseline({ apiKey: "", fetcher: () => assert.fail("No key") }), /CENSUS_API_KEY/);
+  await assert.rejects(fetchBaseline({ apiKey: "[SENSITIVE]", fetcher: () => assert.fail("Do not send a Vercel placeholder upstream") }), /Vercel.*placeholder/i);
+});
+
+
+test("Census HTTP-200 invalid-key pages produce a safe actionable error", async () => {
+  await assert.rejects(fetchBaseline({ apiKey: "test-secret-key", fetcher: async () => new Response("<html><h1>Invalid Key</h1>test-secret-key</html>", { headers: { "Content-Type": "text/html" } }) }), (error) => /Census rejected.*key/i.test(error.message) && !error.message.includes("test-secret-key") && !error.message.includes("<html>"));
+  await assert.rejects(fetchBaseline({ apiKey: "test-secret-key", fetcher: async () => { throw new Error("network failure at https://example.test?key=test-secret-key"); } }), (error) => /Census request failed/.test(error.message) && !error.message.includes("test-secret-key"));
+});
+
+test("Census rent bounds and margin annotations survive import and display", async () => {
+  const fields = Object.values(BASELINE_METRICS).flatMap(([id]) => [`${id}E`, `${id}M`, `${id}EA`, `${id}MA`]);
+  const headers = ["NAME", ...fields, "zip code tabulation area"];
+  const values = Object.fromEntries(fields.map((field) => [field, field.endsWith("A") ? null : "5"]));
+  Object.assign(values, { B25064_001E: "3501", B25064_001EA: "3,500+", B25064_001M: "-333333333", B25064_001MA: "***" });
+  const payload = [headers, ["ZCTA5 02139", ...fields.map((field) => values[field]), "02139"]];
+  const result = await fetchBaseline({ apiKey: " test-key ", fetcher: async (url) => {
+    const query = new URL(url).searchParams;
+    assert.equal(query.get("key"), "test-key");
+    assert.ok(query.get("get").includes("B25064_001EA"));
+    return Response.json(payload);
+  } });
+  const rent = result.records[0].metrics.medianGrossRent;
+  assert.equal(rent.estimate, 3501);
+  assert.equal(rent.estimateAnnotation, "3,500+");
+  assert.equal(rent.displayValue, "$3,500+");
+  assert.equal(rent.marginOfError, null);
+  assert.equal(rent.marginOfErrorAnnotation, "***");
+  assert.equal(result.provenance.observationPeriod, "2020–2024");
+  const broken = payload.map((row) => row.filter((_, index) => headers[index] !== "B25064_001EA"));
+  assert.throws(() => normalizeBaseline(broken), /Unexpected Census schema/);
 });

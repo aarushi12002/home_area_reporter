@@ -360,7 +360,7 @@ export default function Report() {
           <p className="muted">Neighborhood estimates for {summary.baseline.provenance.observationPeriod || summary.baseline.vintage}. Local project coverage is not connected here yet.</p>
           <div className="grid">
             {Object.entries(summary.baseline.metrics).map(([key, metric]) => (
-              <article key={key}><h3>{metric.label}</h3><strong>{metric.estimate == null ? "Not available" : metric.unit === "USD" ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(metric.estimate) : metric.estimate.toLocaleString()}</strong>
+              <article key={key}><h3>{metric.label}</h3><strong>{metric.displayValue || (metric.estimate == null ? "Not available" : metric.unit === "USD" ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(metric.estimate) : metric.estimate.toLocaleString())}</strong>
                 {metric.marginOfError != null && <p className="muted">Margin of error: ±{metric.marginOfError.toLocaleString()}</p>}
               </article>
             ))}

@@ -134,7 +134,7 @@ function appendHighlight(container, project) {
         const signals = document.getElementById("signals");
         signals.replaceChildren();
         const baselineOnly = body.reportType === "baseline";
-        const signalItems = baselineOnly ? Object.values(body.baseline.metrics).slice(0, 4).map((metric) => ({ title: metric.label, metric: metric.estimate == null ? "Not available" : metric.estimate.toLocaleString() })) : body.decisionSignals || [];
+        const signalItems = baselineOnly ? Object.values(body.baseline.metrics).slice(0, 4).map((metric) => ({ title: metric.label, metric: metric.displayValue || (metric.estimate == null ? "Not available" : metric.estimate.toLocaleString()) })) : body.decisionSignals || [];
         signalItems.slice(0, 4).forEach((signal) => {
           const card = document.createElement("div");
           const title = document.createElement("span");

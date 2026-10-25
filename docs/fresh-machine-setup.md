@@ -84,7 +84,7 @@ Set `DATABASE_URL` as a Vercel Production variable and as an encrypted GitHub Ac
 
 `DATABASE_STORAGE_LIMIT_BYTES` defaults to 1000000000. Confirm the account allowance; the batch pauses at 80%. Use `npm run db:status` for readiness, last publication, batch failures and database size. Provider compute/transfer remain separate account checks. Recover delayed/disabled GitHub schedules through manual dispatch; public-repository schedules may be disabled after 60 days without activity.
 
-For optional national ACS context, register/activate a free `CENSUS_API_KEY`, keep it server-side, then run `npm run db:baseline -- --vintage=2024`. Imports validate the complete response and publish in a transaction. Preserve observation period, ZCTA geography, suppressed values and margins of error. This is historical context, not local permit coverage or current property pricing. No key is needed for Seattle permits. Future Overture Places and regional source connectors must pass source/terms/quality checks before activation.
+For optional national ACS context, register/activate a free `CENSUS_API_KEY`, keep it server-side, then run `npm run db:baseline -- --vintage=2024`. Vercel Sensitive variables cannot be pulled: `[SENSITIVE]` is a placeholder, not evidence of a bad Census key. Use an independently configured local key or the one-time production import build below, keeping the production key protected. Imports validate the complete response and publish in a transaction. Preserve observation period, ZCTA geography, suppressed values and margins of error. This is historical context, not local permit coverage or current property pricing. No key is needed for Seattle permits. Future Overture Places and regional source connectors must pass source/terms/quality checks before activation.
 
 ## 5. Run the website
 
@@ -129,6 +129,19 @@ Use the actual verified origin, not this placeholder. The script writes the ZIP,
 The current verified origin is `https://home-area-reporter.vercel.app` (October 22, 2026). Extension 0.4.0 is submitted under Chrome item ID `gkcknhnphkocdbelbeggbeofcgkhdbmh`; use that existing item for subsequent releases rather than creating another listing. Saved production screenshots and privacy/reviewer disclosures are in the dashboard. Publisher contact-email verification is complete. The October 22, 2026 submission is pending Google review, with automatic publication enabled after approval; it is not yet publicly installable. That October 22 verification used the partial live fallback. The 0.5.0 batch release requires a production database and stored snapshots; current production verification is recorded in the canonical design.
 
 The owner must sign in to Vercel and the Chrome Web Store developer dashboard. Complete any publisher registration, fee and binding agreements personally when required. A 128px PNG icon and at least one valid screenshot are required by the store; prepare screenshots from the verified live product, complete privacy/permission declarations and contact details, then submit for review. An uploaded ZIP or review submission is not a live store listing. Do not record success until the store status is published and its installation link works.
+
+
+For an owner-configured Sensitive production key, use a one-time build override from the linked project. This fetches Census data and writes the production baseline before building/deploying; ordinary future deployments keep the normal build command. Do not commit the override or log environment values.
+
+```sh
+mkdir -p .local
+node --input-type=module -e 'import { readFileSync, writeFileSync } from "node:fs"; const config = JSON.parse(readFileSync("vercel.json", "utf8")); config.buildCommand = "npm run db:baseline -- --vintage=2024 && npm run build"; writeFileSync(".local/acs-import.vercel.json", JSON.stringify(config));'
+npx --yes vercel@65.2.0 deploy --prod --yes --local-config .local/acs-import.vercel.json
+```
+
+The October 24 production attempt reached Census using the protected key but was rejected as “Invalid Key”; owner activation/value correction remains pending. Seattle reports stay available when an import/build fails.
+
+The importer rejects redacted placeholders, incomplete/non-JSON payloads and unavailable geography schemas before any database write. Upper/lower rent-median bounds and estimate/MOE annotations survive normalization. Reconcile received/imported counts, database size and representative baseline-only pages after the import; Seattle permit readiness is independent.
 
 ## 7. Validate the checkout
 

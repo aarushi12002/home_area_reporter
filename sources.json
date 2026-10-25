@@ -196,8 +196,8 @@
         "B01003"
       ],
       "license": "Federal statistics; retain Census citations and dataset notices",
-      "verification": "Importer and response/uncertainty tests implemented; activated CENSUS_API_KEY and real import still required.",
-      "integration": "optional_bulk_import_pending_key",
+      "verification": "2026-10-24: key configured as a protected Vercel production secret. Actual Vercel-side import rejected by Census as Invalid Key before DB writes; activation/value correction required. E/M/EA/MA retained; no national baseline published.",
+      "integration": "import_implemented_blocked_invalid_key",
       "limits": "Five-year estimates with margins of error; ZCTAs differ from postal ZIPs; not current asking rent"
     },
     {

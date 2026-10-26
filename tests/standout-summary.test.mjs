@@ -131,3 +131,18 @@ test("completion targets expire from stored candidates without requiring permit 
   assert.match(base.changesSummary, /completion target: December 2026/);
   assert.equal(composeImpactSummary(base, [], { now: new Date("2027-01-01") }).standouts.length, 0);
 });
+
+test("standouts describe the main work rather than incidental parking or building context", () => {
+  const office = impact([project("10", "Land Use Application to allow a 9-story office building. Parking for 288 vehicles proposed.")]);
+  assert.match(office.changesSummary, /office space plans/);
+  assert.doesNotMatch(office.changesSummary, /parking-area work/);
+  const telecom = impact([project("20", "Construct minor alterations to telecommunications facility on rooftop of existing commercial building")]);
+  assert.equal(telecom.standouts.length, 0);
+  const repair = impact([project("30", "Construct interior alterations to repair damaged column for a commercial building")]);
+  assert.match(repair.changesSummary, /building repairs/);
+  const school = impact([project("40", "Change of use from restaurant to Retail sales and services, general. Construct alterations in a commercial building for a music school")]);
+  assert.match(school.changesSummary, /music.school/);
+  assert.doesNotMatch(school.overview, /shopping options/);
+  const craft = impact([project("50", "Change of use from retail to custom and craft work. Construct tenant improvements in a commercial building")]);
+  assert.match(craft.changesSummary, /craft.work use/);
+});

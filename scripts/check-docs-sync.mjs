@@ -80,6 +80,7 @@ for (const route of [
   "/map",
   "/report",
   "/privacy",
+  "/mcp",
 ])
   if (!design.includes(route)) errors.push(`docs/mvp-setup.md must document route ${route}`);
 

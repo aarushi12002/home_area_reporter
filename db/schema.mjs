@@ -28,6 +28,12 @@ export const serviceAreas = pgTable("service_areas", {
 export const jurisdictions = pgTable("jurisdictions", {
   id: text("id").primaryKey(), name: text("name").notNull(), region: text("region").notNull(), countryCode: text("country_code").notNull().default("US"),
 });
+
+export const mcpRateLimits = pgTable("mcp_rate_limits", {
+  bucket: text("bucket").notNull(),
+  windowStart: timestamp("window_start", { withTimezone: true }).notNull(),
+  requests: integer("requests").notNull().default(1),
+}, (table) => [primaryKey({ columns: [table.bucket, table.windowStart] }), index("mcp_rate_limits_expiry_idx").on(table.windowStart)]);
 export const serviceAreaJurisdictions = pgTable("service_area_jurisdictions", {
   postalCode: text("postal_code").notNull().references(() => serviceAreas.postalCode),
   jurisdictionId: text("jurisdiction_id").notNull().references(() => jurisdictions.id),

@@ -6,6 +6,8 @@ import postgres from "postgres";
 import { getDatabase, closeDatabase } from "../lib/db.mjs";
 import { runIngestionBatch } from "../lib/ingestion.mjs";
 import { databaseAreaSummary, paginatedProjects } from "../lib/project-repository.mjs";
+import { reportTools } from "../lib/mcp.mjs";
+import { consumeMcpQuota } from "../lib/mcp-rate-limit.mjs";
 
 test("real Postgres batch publication, pagination, recovery and overlap protection", { skip: !process.env.TEST_DATABASE_URL }, async (t) => {
   const name = `batch_test_${randomUUID().replaceAll("-", "")}`;
@@ -20,7 +22,7 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
     if (previous === undefined) delete process.env.DATABASE_URL; else process.env.DATABASE_URL = previous;
     await admin.unsafe(`DROP DATABASE ${name}`); await admin.end();
   });
-  for (const migration of ["0000_area_pipeline.sql", "0001_batch_reports.sql", "0002_quarantine.sql"])
+  for (const migration of ["0000_area_pipeline.sql", "0001_batch_reports.sql", "0002_quarantine.sql", "0003_mcp_rate_limits.sql"])
     await sql.unsafe(await readFile(new URL(`../drizzle/${migration}`, import.meta.url), "utf8"));
 
   const now = new Date("2026-10-24T20:00:00Z");
@@ -48,6 +50,24 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
   const second = await run();
   assert.equal(second.areas[0].readiness, "ready");
   const snapshot = await databaseAreaSummary("98107");
+  const mcpSummary = await reportTools.get_zip_summary({ zip: "98107" });
+  assert.equal(mcpSummary.generation, snapshot.generation);
+  assert.deepEqual(mcpSummary.highlights, snapshot.highlights);
+  assert.equal(mcpSummary.fullReportUrl, "https://home-area-reporter.vercel.app/report?zip=98107");
+  const mcpProjects = await reportTools.list_projects({ zip: "98107", limit: 20 });
+  assert.equal(mcpProjects.items.length, 20);
+  const evidence = await reportTools.get_project({ id: mcpProjects.items[0].id, generation: mcpProjects.generation });
+  assert.ok(evidence.events.length);
+  await sql`INSERT INTO area_baselines (postal_code, vintage, metrics, provenance, retrieved_at) VALUES ('02139', '2024', '{"population":{"estimate":100,"marginOfError":5}}', '{"observationPeriod":"2020–2024"}', now())`;
+  assert.equal((await reportTools.get_zip_summary({ zip: "02139" })).reportType, "baseline");
+  assert.equal((await reportTools.list_supported_zipcodes({ zip: "02139" })).baseline.zip, "02139");
+  assert.equal((await reportTools.list_projects({ zip: "02139" })).coverageStatus, "not_connected");
+  const quotas = await Promise.all(Array.from({ length: 12 }, () => consumeMcpQuota("test-client", { sql, perClient: 5, global: 10 })));
+  assert.equal(quotas.filter((quota) => quota.allowed).length, 5);
+  assert.equal((await consumeMcpQuota("other-client", { sql, perClient: 5, global: 10 })).allowed, false);
+  await sql`INSERT INTO mcp_rate_limits (bucket, window_start) VALUES ('expired', now() - interval '2 hours')`;
+  await consumeMcpQuota("cleanup", { sql });
+  assert.equal(Number((await sql`SELECT count(*) FROM mcp_rate_limits WHERE bucket = 'expired'`)[0].count), 0);
   assert.equal(snapshot.totalCurrentProjects, 26);
   assert.equal(snapshot.highlights.length, 15);
   const { GET: summaryRoute } = await import("../app/api/area-summary/route.js");

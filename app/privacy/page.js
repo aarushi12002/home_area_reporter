@@ -5,7 +5,7 @@ export default function Privacy() {
     <main className="privacy-page">
       <p className="eyebrow">HOME AREA REPORTER</p>
       <h1>Privacy</h1>
-      <p className="muted">Updated October 23, 2026</p>
+      <p className="muted">Updated October 25, 2026</p>
       <h2>What the extension reads</h2>
       <p>When you open the extension on Redfin or Zillow, it checks the active tab’s URL and reads listing information on that page to find a ZIP code, address and coordinates. It may read the page title and text to find a supported ZIP. This extraction happens locally in your browser. We do not read your browsing history or other tabs.</p>
       <h2>What is sent to the reporter website</h2>
@@ -13,6 +13,9 @@ export default function Privacy() {
       <h2>Storage and service providers</h2>
       <p>The extension stores only the reporter website origin in Chrome’s local extension storage. Listing addresses and coordinates are not saved in that storage or in our permit database. The database stores public project evidence, and permit/transit responses may be cached to provide the report. Hosting providers may process request information, including IP addresses and request URLs, in operational logs under their own retention settings. Optional listing information in a URL can also remain in browser history.</p>
       <p>Map tiles are requested from the configured map provider. The default low-volume map uses OpenStreetMap tiles; the provider can receive your IP address and requested map area. The transit overlay uses King County route data. The optional Soundscore action sends your selected map coordinates to HowLoud only when you choose Check Soundscore and that service is configured. We do not cache Soundscore results.</p>
+      <h2>Access through AI clients</h2>
+      <p>The public MCP connection provides read-only stored reports by ZIP. Your AI client sends the ZIP, public project identifiers and pagination information needed for each request. This connection does not accept exact listing locations, change records or send events to Google Analytics. Your AI provider processes the conversation and tool results under its own policies.</p>
+      <p>To limit automated requests, the server uses a private keyed hash of the client connection’s IP address and per-minute counters. Raw IP addresses and tool arguments are not stored in that counter table. Counters expire after one hour and expired rows are removed when another MCP request is processed. Hosting providers can retain their own operational request logs as described above.</p>
       <h2>Analytics and use of data</h2>
       <p>The website supports optional Google Analytics 4 to measure visits, ZIP searches, successful report loads, home/commercial view selections, full-report opens and interest in the coming-soon Pro report. When enabled, Google Analytics loads only after you choose Allow analytics. No Analytics requests are sent before permission; choosing No thanks keeps it blocked. The extension popup and embedded map are not instrumented.</p>
       <p>Analytics events use fixed page names and categorical actions, plus a selected five-digit ZIP where relevant. We exclude listing addresses, coordinates, listing URLs, query strings, page-title addresses and full referrer URLs from these events. Automatic enhanced measurement, advertising personalization and Google Signals are disabled. Google can process usage events, browser/device information and IP addresses to provide analytics, and can set first-party Analytics cookies after permission. These are not anonymous visits. See <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Google’s privacy policy</a>.</p>

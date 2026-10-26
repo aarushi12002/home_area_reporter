@@ -27,6 +27,16 @@ National Census context is live for **33,772 ZCTAs** from the 2024 ACS five-year
 
 Not implemented: live transit arrivals, future-service detection, parking feeds, a complete public-capital-project connector, verified construction-start data, accounts or email access, payment/credit limits, a separate queue service, or broader Greater Seattle permit coverage. Inferred project grouping and ranking require ongoing review against real records.
 
+## MCP access
+
+The MCP display name is **Home Area Reporter for Redfin & Zillow**. It describes an independent companion for home searches; the endpoint and tool identifiers stay unchanged.
+
+A public, read-only MCP adapter is deployed at [the MCP endpoint](https://home-area-reporter.vercel.app/mcp), controlled by `MCP_ENABLED` (off by default in new environments). It reuses stored reports through four tools: `list_supported_zipcodes`, `get_zip_summary`, `list_projects` and `get_project`. ZIPs remain five-character strings, including leading zeros. Coverage lookup without a ZIP enumerates reviewed Seattle project areas; an individual ZIP lookup can also resolve an imported national Census baseline. Baseline-only areas explicitly have no connected local-project coverage.
+
+Run `npm run db:migrate` to apply `0003_mcp_rate_limits.sql`, configure a private random `MCP_RATE_LIMIT_SECRET` of at least 32 characters, and set `MCP_ENABLED=true` only after acceptance. `MCP_ALLOWED_ORIGINS` contains exact comma-separated browser origins; server-to-server clients can omit Origin. Requests are limited across instances through PostgreSQL counters (60/minute per hashed connection IP and 300/minute globally); counters expire after an hour and are purged on the next MCP request. Production requires Vercel's trusted client-IP headers. See the [setup guide](docs/fresh-machine-setup.md) for local testing and the ChatGPT connection.
+
+The pinned MCP SDK v2 supports modern `2026-07-28` and stateless `2025-11-25` clients. Tool results preserve publication/generation, evidence and unavailable states; lists default to 20 projects, maximum 50. No MCP call starts permit ingestion, queries Soundscore, accepts a listing location or sends Analytics events. Production migration/configuration, SDK calls for all four tools and strict Inspector validation passed on October 25, 2026. The installed personal ChatGPT plugin returned a three-point 98109 report with the website and official evidence links in **Work mode**. Regular Chat mode showed a response-loading error and is not verified. All 90 tests passed with real PostgreSQL; production build and extension syntax checks passed. Public-directory submission, paid access and deep-research `search`/`fetch` integration remain separate work. [Issue #7](https://github.com/aarushi12002/home_area_reporter/issues/7) tracks acceptance.
+
 ## Run locally
 For a clean laptop or a new Codex checkout, follow the canonical [fresh-machine setup guide](docs/fresh-machine-setup.md). It covers Homebrew prerequisites, PostgreSQL creation, environment configuration, ingestion, extension loading, restart and troubleshooting.
 

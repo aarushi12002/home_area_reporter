@@ -70,6 +70,8 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
   assert.equal(Number((await sql`SELECT count(*) FROM mcp_rate_limits WHERE bucket = 'expired'`)[0].count), 0);
   assert.equal(snapshot.totalCurrentProjects, 26);
   assert.equal(snapshot.highlights.length, 15);
+  assert.ok(snapshot.impactSummary.standoutCandidates.length);
+  assert.match(snapshot.impactSummary.changesSummary, /housing plan at/);
   const { GET: summaryRoute } = await import("../app/api/area-summary/route.js");
   for (const [query, expected] of [["zip=98107", "public"], ["zip=98107&lat=47.67&lng=-122.38", "private"], ["zip=98107&address=Example", "private"], ["zip=98107&refresh=1", "private"]]) {
     const response = await summaryRoute(new Request(`https://example.test/api/area-summary?${query}`));

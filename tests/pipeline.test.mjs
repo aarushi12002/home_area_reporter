@@ -120,8 +120,8 @@ test("impact assessment includes evidence beyond the highlight cap without summi
   }));
   const result = areaSummary(projects, { zip: "98103" });
   assert.equal(result.highlights.some((project) => project.id === "15"), false);
-  assert.match(result.impactSummary.overview, /More homes could mean a denser/);
-  assert.equal(result.impactSummary.changesSummary, "Housing plans include up to 200 homes in one project; some plans mention buildings up to 8 stories.");
+  assert.match(result.impactSummary.overview, /Housing plans could add choices/);
+  assert.match(result.impactSummary.changesSummary, /2-home housing plan at 0 Example Ave/);
   assert.doesNotMatch(result.impactSummary.changesSummary, /230/);
   const housing = result.impactSummary.items.find((item) => item.id === "housing");
   assert.equal(housing.evidence[0].projectId, "15");
@@ -191,9 +191,9 @@ test("empty evidence does not imply no neighborhood change or a positive economi
 test("a height-only change summary does not invent housing additions", () => {
   const { impactSummary } = areaSummary([{
     id: "building", visible: true, stage: "in_review", basePriority: 20,
-    summary: "Proposed 5-story building", unitsAdded: null,
+    summary: "Proposed 5-story building", unitsAdded: null, displayAddress: "10 Example Ave",
   }], { zip: "98103" });
-  assert.equal(impactSummary.changesSummary, "City records describe buildings of up to 5 stories.");
+  assert.equal(impactSummary.changesSummary, "In review: a 5-story building plan at 10 Example Ave.");
   assert.doesNotMatch(impactSummary.changesSummary, /homes/);
   assert.equal(impactSummary.items.find((item) => item.id === "housing").score, null);
 });

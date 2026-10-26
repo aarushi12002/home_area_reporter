@@ -48,8 +48,9 @@ test("summary endpoint returns a maximum of fifteen current highlights", async (
   assert.equal(body.totalCurrentProjects, 18);
   assert.equal(body.moreCount, 3);
   assert.equal(body.dataSource, "live_fallback");
-  assert.match(body.impactSummary.overview, /More homes could mean a denser/);
-  assert.match(body.impactSummary.changesSummary, /Housing plans include up to 19 homes in one project/);
+  assert.match(body.impactSummary.overview, /Housing plans could add choices/);
+  assert.match(body.impactSummary.changesSummary, /housing plan at \d+ Example Ave/);
+  assert.ok(body.impactSummary.standouts.length >= 1);
   assert.equal(body.impactSummary.items.length, 6);
   assert.ok(body.impactSummary.items.find((item) => item.id === "housing").evidence.length);
   assert.equal(body.impactSummary.items.find((item) => item.id === "prices").assessment, "Direction unknown");

@@ -174,3 +174,24 @@ test("new Seattle and leading-zero ZIPs are sent to backend coverage validation"
     assert.match(state.requests[0], new RegExp(`zip=${zip}`));
   }
 });
+
+function extract({ url, title = "", text = "", jsonld = [] }) {
+  return vm.runInNewContext(`${script.slice(0, script.indexOf("function validOrigin"))}; extractListingContext();`, {
+    URL, location: { href: url },
+    document: { title, body: { innerText: text }, querySelectorAll: () => jsonld.map((value) => ({ textContent: typeof value === "string" ? value : JSON.stringify(value) })) },
+  });
+}
+
+test("detects Redfin listing ZIP from its address URL when page metadata is missing", () => {
+  const listing = extract({ url: "https://www.redfin.com/WA/Redmond/7250-Old-Redmond-Rd-98052/unit-C111/home/72080", text: "Nearby homes Seattle WA 98109" });
+  assert.equal(listing.zip, "98052");
+});
+
+test("malformed JSON-LD ZIP does not prevent a valid listing ZIP fallback", () => {
+  assert.equal(extract({ url: "https://www.redfin.com/WA/Seattle/1-Example-St-98109/home/12345", jsonld: [{ address: { postalCode: "Unknown" } }] }).zip, "98109");
+});
+
+test("Zillow listing ZIP and leading zeros are preserved without mistaking property IDs for ZIPs", () => {
+  assert.equal(extract({ url: "https://www.zillow.com/homedetails/1-Main-St-Cambridge-MA-02139/12345678_zpid/" }).zip, "02139");
+  assert.equal(extract({ url: "https://www.redfin.com/home/72080" }).zip, "");
+});

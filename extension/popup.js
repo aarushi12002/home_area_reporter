@@ -10,7 +10,8 @@ function extractListingContext() {
     if (Array.isArray(value)) return value.forEach(visit);
     const address = value.address;
     if (address && typeof address === "object") {
-      result.zip ||= String(address.postalCode || "").slice(0, 5);
+      const postalCode = String(address.postalCode || "").trim().match(/^(\d{5})(?:-\d{4})?$/)?.[1];
+      result.zip ||= postalCode || "";
       result.address ||=
         [address.streetAddress, address.addressLocality, address.addressRegion]
           .filter(Boolean)
@@ -31,6 +32,16 @@ function extractListingContext() {
     try {
       visit(JSON.parse(script.textContent));
     } catch {}
+  }
+  // Address slugs remain available when listing metadata is delayed or absent.
+  // Require an address-shaped segment so a five-digit property ID is not a ZIP.
+  const pageUrl = new URL(location.href);
+  const listingPath = pageUrl.pathname;
+  if (/(^|\.)(redfin|zillow)\.com$/.test(pageUrl.hostname)) {
+    const addressSegment = pageUrl.hostname.endsWith("redfin.com")
+      ? listingPath.match(/^\/[A-Z]{2}\/[^/]+\/([^/]+)(?:\/|$)/)?.[1]
+      : listingPath.match(/^\/homedetails\/([^/]+)(?:\/|$)/)?.[1];
+    result.zip ||= addressSegment?.match(/^\d[^/]*-(\d{5})(?:-\d{4})?$/)?.[1] || "";
   }
   const pageText = `${document.title} ${document.body?.innerText || ""}`;
   result.zip ||= pageText.match(/\b[A-Z]{2}\s+(\d{5})(?:-\d{4})?\b/)?.[1] || "";

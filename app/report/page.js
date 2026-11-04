@@ -385,7 +385,7 @@ export default function Report() {
                     Some city records may be missing from this search.
                   </p>
                 )}
-                {summary.sharedZip && <p className="impact-coverage">This ZIP crosses city limits. Project coverage includes Seattle municipal records only.</p>}
+                {(summary.sharedZip || summary.coverageComplete === false) && <p className="impact-coverage">Project records cover {(summary.coveredJurisdictionNames || ["Seattle"]).join(", ")}. Other jurisdictions in this ZIP may not be connected.</p>}
                 {summary.awaitingUpdate && <p className="impact-coverage" role="status">An update is pending. Showing the last complete report.</p>}
               </div>
               <section className="snapshot-map" aria-labelledby="snapshot-map-title">
@@ -485,6 +485,7 @@ export default function Report() {
                       records
                     </p>
                     {source.error && <p>{source.error}</p>}
+                    {source.notice && <p>{source.notice}</p>}
                   </article>
                 ))}
                 <p>

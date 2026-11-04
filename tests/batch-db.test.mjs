@@ -22,7 +22,7 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
     if (previous === undefined) delete process.env.DATABASE_URL; else process.env.DATABASE_URL = previous;
     await admin.unsafe(`DROP DATABASE ${name}`); await admin.end();
   });
-  for (const migration of ["0000_area_pipeline.sql", "0001_batch_reports.sql", "0002_quarantine.sql", "0003_mcp_rate_limits.sql"])
+  for (const migration of ["0000_area_pipeline.sql", "0001_batch_reports.sql", "0002_quarantine.sql", "0003_mcp_rate_limits.sql", "0004_jurisdiction_partitions.sql"])
     await sql.unsafe(await readFile(new URL(`../drizzle/${migration}`, import.meta.url), "utf8"));
 
   const now = new Date("2026-10-24T20:00:00Z");
@@ -30,9 +30,9 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
   const records = () => Array.from({ length: 26 }, (_, i) => ({
     permitnum: `TEST-${i}-CN`, originalzip: "98107", originaladdress1: `${i + 1} Example Ave NW`,
     description: `Construct new ${i + 2} unit apartment building${mode === "publication-failure" ? " FAIL" : ""}`,
-    statuscurrent: version === 2 && i === 0 ? "Completed" : "Reviews In Process", housingunitsadded: String(i + 2),
+    statuscurrent: version >= 2 && i === 0 ? "Completed" : "Reviews In Process", housingunitsadded: String(i + 2),
     applieddate: "2026-10-01", latitude: "47.67", longitude: String(-122.38 + i * 0.0001),
-  }));
+  })).filter((row,i)=>version!==3 || i!==1);
   const fetcher = async (request) => {
     const url = new URL(request);
     if (url.searchParams.get("$select") === "count(*) as count") return { ok: true, json: async () => [{ count: url.pathname.includes("ht3q-kdvx") ? "0" : String(records().length) }] };
@@ -93,14 +93,14 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
 
   mode = "source-failure";
   await assert.rejects(run(), /HTTP 503/);
-  assert.equal((await databaseAreaSummary("98107")).generation, second.batchId);
+  assert.equal((await databaseAreaSummary("98107")).generation, snapshot.generation);
   assert.equal(Number((await sql`SELECT count(*) FROM projects`)[0].count), 26);
 
   await sql.unsafe(`CREATE FUNCTION reject_test_project() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.summary LIKE '%FAIL' THEN RAISE EXCEPTION 'Injected publication failure'; END IF; RETURN NEW; END $$;
     CREATE TRIGGER reject_test_project BEFORE INSERT ON projects FOR EACH ROW EXECUTE FUNCTION reject_test_project();`);
   mode = "publication-failure";
   await assert.rejects(run(), /Injected publication failure/);
-  assert.equal((await databaseAreaSummary("98107")).generation, second.batchId);
+  assert.equal((await databaseAreaSummary("98107")).generation, snapshot.generation);
   assert.equal(Number((await sql`SELECT count(*) FROM projects`)[0].count), 26);
   await sql.unsafe("DROP TRIGGER reject_test_project ON projects; DROP FUNCTION reject_test_project()");
 
@@ -108,6 +108,13 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
   await run();
   assert.equal((await databaseAreaSummary("98107")).totalCurrentProjects, 25);
   await assert.rejects(paginatedProjects("98107", { cursor: page1.nextCursor }), (error) => error.code === "REPORT_UPDATED");
+
+  // An active record disappearing upstream must retire its links before raw-row
+  // deletion, without violating the evidence FK or losing the previous report.
+  version = 3;
+  await run();
+  assert.equal((await databaseAreaSummary("98107")).totalCurrentProjects,24);
+  assert.equal((await sql`SELECT count(*)::integer AS count FROM source_records WHERE external_id='TEST-1-CN'`)[0].count,0);
 
   const owner = randomUUID();
   await sql`INSERT INTO ingestion_batches (id, jurisdiction_id, status, lease_until) VALUES (${owner}, 'us-wa-seattle', 'running', now() + interval '10 minutes')`;

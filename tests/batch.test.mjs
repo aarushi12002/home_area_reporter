@@ -15,7 +15,7 @@ test("reviewed registry includes institutional ZIPs, distinguishes shared areas 
   assert.equal(SEATTLE_ZIPS.length, 31);
   for (const zip of ["98154", "98164", "98174", "98195"]) assert.ok(serviceArea(zip));
   assert.equal(serviceArea("98133").shared, true);
-  assert.equal(serviceArea("98155"), null);
+  assert.equal(serviceArea("98155").state, "WA");
   assert.equal(validPostalCode("02108"), true);
   assert.equal(sourcePostalCode("02108-1234"), "02108");
   for (const value of ["98103oops", "0", "98103 OR 1=1", 98103]) assert.equal(sourcePostalCode(value), null);

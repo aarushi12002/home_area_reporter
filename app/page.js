@@ -28,6 +28,7 @@ export default function Home() {
         <p className="muted">
           Seattle project reports and nationwide Census neighborhood snapshots. Coverage varies by ZIP.
         </p>
+        <p><a href="/coverage">See Washington coverage and expansion progress →</a></p>
       </section>
       <section className="grid">
         <article>

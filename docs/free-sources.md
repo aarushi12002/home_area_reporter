@@ -3,7 +3,7 @@ Checked 2026-10-17 Pacific time. 'Metadata verified' means fetched the official 
 
 ## Washington source review — November 3, 2026
 
-The statewide registry is a planning inventory, not completed source coverage. It contains 281 Census incorporated places and 39 county-residual review entries, with 642 positive-area ZCTA intersections. Cross-state/water intersections, local annexations and tribal/federal authority need review. The existing 31 Seattle project reports remain released; Redmond 98052 is the first selected expansion release being verified. Historical Census snapshots remain available independently and may carry reviewed local reference facts.
+The statewide registry is a planning inventory, not completed source coverage. It contains 281 Census incorporated places and 39 county-residual review entries, with 642 positive-area ZCTA intersections. Cross-state/water intersections, local annexations and tribal/federal authority need review. The existing 31 Seattle project reports remain released; Redmond 98052 is the first published expansion ZIP, with 126 current grouped projects at release. Historical Census snapshots remain available independently and may carry reviewed local reference facts.
 
 | Jurisdiction | Reviewed source and rights | Implemented behavior / remaining gate |
 | --- | --- | --- |

@@ -398,7 +398,10 @@
       "url": "https://services1.arcgis.com/EYzEZbDhXZjURPbP/arcgis/rest/services/Bellevue_Permit/FeatureServer/0",
       "catalogUrl": "https://www.arcgis.com/home/item.html?id=3085ee4a101c4380ba39a6663ccf1184",
       "checkedAt": "2026-11-03",
-      "blocker": "Current dataset explicitly prohibits commercial use without express written city authorization. No permit records ingested."
+      "blocker": "Current dataset explicitly prohibits commercial use without express written city authorization. No permit records ingested.",
+      "authorizationStatus": "not_obtained",
+      "authorizationConfirmedAt": "2026-11-03",
+      "authorizationBasis": "Product owner confirmed written city authorization has not been obtained."
     },
     {
       "id": "wa-vancouver-development",

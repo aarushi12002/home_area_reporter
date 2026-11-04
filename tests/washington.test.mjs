@@ -16,7 +16,9 @@ test("state inventory covers every Census place/county candidate without enablin
     assert.ok(jurisdictionAreas(item.id).every((area)=>area.reviewStatus==="pending_review"||SEATTLE_ZIPS.includes(area.zip)));
   }
   assert.equal(JURISDICTIONS.filter((j)=>j.type==="county_unincorporated").length,39);
-  assert.equal(sectionAvailability("98052").transit,"not_connected");
+  assert.equal(sectionAvailability("98052").transit,"ready");
+  assert.equal(sectionAvailability("98052",{jurisdictionId:"us-wa-redmond"}).geography,"reviewed");
+  assert.equal(sectionAvailability("98405").transit,"not_connected");
   assert.equal(sectionAvailability("98052").geography,"pending_review");
 });
 
@@ -104,11 +106,11 @@ test("Redmond parcel joins preserve distinct permits and coalesce only identical
   assert.equal(fetched.records.length,2);assert.equal(fetched.upstreamReceived,2);
 });
 
-test("new-city records need jurisdiction geometry and a city cannot refresh a single demo ZIP",async(t)=>{
+test("new-city records need jurisdiction geometry and unknown ZIPs fail before download",async(t)=>{
   const adapter=arcgisPermitAdapter(tacoma);
   const row={permit_number:"ONE",zip:"98405"};
   assert.equal(partitionSourceRecords(adapter,[row]).quarantine.missing_geometry,1);
   assert.equal(partitionSourceRecords(adapter,[{...row,latitude:47.65,longitude:-122.34}]).quarantine.outside_jurisdiction,1);
-  t.mock.method(globalThis,"fetch",()=>assert.fail("Partial-city validation must precede download"));
-  await assert.rejects(runIngestionBatch({jurisdictionId:"us-wa-redmond",zips:["98052"]}),/all city ZIPs/);
+  t.mock.method(globalThis,"fetch",()=>assert.fail("ZIP validation must precede download"));
+  await assert.rejects(runIngestionBatch({jurisdictionId:"us-wa-redmond",zips:["00000"]}),/Unreviewed ZIP/);
 });

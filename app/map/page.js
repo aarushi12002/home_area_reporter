@@ -35,6 +35,7 @@ export default function CompactMapPage() {
       ) : state.summary ? (
         <ProjectMap
           projects={state.summary.highlights}
+          locationNotes={(state.summary.coverage || []).map((source)=>source.locationNote).filter(Boolean)}
           location={state.location}
           compact
         />

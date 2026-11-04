@@ -61,3 +61,18 @@ test("profile responses cannot mutate the shared directory", () => {
   assert.equal(next.groups[0].places[0].name, "Adobe");
   assert.equal(next.groups[1].places.length, 2);
 });
+
+
+test("selected expansion ZIPs retain reviewed names, nearby labels and independent expiry",()=>{
+  const current=new Date("2026-11-03T20:00:00Z");
+  for (const zip of ["98052","98402","98405"]) {
+    const profile=getZipProfile(zip,{now:current});
+    assert.equal(profile.groups.length,4);assert.ok(profile.groups.every((group)=>group.places.length));
+    assert.equal(getZipProfile(zip,{now:new Date("2027-02-01")}),null);
+    assert.equal(getZipProfile(zip,{now:new Date("2026-11-02")}),null);
+  }
+  const tacoma=getZipProfile("98402",{now:current});
+  for(const group of tacoma.groups.filter((group)=>["shopping","medical"].includes(group.id)))assert.equal(group.places[0].relation,"nearby");
+  const redmond=getZipProfile("98052",{now:current});
+  assert.match(redmond.groups[0].places[0].name,/Microsoft/);
+});

@@ -67,10 +67,19 @@ test("shared-ZIP partitions cannot erase neighboring projects, leak unreleased d
   await sql`INSERT INTO area_baselines(postal_code,vintage,metrics,provenance,retrieved_at) VALUES ('98052','2024','{}','{}',now())`;
   assert.equal((await areaSummary("98052")).reportType,"baseline");
   for (let i=0;i<2;i++) await runIngestionBatch({sql,jurisdictionId:"us-wa-redmond",now,maxAttempts:1,fetcher:async()=>({ok:true,json:async()=>({objectIds:[]})})});
-  const city=await sql`SELECT enabled,successful_refreshes FROM jurisdiction_report_partitions WHERE jurisdiction_id='us-wa-redmond'`;
-  assert.equal(city.length,7);assert.ok(city.every((partition)=>!partition.enabled && partition.successful_refreshes===2));
-  assert.equal(await databaseAreaSummary("98052"),null);
-  assert.equal((await areaSummary("98052")).reportType,"baseline");
+  const city=await sql`SELECT postal_code,enabled,successful_refreshes FROM jurisdiction_report_partitions WHERE jurisdiction_id='us-wa-redmond'`;
+  assert.equal(city.length,7);assert.ok(city.every((partition)=>partition.enabled===(partition.postal_code==='98052') && partition.successful_refreshes===2));
+  assert.equal((await areaSummary("98052")).reportType,"local_projects");
+  assert.equal((await areaSummary("98052")).sections.geography,"reviewed");
+  assert.deepEqual((await databaseAreaSummary("98052")).coveredJurisdictions,["us-wa-redmond"]);
+  await runIngestionBatch({sql,jurisdictionId:"us-wa-redmond",zips:["98052"],now,maxAttempts:1,fetcher:async()=>({ok:true,json:async()=>({objectIds:[]})})});
+  const selected=await sql`SELECT postal_code,successful_refreshes,enabled FROM jurisdiction_report_partitions WHERE jurisdiction_id='us-wa-redmond'`;
+  assert.ok(selected.every((partition)=>partition.successful_refreshes===(partition.postal_code==='98052'?3:2)));
+  assert.ok(selected.filter((partition)=>partition.enabled).every((partition)=>partition.postal_code==='98052'));
+  await sql`INSERT INTO area_baselines(postal_code,vintage,metrics,provenance,retrieved_at) VALUES ('98405','2024','{}','{}',now())`;
+  const partial=await areaSummary("98405");
+  assert.equal(partial.reportType,"baseline");assert.equal(partial.highlights.length,0);
+  assert.ok(partial.zipProfile);assert.equal(partial.publicProjects[0].id,"tacoma-links-opportunity");
 });
 
 test("concurrent migration runners preserve existing Seattle publications and apply the partition backfill once",{skip:!process.env.TEST_DATABASE_URL},async(t)=>{

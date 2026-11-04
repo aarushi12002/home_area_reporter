@@ -117,3 +117,13 @@ test("Soundscore uses server-only key and no cache, validates results and handle
   assert.equal(bad.status, "unavailable");
   assert.equal((await fetchSoundscore(location, { apiKey: "test-key", fetcher: async () => ({ ok: false, status: 429 }) })).status, "limit_reached");
 });
+
+test("selected expansion public facts keep construction starts separate from completion targets",()=>{
+  const now=new Date('2026-11-03T20:00:00Z');
+  const park=getPublicProjects('98052',{now})[0];
+  assert.equal(park.stage,'Design');assert.equal(park.timeline,null);
+  assert.match(park.milestone,/begin in late 2027/);
+  const street=getPublicProjects('98405',{now})[0];
+  assert.equal(street.timeline.kind,'program_target');assert.match(street.timeline.phase,/not Phase 4 alone/);
+  assert.deepEqual(getPublicProjects('98052',{now:new Date('2027-02-01')}),[]);
+});

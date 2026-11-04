@@ -80,7 +80,7 @@ npm run db:ingest -- --zips=98103
 
 ### Washington expansion and backfill
 
-Apply all committed migrations, including `0004_jurisdiction_partitions.sql`, before running the new code. It preserves existing Seattle snapshots and partitions them by jurisdiction. Never manually enable an unreviewed city to make an empty report appear ready.
+Apply all committed migrations, including `0004_jurisdiction_partitions.sql`, before running the new code. It preserves existing Seattle snapshots and partitions them by jurisdiction. Never manually enable an unreviewed ZIP to make an empty report appear ready.
 
 ```sh
 npm run db:migrate
@@ -89,7 +89,7 @@ npm run db:ingest -- --region=wa --jurisdiction=us-wa-redmond
 npm run db:status
 ```
 
-Both city commands fetch all candidate city ZIPs and remain private backfills until every full-report gate passes. Repeat complete runs to exercise the two-refresh gate; publication also requires reviewed geography, four named context groups, a genuine local transit connector and reviewed public improvements or a verified empty result. `--region=wa` without jurisdiction runs all approved enabled adapters sequentially. The CLI defaults to `seattle`; a non-Seattle single-demo-ZIP refresh is rejected. Upstream public access does not establish reuse permission. No new paid subscription or key is required for the tested Tacoma/Redmond feeds.
+Both city commands fetch sources citywide and backfill every candidate ZIP. A reviewed ZIP can publish independently when its own gates pass. Repeat complete runs to exercise the two-refresh gate; publication also requires reviewed geography, four named context groups, a genuine local transit connector and reviewed public improvements or a verified empty result. `--region=wa` without jurisdiction runs all approved enabled adapters sequentially. The CLI defaults to `seattle`; use `--region=wa --jurisdiction=us-wa-redmond --zips=98052` to refresh a selected associated ZIP. Complete upstream downloads still precede publication. Upstream public access does not establish reuse permission. No new paid subscription or key is required for the tested Tacoma/Redmond permit feeds. Redmond 98052 has independently reviewed context and Metro map support. Tacoma 98402/98405 have collected local highlights; 98405 also has a reviewed streetscape reference, which can appear with Census context while permit publication stays gated. Pierce Transit route reuse terms remain unresolved because the dataset terms link returns 404.
 
 Open `/coverage` for source/release blockers, or query `/api/service-areas?state=WA&limit=50&cursor=0`. Inventory membership is not project-report readiness; Census-only reports remain available. The registry `data/service-areas.json` contains 642 intersection candidates across 281 incorporated places and 39 county residuals, including boundary/sliver exceptions still requiring review.
 

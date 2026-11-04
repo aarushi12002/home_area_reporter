@@ -357,7 +357,7 @@ export default function Report() {
       {summary?.reportType === "baseline" && (
         <section className="notice">
           <h2>Your neighborhood at a glance</h2>
-          <p className="muted">Historical estimates for {summary.baseline.provenance.observationPeriod || summary.baseline.vintage}. Census areas approximate ZIPs; local project coverage is not connected here yet.</p>
+          <p className="muted">Historical estimates for {summary.baseline.provenance.observationPeriod || summary.baseline.vintage}. Census areas approximate ZIPs. Permit-based development reports are not published here yet.</p>
           <div className="grid">
             {Object.entries(summary.baseline.metrics).map(([key, metric]) => (
               <article key={key}><h3>{metric.label}</h3><strong>{metric.displayValue || (metric.estimate == null ? "Not available" : metric.unit === "USD" ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(metric.estimate) : metric.estimate.toLocaleString())}</strong>
@@ -367,6 +367,7 @@ export default function Report() {
           </div>
         </section>
       )}
+      {summary?.reportType === "baseline" && <PublicProjects projects={publicProjects} />}
       {summary && summary.reportType !== "baseline" && (
         <>
           <section className="notice summary-hero">
@@ -393,7 +394,7 @@ export default function Report() {
                   <h2 id="snapshot-map-title">Projects in this ZIP</h2>
                   <span className="tag">Top {summary.highlights.length}</span>
                 </div>
-                <ProjectMap projects={mapProjects} location={context.location} zip={context.zip} noiseLocation={noiseLocation} onLocationSelect={setNoiseLocation} />
+                <ProjectMap locationNotes={(summary.coverage || []).map((source)=>source.locationNote).filter(Boolean)} projects={mapProjects} location={context.location} zip={context.zip} noiseLocation={noiseLocation} onLocationSelect={setNoiseLocation} />
               </section>
             </div>
             <DecisionSignals signals={summary.decisionSignals} />

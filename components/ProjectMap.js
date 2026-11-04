@@ -16,7 +16,7 @@ function coordinate(value) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-export default function ProjectMap({ projects = [], location = null, compact = false, zip = "", noiseLocation = null, onLocationSelect }) {
+export default function ProjectMap({ projects = [], location = null, compact = false, zip = "", noiseLocation = null, onLocationSelect, locationNotes = [] }) {
   const container = useRef(null);
   const mapRef = useRef(null);
   const leafletRef = useRef(null);
@@ -186,7 +186,7 @@ export default function ProjectMap({ projects = [], location = null, compact = f
       {zip && !compact && (
         <div className="map-toolbar">
           <label><input type="checkbox" checked={showTransit} onChange={(event) => setShowTransit(event.target.checked)} />Bus routes</label>
-          {showTransit && <span className="transit-legend"><i aria-hidden="true" />Metro · ZIP vicinity</span>}
+          {showTransit && <span className="transit-legend"><i aria-hidden="true" />Bus routes · ZIP vicinity</span>}
           {showTransit && transitStatus === "loading" && <span role="status">Loading…</span>}
           {showTransit && transitStatus === "unavailable" && <button className="map-retry secondary" onClick={() => setTransitAttempt((value) => value + 1)}>Retry bus routes</button>}
           {onLocationSelect && <button className="map-retry secondary" aria-pressed={pickingNoise} onClick={() => setPickingNoise((value) => !value)}>{pickingNoise ? "Cancel selection" : "Pick noise location"}</button>}
@@ -194,10 +194,10 @@ export default function ProjectMap({ projects = [], location = null, compact = f
       )}
       {pickingNoise && <p className="map-selection-hint" role="status">Click a spot on the map, then check its Soundscore below.</p>}
       <div ref={container} className="project-map-canvas" aria-label="Project map" />
-      {!compact && (
+      {(!compact || locationNotes.length > 0) && (
         <figcaption>
-          Numbered markers match the ranked results. The home marker is shown only
-          when the listing supplies coordinates.
+          {!compact && <>Numbered markers match the ranked results. The home marker is shown only when the listing supplies coordinates.</>}
+          {[...new Set(locationNotes)].map((note)=><span className="transit-attribution" key={note}>{note}</span>)}
           {showTransit && transit?.zip === zip && <span className="transit-attribution">{transit.attribution}. Routes shown in and around this ZIP; no live arrivals.</span>}
         </figcaption>
       )}

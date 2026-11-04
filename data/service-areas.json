@@ -79,7 +79,7 @@
       ],
       "wave": 1,
       "sourceStatus": "context_review",
-      "nextAction": "Review parcel locations, all city ZIP geography, neighborhood highlights, transit and public improvements before publication.",
+      "nextAction": "Publish reviewed 98052 independently; other ZIP candidates still need geography, local context and transit review.",
       "zips": [
         "98005",
         "98007",
@@ -88,7 +88,19 @@
         "98052",
         "98053",
         "98074"
-      ]
+      ],
+      "publicImprovementsReview": {
+        "status": "ready",
+        "zips": [
+          "98052"
+        ],
+        "reviewedAt": "2026-11-03",
+        "reviewUntil": "2027-02-01",
+        "sourceUrls": [
+          "https://www.redmond.gov/961/Southeast-Redmond-Park"
+        ],
+        "scope": "Selected official public-improvement references; not a complete inventory."
+      }
     },
     {
       "id": "us-wa-seattle",
@@ -7848,7 +7860,19 @@
       ],
       "shared": true,
       "reviewStatus": "pending_review",
-      "geographyType": "zcta"
+      "geographyType": "zcta",
+      "reviewedJurisdictionIds": [
+        "us-wa-redmond"
+      ],
+      "geographyReview": {
+        "reviewedAt": "2026-11-03",
+        "scope": "Redmond municipal project records only; this postal ZIP includes other jurisdictions.",
+        "basis": "556 official Redmond permit records use 98052 and fall inside the Census city geofence; 555 also fall within the approximate ZCTA. Source postal ZIPs take precedence over approximate ZCTA assignment.",
+        "sources": [
+          "https://gis.redmond.gov/cpv/",
+          "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer"
+        ]
+      }
     },
     {
       "zip": "98053",

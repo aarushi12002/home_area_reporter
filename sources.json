@@ -1,7 +1,7 @@
 {
-  "scope": "Seattle published reports, Washington jurisdiction expansion and national Census baselines",
+  "scope": "Published Seattle/selected Washington reports, statewide and major-US-city expansion inventories, national Census baselines",
   "checked_date": "2026-10-17",
-  "research_checked_date": "2026-11-03",
+  "research_checked_date": "2026-11-06",
   "sources": [
     {
       "id": "76t5-zqzr",
@@ -191,6 +191,20 @@
       "checkedAt": "2026-11-03",
       "reuseStatus": "terms_unresolved",
       "blocker": "Official dataset terms link https://www.piercetransit.org/data-agreement-use returns 404. No route features downloaded or published; resolve terms before enabling a map connector."
+    },
+    {
+      "id": "census_major_city_inventory",
+      "name": "Selected major-US-city/ZCTA planning intersections",
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer",
+      "integration": "planning_registry_reference",
+      "license": "U.S. federal geographic data; preserve Census provenance and vintages",
+      "reviewed_at": "2026-11-06",
+      "path": "data/service-areas.json",
+      "generator": "scripts/build-wa-registry.py --major-cities",
+      "selected_cities": 20,
+      "additional_unique_zcta_candidates": 1437,
+      "verification": "Complete count-checked Census place and ZCTA queries; local positive-area intersections; all 20 example ZIPs intersect their selected city",
+      "limits": "Planning candidates only, including sliver/water/shared boundaries; inventory does not enable sources. Austin 78701 is separately approved for private background collection; no new public project report is enabled. Imported Census baselines are historical context, checked separately in storage."
     }
   ],
   "planned_sources": [
@@ -540,6 +554,52 @@
       "sourceStatus": "source_review",
       "url": "https://www.kirklandwa.gov/Government/Departments/Planning-and-Building",
       "nextAction": "Verify a comprehensive application/permit feed; issued housing-unit layers alone do not cover all planned development."
+    },
+    {
+      "id": "tx-austin-building-78701",
+      "name": "City of Austin Development Services \u2014 active building permits, 78701 pilot",
+      "jurisdictionId": "us-tx-austin",
+      "adapter": "socrata-permits",
+      "enabled": true,
+      "reuseStatus": "approved",
+      "sourceStatus": "context_review",
+      "url": "https://data.austintexas.gov/d/3syk-w9eu",
+      "resourceUrl": "https://data.austintexas.gov/resource/3syk-w9eu.json",
+      "datasetId": "3syk-w9eu",
+      "coverageZips": [
+        "78701"
+      ],
+      "select": "permit_number,permittype,permit_type_desc,description,original_address1,original_zip,status_current,statusdate,applieddate,issue_date,completed_date,expiresdate,latitude,longitude,link",
+      "where": "original_zip=78701 AND permittype='BP' AND status_current='Active' AND completed_date IS NULL",
+      "order": "permit_number ASC, :id",
+      "fields": {
+        "id": "permit_number",
+        "zip": "original_zip",
+        "address": "original_address1",
+        "status": "status_current",
+        "description": "description",
+        "type": "permit_type_desc",
+        "applied": "applieddate",
+        "issued": "issue_date",
+        "updated": "statusdate",
+        "completed": "completed_date",
+        "expires": "expiresdate",
+        "latitude": "latitude",
+        "longitude": "longitude",
+        "link": "link"
+      },
+      "statusMap": {
+        "Active": "issued_if_dated"
+      },
+      "evidenceHosts": [
+        "abc.austintexas.gov"
+      ],
+      "license": "Public domain / unrestricted city open data, subject to published terms",
+      "termsUrl": "https://data.austintexas.gov/stories/s/ranj-cccq",
+      "termsReviewedAt": "2026-11-06",
+      "notice": "City of Austin, Austin Development Services. Informational open data; may differ from official department data. Issuance does not confirm construction has begun.",
+      "limits": "78701 building permits only, not citywide or land-use coverage. No contractor/contact fields or housing-unit totals. Closed, expired, undated issuance and completed permits excluded from normalized findings. Raw evidence stays private until context/geography/transit/public-improvement gates pass.",
+      "nextAction": "Review 78701 local context and ZIP authority, add cleared local transit and public-improvement checks before public project release"
     }
   ],
   "washington_inventory": {
@@ -547,5 +607,12 @@
     "jurisdictions": 320,
     "zipIntersectionCandidates": 642,
     "geography": "ACS2024 incorporated places/counties and 2020 ZCTAs; positive-area intersections are review candidates, not legal postal/permit authority."
+  },
+  "national_city_inventory": {
+    "registry": "data/service-areas.json",
+    "selectedCities": 20,
+    "additionalUniqueZipCandidates": 1437,
+    "allInventoryCandidates": 2079,
+    "publication": "No local-project publications enabled by inventory membership"
   }
 }

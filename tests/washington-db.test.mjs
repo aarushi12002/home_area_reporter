@@ -7,7 +7,7 @@ import {getDatabase,closeDatabase} from "../lib/db.mjs";
 import {runIngestionBatch,publishArea,seedServiceAreas} from "../lib/ingestion.mjs";
 import {arcgisPermitAdapter} from "../lib/arcgis-permits.mjs";
 import {databaseAreaSummary,paginatedProjects,projectDetail} from "../lib/project-repository.mjs";
-import {areaSummary} from "../lib/area-service.mjs";
+import {areaSummary,coverageDirectory} from "../lib/area-service.mjs";
 import inventory from "../sources.json" with {type:"json"};
 
 test("shared-ZIP partitions cannot erase neighboring projects, leak unreleased data or lose concurrent updates",{skip:!process.env.TEST_DATABASE_URL},async(t)=>{
@@ -18,6 +18,22 @@ test("shared-ZIP partitions cannot erase neighboring projects, leak unreleased d
   t.after(async()=>{await closeDatabase();delete process.env.DATABASE_URL;await admin.unsafe(`DROP DATABASE ${name}`);await admin.end();});
   for(const file of (await readdir(new URL("../drizzle/",import.meta.url))).filter((f)=>f.endsWith(".sql")).sort())await sql.unsafe(await readFile(new URL(`../drizzle/${file}`,import.meta.url),"utf8"));
   await seedServiceAreas(sql);
+  const [austin]=await sql`SELECT state,enabled FROM service_areas WHERE postal_code='78701'`;
+  assert.equal(austin.state,"TX");assert.equal(austin.enabled,false);
+  // Re-seeding fixes old default-WA rows without enabling project coverage.
+  await sql`UPDATE service_areas SET state='WA' WHERE postal_code='78701'`;
+  await seedServiceAreas(sql);
+  assert.equal((await sql`SELECT state FROM service_areas WHERE postal_code='78701'`)[0].state,"TX");
+  await sql`INSERT INTO area_baselines(postal_code,vintage,metrics,provenance,retrieved_at) VALUES ('78701','2024','{}','{}',now())`;
+  const cityDirectory=await coverageDirectory({view:"cities",state:"TX"});
+  const austinCity=cityDirectory.cities.find((city)=>city.name==="Austin");
+  assert.equal(austinCity.status,"coming_soon");assert.deepEqual(austinCity.baselineExamples,["78701"]);
+  assert.equal((await areaSummary("78701")).reportType,"baseline");
+  const austinFetcher=async(request)=>({ok:true,json:async()=>new URL(request).searchParams.get("$select")==="count(*) as count"?[{count:"1"}]:[{permit_number:"ATX-1",original_zip:"78701",original_address1:"100 Example St",description:"Construct new apartment building",status_current:"Active",issue_date:"2026-10-01",latitude:"30.27",longitude:"-97.74"}]});
+  for(let i=0;i<2;i++)await runIngestionBatch({sql,jurisdictionId:"us-tx-austin",fetcher:austinFetcher,now:new Date("2026-11-06"),maxAttempts:1});
+  const [pilot]=await sql`SELECT enabled,successful_refreshes FROM jurisdiction_report_partitions WHERE jurisdiction_id='us-tx-austin' AND postal_code='78701'`;
+  assert.equal(pilot.enabled,false);assert.equal(pilot.successful_refreshes,2);
+  assert.equal((await areaSummary("78701")).reportType,"baseline");
   let version=1;
   const now=new Date("2026-11-03T18:00:00Z");
   const fetcher=async(request)=>{

@@ -9,8 +9,8 @@ import inventory from "../sources.json" with {type:"json"};
 
 const tacoma=inventory.jurisdiction_sources.find((source)=>source.id==="wa-tacoma-accela");
 test("state inventory covers every Census place/county candidate without enabling them",()=>{
-  assert.equal(SERVICE_AREAS.length,642);assert.equal(JURISDICTIONS.length,320);assert.equal(SEATTLE_ZIPS.length,31);
-  assert.equal(new Set(SERVICE_AREAS.map((a)=>a.zip)).size,642);
+  assert.equal(SERVICE_AREAS.filter((a)=>a.state==="WA").length,642);assert.equal(JURISDICTIONS.filter((j)=>j.state==="WA").length,320);assert.equal(SEATTLE_ZIPS.length,31);
+  assert.equal(new Set(SERVICE_AREAS.map((a)=>a.zip)).size,SERVICE_AREAS.length);
   for(const name of ["Bellevue","Redmond","Kirkland","Tacoma","Spokane","Vancouver"]){
     const item=JURISDICTIONS.find((j)=>j.name===name);assert.ok(item);assert.equal(item.wave,1);assert.ok(item.zips.length>1);
     assert.ok(jurisdictionAreas(item.id).every((area)=>area.reviewStatus==="pending_review"||SEATTLE_ZIPS.includes(area.zip)));
@@ -32,7 +32,7 @@ test("Washington directory is bounded, distinguishable from ready project covera
   const selected=await coverageDirectory({state:"WA",zip:"98103"});
   assert.equal(selected.total,642);assert.equal(selected.areas.length,1);assert.equal(selected.nextCursor,null);
   await assert.rejects(coverageDirectory({state:"WA",zip:"02139"}),/selected state/);
-  await assert.rejects(coverageDirectory({state:"OR"}),/state/);
+  await assert.rejects(coverageDirectory({state:"XX"}),/state/);
   await assert.rejects(coverageDirectory({state:"WA",cursor:"-1"}),/cursor/);
 });
 

@@ -891,3 +891,18 @@ li {
     font-size: 32pt;
   }
 }
+
+.city-coverage { margin: 48px 0; }
+.city-coverage > h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 8px; }
+.city-coverage .grid { margin: 18px 0; }
+.city-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.city-heading h3 { margin: 0; font-size: 1.15rem; }
+.city-card p { margin: 12px 0; }
+.city-card a { overflow-wrap: anywhere; }
+.city-live { background: var(--brand); color: var(--on); }
+.city-zip-links { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.city-card details { margin-top: 12px; }
+.upcoming-heading { margin-top: 36px; }
+.city-filters { display: flex; gap: 16px; flex-wrap: wrap; }
+.city-filters > div { flex: 1 1 240px; }
+.city-filters input, .city-filters select { width: 100%; min-height: 48px; font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }

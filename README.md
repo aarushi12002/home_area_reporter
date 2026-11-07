@@ -1,5 +1,8 @@
 # home_area_reporter
 
+The homepage now lists **live project-report cities and coming-soon cities**, with searchable Washington/major-US-city filters. Badges and ZIP links follow stored publication status automatically. Seattle (31 ZIPs) and Redmond (98052) have local project reports; other listed cities can link to historical Census snapshots while local project coverage is prepared. The registry now includes **20 major US cities and 1,437 additional ZCTA planning candidates** alongside Washington's 642. This adds discovery and rollout geography, not 1,437 new permit reports. The Austin pilot completed two production refreshes (431 source rows, 201 located records accepted, 230 quarantined for missing coordinates; 28 grouped candidates remain private). Local validation passed 120 tests with real PostgreSQL, desktop/mobile browser checks, production build, extension syntax and docs checks. Austin 78701 now has a scoped background building-permit adapter; records remain private pending local-context and geography/transit checks. See `/api/service-areas?view=cities` or the [coverage page](https://home-area-reporter.vercel.app/coverage).
+
+
 ZIP-based neighborhood research combining **Seattle development reports**, **Washington expansion tracking** and **national Census snapshots**.
 
 ## Current status
@@ -83,7 +86,7 @@ The tag stays blocked until **Allow analytics**. **No thanks** keeps it blocked;
 
 GA4 stream Enhanced Measurement is **off**; keep it off to avoid duplicate/history events and unwanted URL/form collection. Additional redaction covers `address`, `lat`, `lng`, `zip`, `url`, `listing_url`, `email`. Production consent behavior and event receipt were verified in GA4 Realtime on October 23, 2026. Event-scoped ZIP, audience and coverage dimensions are registered. The public privacy policy describes cookies, Google processing and choices. [Issue #3](https://github.com/aarushi12002/home_area_reporter/issues/3) tracks activation/verification.
 
-Seattle-wide batch implementation and release verification are tracked in [issue #6](https://github.com/aarushi12002/home_area_reporter/issues/6) and the [canonical design](docs/mvp-setup.md): reviewed ZIP/jurisdiction coverage, resumable background ingestion, current Postgres report snapshots with generation identifiers, indexed detail pagination and bounded map rendering. The registry preserves 31 reviewed Seattle areas and adds the Washington review inventory; actual release readiness comes from database publication, not a ZIP regex.
+Seattle-wide batch implementation and release verification are tracked in [issue #6](https://github.com/aarushi12002/home_area_reporter/issues/6) and the [canonical design](docs/mvp-setup.md): reviewed ZIP/jurisdiction coverage, resumable background ingestion, current Postgres report snapshots with generation identifiers, indexed detail pagination and bounded map rendering. The registry preserves 31 reviewed Seattle areas and adds the Washington and selected major-US-city review inventories; actual release readiness comes from database publication, not a ZIP regex.
 
 ## Validation
 ```sh
@@ -124,7 +127,7 @@ The daily Actions workflow replaces the old Vercel cron after a successful produ
 Read [AGENTS.md](AGENTS.md) and [agents_start.md](agents_start.md) before editing; follow [wrapup.md](wrapup.md) before finishing. Extend existing files and keep README plus accepted design changes current.
 
 ## Next milestone
-Maintain Redmond 98052 and finish Tacoma’s geography/transit review gates, resolve the public load-test protection/performance limit and maintain the national ACS baseline with reviewed release-vintage updates. Bellevue requires written authorization or a separately cleared source before its pilot. Complete category/status/deduplication checks before named-destination import; paid reporting waits for national baseline readiness and useful verified paid content. Follow the [source plan](docs/free-sources.md) for validation and remaining infrastructure, parking and view-analysis gaps.
+Maintain the live city directory and Redmond 98052, finish Tacoma’s geography/transit review gates, and complete the Austin 78701 permit pilot’s local context, missing-coordinate review and transit/geography gates before enabling national project coverage. Resolve the public load-test protection/performance limit and maintain the national ACS baseline with reviewed release-vintage updates. Bellevue requires written authorization or a separately cleared source before its pilot. Complete category/status/deduplication checks before named-destination import; paid reporting waits for national baseline readiness and useful verified paid content. Follow the [source plan](docs/free-sources.md) for validation and remaining infrastructure, parking and view-analysis gaps.
 
 ## Tracked follow-ups
 - [#1 Vercel deployment](https://github.com/aarushi12002/home_area_reporter/issues/1)

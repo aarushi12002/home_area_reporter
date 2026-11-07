@@ -7,7 +7,7 @@ on:
       region:
         description: Connected jurisdiction
         type: choice
-        options: [seattle, wa]
+        options: [seattle, wa, usa]
         default: seattle
       jurisdiction:
         description: Optional approved jurisdiction ID (empty = all in region)
@@ -31,7 +31,7 @@ jobs:
           node-version: '22'
       - id: coverage
         env:
-          REQUESTED_REGION: ${{ inputs.region || 'wa' }}
+          REQUESTED_REGION: ${{ inputs.region || 'usa' }}
           REQUESTED_JURISDICTION: ${{ inputs.jurisdiction }}
           REQUESTED_ZIPS: ${{ inputs.zips }}
         run: node scripts/registered-jurisdictions.mjs
@@ -50,7 +50,7 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
       DATABASE_STORAGE_LIMIT_BYTES: ${{ vars.DATABASE_STORAGE_LIMIT_BYTES || '1000000000' }}
-      REQUESTED_REGION: ${{ inputs.region || 'wa' }}
+      REQUESTED_REGION: ${{ inputs.region || 'usa' }}
       REQUESTED_JURISDICTION: ${{ matrix.jurisdiction }}
       REQUESTED_ZIPS: ${{ inputs.zips }}
     steps:

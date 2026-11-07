@@ -1,3 +1,5 @@
+import CityCoverage from "../components/CityCoverage";
+
 export default function Home() {
   return (
     <main>
@@ -30,6 +32,7 @@ export default function Home() {
         </p>
         <p><a href="/coverage">See Washington coverage and expansion progress →</a></p>
       </section>
+      <CityCoverage />
       <section className="grid">
         <article>
           <h2>What’s planned</h2>

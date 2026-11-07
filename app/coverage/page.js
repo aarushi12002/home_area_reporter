@@ -1,5 +1,6 @@
 "use client";
 import {useEffect,useState} from "react";
+import CityCoverage from "../../components/CityCoverage";
 
 export default function Coverage(){
   const [data,setData]=useState(null),[error,setError]=useState(""),[search,setSearch]=useState(""),[visibleCount,setVisibleCount]=useState(20);
@@ -9,6 +10,7 @@ export default function Coverage(){
   const jurisdictions=data?.jurisdictions.filter((item)=>item.name.toLowerCase().includes(search.toLowerCase()))||[];
   return <main>
     <a href="/">← Check a ZIP</a>
+    <CityCoverage />
     <section className="hero">
       <p className="eyebrow">Washington coverage</p><h1>Growing across Washington.</h1>
       <p className="intro">Bellevue, Redmond, Kirkland and every other Washington city and county area are in the expansion register. A place on this list does not mean its project report is ready.</p>

@@ -34,11 +34,12 @@ test("official modern MCP client discovers and calls all read-only tools over HT
   const listed = await client.listTools();
   assert.deepEqual(listed.tools.map((tool) => tool.name).sort(), Object.keys(reportTools).sort());
   assert.ok(listed.tools.every((tool) => tool.annotations.readOnlyHint && tool.outputSchema));
-  for (const [name, args] of [["list_supported_zipcodes", {}], ["get_zip_summary", { zip: "02139" }], ["list_projects", { zip: "98103" }], ["get_project", { id: "project-id", generation: "test-generation" }]]) {
+  for (const [name, args] of [["list_supported_zipcodes", {}], ["list_supported_zipcodes", {view:"cities",state:"TX"}], ["get_zip_summary", { zip: "02139" }], ["list_projects", { zip: "98103" }], ["get_project", { id: "project-id", generation: "test-generation" }]]) {
     const result = await client.callTool({ name, arguments: args });
     assert.equal(result.structuredContent.status, "ready");
     assert.ok(result.content[0].text.length < 500);
   }
+  assert.equal(seen.find((call) => call.input.view === "cities").input.state, "TX");
   assert.equal(seen.find((call) => call.name === "get_zip_summary").input.zip, "02139");
   assert.equal(seen.find((call) => call.name === "list_projects").input.limit, 20);
 });

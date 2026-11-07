@@ -211,7 +211,7 @@ test("listing address and coordinates stay together despite unrelated JSON-LD pl
 });
 
 test("missing or invalid listing coordinates never become a fabricated point", () => {
-  for (const latitude of [null, "", undefined, true, 91]) {
+  for (const latitude of [null, "", "  ", [], undefined, true, 91]) {
     const listing = extract({ url: "https://www.zillow.com/homedetails/1-Main-St-MA-02139/123_zpid/", jsonld: [
       { address: { postalCode: "02139" }, geo: { latitude, longitude: -71 } },
     ] });

@@ -6,7 +6,7 @@ const SUPPORTED_ZIP = /^\d{5}$/;
 function extractListingContext() {
   const result = { zip: "", address: "", latitude: null, longitude: null };
   const coordinate = (value, limit) => {
-    if (value === null || value === undefined || value === "" || typeof value === "boolean") return null;
+    if (!["number", "string"].includes(typeof value) || String(value).trim() === "") return null;
     const parsed = Number(value);
     return Number.isFinite(parsed) && Math.abs(parsed) <= limit ? parsed : null;
   };

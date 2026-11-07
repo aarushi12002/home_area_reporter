@@ -5,44 +5,44 @@ const SUPPORTED_ZIP = /^\d{5}$/;
 
 function extractListingContext() {
   const result = { zip: "", address: "", latitude: null, longitude: null };
+  const coordinate = (value, limit) => {
+    if (!["number", "string"].includes(typeof value) || String(value).trim() === "") return null;
+    const parsed = Number(value);
+    return Number.isFinite(parsed) && Math.abs(parsed) <= limit ? parsed : null;
+  };
+  const pageUrl = new URL(location.href);
+  const addressSegment = /(^|\.)(redfin|zillow)\.com$/.test(pageUrl.hostname)
+    ? pageUrl.hostname.endsWith("redfin.com")
+      ? pageUrl.pathname.match(/^\/[A-Z]{2}\/[^/]+\/([^/]+)(?:\/|$)/)?.[1]
+      : pageUrl.pathname.match(/^\/homedetails\/([^/]+)(?:\/|$)/)?.[1]
+    : null;
+  const urlZip = addressSegment?.match(/^\d[^/]*-(\d{5})(?:-\d{4})?$/)?.[1] || "";
+  const candidates = [];
   const visit = (value) => {
     if (!value || typeof value !== "object") return;
     if (Array.isArray(value)) return value.forEach(visit);
     const address = value.address;
     if (address && typeof address === "object") {
-      const postalCode = String(address.postalCode || "").trim().match(/^(\d{5})(?:-\d{4})?$/)?.[1];
-      result.zip ||= postalCode || "";
-      result.address ||=
-        [address.streetAddress, address.addressLocality, address.addressRegion]
-          .filter(Boolean)
-          .join(", ");
-    }
-    const geo = value.geo;
-    if (geo && typeof geo === "object") {
-      const latitude = Number(geo.latitude);
-      const longitude = Number(geo.longitude);
-      if (Number.isFinite(latitude) && Number.isFinite(longitude)) {
-        result.latitude = latitude;
-        result.longitude = longitude;
-      }
+      const zip = String(address.postalCode || "").trim().match(/^(\d{5})(?:-\d{4})?$/)?.[1] || "";
+      const latitude = coordinate(value.geo?.latitude, 90), longitude = coordinate(value.geo?.longitude, 180);
+      candidates.push({ zip, address: [address.streetAddress, address.addressLocality, address.addressRegion].filter(Boolean).join(", "),
+        latitude: latitude !== null && longitude !== null ? latitude : null,
+        longitude: latitude !== null && longitude !== null ? longitude : null,
+        priority: /House|Residence|Apartment|Accommodation|RealEstateListing/.test(String(value["@type"] || "")) ? 1 : 0 });
     }
     Object.values(value).forEach(visit);
   };
   for (const script of document.querySelectorAll('script[type="application/ld+json"]')) {
-    try {
-      visit(JSON.parse(script.textContent));
-    } catch {}
+    try { visit(JSON.parse(script.textContent)); } catch {}
   }
-  // Address slugs remain available when listing metadata is delayed or absent.
-  // Require an address-shaped segment so a five-digit property ID is not a ZIP.
-  const pageUrl = new URL(location.href);
-  const listingPath = pageUrl.pathname;
-  if (/(^|\.)(redfin|zillow)\.com$/.test(pageUrl.hostname)) {
-    const addressSegment = pageUrl.hostname.endsWith("redfin.com")
-      ? listingPath.match(/^\/[A-Z]{2}\/[^/]+\/([^/]+)(?:\/|$)/)?.[1]
-      : listingPath.match(/^\/homedetails\/([^/]+)(?:\/|$)/)?.[1];
-    result.zip ||= addressSegment?.match(/^\d[^/]*-(\d{5})(?:-\d{4})?$/)?.[1] || "";
+  const matching = candidates.filter((candidate) => candidate.zip && (!urlZip || candidate.zip === urlZip));
+  matching.sort((a, b) => b.priority - a.priority);
+  if (matching[0]) {
+    const { priority, ...context } = matching[0];
+    Object.assign(result, context);
   }
+  result.zip = urlZip || result.zip;
+
   const pageText = `${document.title} ${document.body?.innerText || ""}`;
   result.zip ||= pageText.match(/\b[A-Z]{2}\s+(\d{5})(?:-\d{4})?\b/)?.[1] || "";
   return result;
@@ -127,11 +127,17 @@ function appendHighlight(container, project) {
         await chrome.storage.local.set({ reporterOrigin: origin });
         const query = new URLSearchParams({ zip });
         const includeLocation = document.getElementById("include-location").checked;
+        const hasListingPoint = Number.isFinite(listing.latitude) && Math.abs(listing.latitude) <= 90
+          && Number.isFinite(listing.longitude) && Math.abs(listing.longitude) <= 180 && listing.zip === zip;
+        const locationStatus = document.getElementById("location-status");
+        if (locationStatus) locationStatus.textContent = !includeLocation
+          ? "Turn on listing location to show this home on the map."
+          : hasListingPoint ? "The home marker shows the listing’s supplied location."
+          : listing.zip !== zip ? "The listing location is not shown for a different ZIP."
+          : "This listing does not provide usable coordinates. A home marker cannot be shown.";
         if (
           includeLocation &&
-          Number.isFinite(listing.latitude) &&
-          Number.isFinite(listing.longitude) &&
-          listing.zip === zip
+          hasListingPoint
         ) {
           query.set("lat", String(listing.latitude));
           query.set("lng", String(listing.longitude));
@@ -172,8 +178,9 @@ function appendHighlight(container, project) {
         const map = new URL("/map", origin);
         map.search = query;
         const mapFrame = document.getElementById("project-map");
-        mapFrame.src = baselineOnly ? "about:blank" : map.href;
-        mapFrame.hidden = baselineOnly;
+        const showMap = !baselineOnly || (includeLocation && hasListingPoint);
+        mapFrame.src = showMap ? map.href : "about:blank";
+        mapFrame.hidden = !showMap;
         document.getElementById("refresh").textContent = baselineOnly ? "Historical neighborhood estimates. Local project coverage is not connected here yet." : body.refreshedAt
           ? `Official records refreshed ${new Date(body.refreshedAt).toLocaleString()}.`
           : "Based on connected official records.";

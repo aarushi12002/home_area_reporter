@@ -52,6 +52,7 @@ export default function Home() {
       </section>
       <section className="notice">
         <h2>Free early release</h2>
+        <p><a href="/blog">See the latest features and coverage updates →</a></p>
         <p>
             The focused view shows up to fifteen current highlights. Open the full
             report only when you want source coverage and additional evidence.

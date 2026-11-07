@@ -62,6 +62,12 @@ test("real Postgres batch publication, pagination, recovery and overlap protecti
   assert.equal((await reportTools.get_zip_summary({ zip: "02139" })).reportType, "baseline");
   assert.equal((await reportTools.list_supported_zipcodes({ zip: "02139" })).baseline.zip, "02139");
   assert.equal((await reportTools.list_projects({ zip: "02139" })).coverageStatus, "not_connected");
+  await sql`INSERT INTO area_baselines (postal_code, vintage, metrics, provenance, retrieved_at) VALUES ('98107', '2024', '{"medianHomeValue":{"estimate":500000,"displayValue":"$500,000","marginOfError":10000}}', '{"observationPeriod":"2020–2024"}', now())`;
+  const localWithBaseline = await reportTools.get_zip_summary({ zip: "98107" });
+  assert.equal(localWithBaseline.reportType, "local_projects");
+  assert.equal(localWithBaseline.baseline.metrics.medianHomeValue.estimate, 500000);
+  assert.equal(localWithBaseline.sections.baseline, "ready");
+  assert.deepEqual(localWithBaseline.highlights, snapshot.highlights);
   const quotas = await Promise.all(Array.from({ length: 12 }, () => consumeMcpQuota("test-client", { sql, perClient: 5, global: 10 })));
   assert.equal(quotas.filter((quota) => quota.allowed).length, 5);
   assert.equal((await consumeMcpQuota("other-client", { sql, perClient: 5, global: 10 })).allowed, false);

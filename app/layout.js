@@ -14,7 +14,7 @@ export default function Layout({ children }) {
           <a className="brand" href="/">
             HOME AREA REPORTER
           </a>
-          <span>Free early preview</span>
+          <nav aria-label="Main navigation"><a href="/coverage">Coverage</a> · <a href="/blog">Updates</a></nav>
         </header>
         {children}
         <footer>

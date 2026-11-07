@@ -891,3 +891,11 @@ li {
     font-size: 32pt;
   }
 }
+
+.blog-post { max-width: 780px; }
+.blog-post article { margin-top: 1.5rem; }
+.blog-post h1 { font-size: clamp(2rem, 5vw, 3.25rem); overflow-wrap: anywhere; }
+.blog-post p { line-height: 1.7; }
+.blog-post section { margin-block: 2rem; }
+header nav { font-size: .9rem; white-space: nowrap; }
+@media (max-width: 480px) { header { flex-wrap: wrap; gap: .5rem; } }

@@ -5,6 +5,8 @@ config({ path: ".env.local", quiet: true }); config({ quiet: true });
 try {
   const vintage = process.argv.find((arg) => arg.startsWith("--vintage="))?.slice(10) || "2024";
   const result = await fetchBaseline({ apiKey: process.env.CENSUS_API_KEY, vintage });
+  // This command imports the nationwide wildcard, not a regional sample.
+  if (result.records.length < 30000) throw new Error("Unexpectedly small nationwide Census response; previous baselines retained");
   const { sql } = getDatabase();
   const [usage] = await sql`SELECT pg_database_size(current_database())::bigint AS bytes`;
   const limit = Number(process.env.DATABASE_STORAGE_LIMIT_BYTES || 1000000000);

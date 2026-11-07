@@ -30,6 +30,7 @@ export default function ProjectMap({ projects = [], location = null, compact = f
     (project) =>
       coordinate(project.latitude) !== null && coordinate(project.longitude) !== null,
   );
+  const hasListingPoint = coordinate(location?.latitude) !== null && coordinate(location?.longitude) !== null;
   const signature = visibleProjects
     .map((project) => `${project.id}:${project.latitude}:${project.longitude}`)
     .join("|");
@@ -49,7 +50,7 @@ export default function ProjectMap({ projects = [], location = null, compact = f
   }, [zip, showTransit, transitAttempt]);
 
   useEffect(() => {
-    if (!container.current || (!visibleProjects.length && !zip)) return undefined;
+    if (!container.current || (!visibleProjects.length && !zip && !hasListingPoint)) return undefined;
     let cancelled = false;
     let map;
 
@@ -174,7 +175,7 @@ export default function ProjectMap({ projects = [], location = null, compact = f
     return () => { if (mapRef.current === map) map.removeLayer(marker); };
   }, [mapReady, noiseLocation, signature]);
 
-  if (!visibleProjects.length && !zip)
+  if (!visibleProjects.length && !zip && !hasListingPoint)
     return (
       <div className="map-unavailable">
         Map unavailable because these records do not include usable coordinates.

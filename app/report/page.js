@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import ProjectMap from "../../components/ProjectMap";
 import Soundscore from "../../components/Soundscore";
+import NeighborhoodBaseline from "../../components/NeighborhoodBaseline";
 import { trackAnalyticsEvent } from "../../lib/analytics.mjs";
 
 const STAGES = {
@@ -354,19 +355,8 @@ export default function Report() {
         </section>
       )}
       {!summary && <PublicProjects projects={publicProjects} />}
-      {summary?.reportType === "baseline" && (
-        <section className="notice">
-          <h2>Your neighborhood at a glance</h2>
-          <p className="muted">Historical estimates for {summary.baseline.provenance.observationPeriod || summary.baseline.vintage}. Census areas approximate ZIPs. Permit-based development reports are not published here yet.</p>
-          <div className="grid">
-            {Object.entries(summary.baseline.metrics).map(([key, metric]) => (
-              <article key={key}><h3>{metric.label}</h3><strong>{metric.displayValue || (metric.estimate == null ? "Not available" : metric.unit === "USD" ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(metric.estimate) : metric.estimate.toLocaleString())}</strong>
-                {metric.marginOfError != null && <p className="muted">Margin of error: ±{metric.marginOfError.toLocaleString()}</p>}
-              </article>
-            ))}
-          </div>
-        </section>
-      )}
+      {summary?.baseline && <NeighborhoodBaseline baseline={summary.baseline} />}
+      {summary?.reportType === "baseline" && <p className="muted">Permit-based development reports are not published here yet.</p>}
       {summary?.reportType === "baseline" && <PublicProjects projects={publicProjects} />}
       {summary && summary.reportType !== "baseline" && (
         <>

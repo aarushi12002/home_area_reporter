@@ -142,7 +142,7 @@ test("Census rent bounds and margin annotations survive import and display", asy
   const result = await fetchBaseline({ apiKey: " test-key ", fetcher: async (url) => {
     const query = new URL(url).searchParams;
     assert.equal(query.get("key"), "test-key");
-    assert.ok(query.get("get").includes("B25064_001EA"));
+    assert.ok(query.get("get").split(",").length <= 50);
     return Response.json(payload);
   } });
   const rent = result.records[0].metrics.medianGrossRent;
@@ -154,4 +154,19 @@ test("Census rent bounds and margin annotations survive import and display", asy
   assert.equal(result.provenance.observationPeriod, "2020–2024");
   const broken = payload.map((row) => row.filter((_, index) => headers[index] !== "B25064_001EA"));
   assert.throws(() => normalizeBaseline(broken), /Unexpected Census schema/);
+});
+
+test("expanded Census chunks join by ZIP and reject incomplete geography before publication", async () => {
+  const fetcher = (missing = false) => async (url) => {
+    const fields = new URL(url).searchParams.get("get").split(",");
+    const zips = fields.includes("B01003_001E") ? ["02139", "98052"] : missing ? ["02139"] : ["98052", "02139"];
+    return Response.json([[...fields, "zip code tabulation area"], ...zips.map((zip) => [...fields.map((field) => field === "NAME" ? `ZCTA5 ${zip}` : field.endsWith("A") ? null : field === "B25035_001E" ? "1980" : field === "B25071_001E" ? "30.5" : zip === "02139" ? "10" : "20"), zip])]);
+  };
+  const result = await fetchBaseline({ apiKey: "fixture", fetcher: fetcher() });
+  assert.equal(result.records[0].metrics.workFromHome.estimate, 10);
+  assert.equal(result.records[1].metrics.workFromHome.estimate, 20);
+  assert.equal(result.records[0].metrics.medianYearBuilt.displayValue, "1980");
+  assert.equal(result.records[0].metrics.rentIncomeShare.displayValue, "30.5%");
+  assert.equal(Object.keys(result.records[0].metrics).length, 14);
+  await assert.rejects(fetchBaseline({ apiKey: "fixture", fetcher: fetcher(true) }), /geography changed/);
 });

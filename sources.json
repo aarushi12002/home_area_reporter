@@ -157,7 +157,12 @@
         "B25001",
         "B25003",
         "B25064",
-        "B08301"
+        "B08301",
+        "B25077",
+        "B25088",
+        "B25071",
+        "B25035",
+        "B25024"
       ],
       "license": "Federal statistics; retain Census citations and dataset notices",
       "verification": "2026-10-24: activated protected Vercel key; 33,772 received/imported 2024 ACS ZCTAs. SQL reconciliation: 2,577 leading-zero codes; zero malformed codes, missing metric groups or negative stored estimates/MOEs. Representative live reports verified separately in the canonical design.",
@@ -168,7 +173,24 @@
       "observation_period": "2020\u20132024",
       "records": 33772,
       "refresh": "Manual bulk import per reviewed ACS release; never on report viewing",
-      "api_url": "https://api.census.gov/data/2024/acs/acs5"
+      "api_url": "https://api.census.gov/data/2024/acs/acs5",
+      "enrichment": {
+        "implemented_metrics": 14,
+        "new_fields": [
+          "B25077_001",
+          "B25088_002",
+          "B25071_001",
+          "B25035_001",
+          "B25024_002",
+          "B08301_021"
+        ],
+        "verified_metadata_at": "2026-11-03",
+        "production_population": "live",
+        "imported_at": "2026-11-03",
+        "received": 33772,
+        "imported": 33772,
+        "database_bytes_after": 229720064
+      }
     }
   ],
   "planned_sources": [
@@ -254,6 +276,15 @@
         "missing_website": 673,
         "duplicate_name_coordinate_buckets": 2
       }
+    },
+    {
+      "id": "bellevue_permits",
+      "name": "Bellevue Permits (Archive 20260908)",
+      "url": "https://www.arcgis.com/sharing/rest/content/items/7d938bb5f7a34458baec15fe395e46ce?f=json",
+      "integration": "blocked_reuse_and_archived_source",
+      "license": "Commercial use or sale prohibited without express written city authorization",
+      "verification": "2026-11-03: live item metadata resolves archived title and explicit commercial-use restriction; no permit ingestion or publication",
+      "limits": "Resolve current feed, written reuse permission or alternative licensed source before activation"
     }
   ],
   "context_sources": [

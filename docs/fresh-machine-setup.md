@@ -86,6 +86,8 @@ Set `DATABASE_URL` as a Vercel Production variable and as an encrypted GitHub Ac
 
 For optional national ACS context, register/activate a free `CENSUS_API_KEY`, keep it server-side, then run `npm run db:baseline -- --vintage=2024`. Vercel Sensitive variables cannot be pulled: `[SENSITIVE]` is a placeholder, not evidence of a bad Census key. Use an independently configured local key or the one-time production import build below, keeping the production key protected. Imports validate the complete response and publish in a transaction. Preserve observation period, ZCTA geography, suppressed values and margins of error. This is historical context, not local permit coverage or current property pricing. No key is needed for Seattle permits. Future Overture Places and regional source connectors must pass source/terms/quality checks before activation.
 
+The free-data enrichment reuses `npm run db:baseline -- --vintage=2024` and the existing table; no migration or extra provider is needed. It now imports 14 metrics in bounded variable chunks, matched by ZCTA rather than response order. All chunks must have the same geography before the transaction begins. Owner-reported value, mortgage-owner costs, rent/income share, median building year, detached housing and work-from-home counts are historical context. Re-import against the intended database to populate these new fields. Existing eight-metric snapshots remain displayable until refreshed. Seattle reports now display available imported Census context as well. The November 3 production import populated all fourteen metrics for 33,772 ZCTAs; all 31 Seattle permit reports remained ready. The source importer rejects nationwide results below 30,000 rows before writing.
+
 ## 5. Run the website
 
 ```sh

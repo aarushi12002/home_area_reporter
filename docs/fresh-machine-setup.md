@@ -143,7 +143,7 @@ The decision cards combine housing and local activity and add building height, s
 
 After pulling extension changes, return to `chrome://extensions` and click **Reload** on the extension card.
 
-Current extension manifest version: `0.5.1`.
+Current extension manifest version: `0.5.2`.
 
 Listing-location sharing is off by default. Turn on **Include the listing location for nearby results** only when you want coordinates/address included in report requests/links. The popup links to `/privacy`. Verify ZIP-only requests contain no `lat`, `lng` or address, and confirm opting in restores location-aware behavior.
 
@@ -153,9 +153,9 @@ For a store build, first verify the deployed HTTPS origin, then run:
 npm run extension:package -- --origin=https://your-production-host
 ```
 
-Use the actual verified origin, not this placeholder. The script writes the ZIP, unpacked release directory and resolved store listing under ignored `.local/releases/home-area-reporter-0.5.1/`. Use `--out=/absolute/new/path` for a subsequent build; it refuses an existing bundle. It copies only the manifest, popup HTML/JS/CSS and four PNG icons. Release host/frame permissions reference only the chosen origin, and saved localhost preferences cannot override the hidden production origin. The source `extension/` folder remains a local-development build.
+Use the actual verified origin, not this placeholder. The script writes the ZIP, unpacked release directory and resolved store listing under ignored `.local/releases/home-area-reporter-0.5.2/`. Use `--out=/absolute/new/path` for a subsequent build; it refuses an existing bundle. It copies only the manifest, popup HTML/JS/CSS and four PNG icons. Release host/frame permissions reference only the chosen origin, and saved localhost preferences cannot override the hidden production origin. The source `extension/` folder remains a local-development build.
 
-The production origin is `https://home-area-reporter.vercel.app`. Chrome item `gkcknhnphkocdbelbeggbeofcgkhdbmh` is public on version 0.4.0 (verified October 30, 2026); use that existing item for subsequent releases. That installed build still restricts ZIPs to 98101–98105. Version 0.5.1 removes that client restriction and improves automatic extraction using Redfin/Zillow address URLs; complete its Store upload/review to deliver it to installed users. Publisher sign-in was completed on November 1, 2026, and 0.5.1 was uploaded/submitted. Google confirms Pending review with automatic publication after approval; installed users still need that release to become available. Test a Seattle listing (98109: permits) and a Redmond listing (98052: Census baseline), plus metadata-free address URLs, before submitting. Reload unpacked builds manually after edits. Backend ingestion cannot replace installed extension JavaScript.
+The production origin is `https://home-area-reporter.vercel.app`. Chrome item `gkcknhnphkocdbelbeggbeofcgkhdbmh` was verified live on 0.5.1 on November 2, 2026. Version 0.5.2 is prepared locally and requires upload/review; it is not yet Store-published. Test a Seattle listing (98109), selected Redmond 98052 and a national baseline such as 02139, including metadata-free address URLs. Reload unpacked builds after edits. Backend ingestion cannot replace installed extension JavaScript.
 
 The owner must sign in to Vercel and the Chrome Web Store developer dashboard. Complete any publisher registration, fee and binding agreements personally when required. A 128px PNG icon and at least one valid screenshot are required by the store; prepare screenshots from the verified live product, complete privacy/permission declarations and contact details, then submit for review. An uploaded ZIP or review submission is not a live store listing. Do not record success until the store status is published and its installation link works.
 
@@ -222,3 +222,9 @@ The PostgreSQL service normally remains available between terminal sessions. Sto
 When opening this checkout in a new Codex task, a useful first instruction is:
 
 > Read AGENTS.md and docs/fresh-machine-setup.md completely. Set up this existing checkout without committing credentials, run the documented validation, keep the local server running, and report any machine-specific deviation rather than silently changing the canonical setup.
+
+## Blog and 0.5.2 release checks
+
+Browse `/blog`, `/blog/more-free-housing-context` and `/blog/seattle-neighborhood-reports`; an unknown `/blog/[slug]` must return 404. Check `/sitemap.xml`, canonical/share metadata, header/home links and narrow-screen readability. Add release notes to `lib/blog.mjs` using the canonical design template; no CMS or new environment variable is required. Blog Analytics follow existing opt-in and exact published-slug allowlisting.
+
+Extension 0.5.2 is prepared, not Store-published. Run `npm run extension:package -- --origin=https://home-area-reporter.vercel.app` to create its distinct ignored release bundle. On Redfin/Zillow, verify the ZIP matches the listing even if other structured places exist. Keep location off first (no coordinates in requests); opt in to show the listing marker when supplied coordinates are usable. Census-only maps may show that home without local projects. Missing coordinates produce an explanation, never a ZIP-centroid marker. Live installed-extension acceptance and Store upload/review remain pending.

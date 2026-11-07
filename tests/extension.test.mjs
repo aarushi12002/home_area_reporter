@@ -32,6 +32,7 @@ async function popup({
   includeLocation = false,
   originType = "text",
   savedOrigin,
+  baselineOnly = false,
 } = {}) {
   const ids = [
     "research",
@@ -48,6 +49,7 @@ async function popup({
     "review",
     "proposal",
     "project-map",
+    "location-status",
     "highlights",
     "full-report",
     "refresh",
@@ -84,6 +86,7 @@ async function popup({
         json: async () => ({
           headline: "3 current documented projects in 98103",
           decisionSignals,
+          ...(baselineOnly ? { reportType: "baseline", baseline: { metrics: {} } } : {}),
           counts: { permitted: 1, inReview: 2, earlyProposal: 0 },
           highlights: [
             {
@@ -194,4 +197,36 @@ test("malformed JSON-LD ZIP does not prevent a valid listing ZIP fallback", () =
 test("Zillow listing ZIP and leading zeros are preserved without mistaking property IDs for ZIPs", () => {
   assert.equal(extract({ url: "https://www.zillow.com/homedetails/1-Main-St-Cambridge-MA-02139/12345678_zpid/" }).zip, "02139");
   assert.equal(extract({ url: "https://www.redfin.com/home/72080" }).zip, "");
+});
+
+
+test("listing address and coordinates stay together despite unrelated JSON-LD places", () => {
+  const listing = extract({ url: "https://www.redfin.com/WA/Seattle/1-Example-St-98109/home/12345", jsonld: [
+    { "@type": "Organization", address: { postalCode: "98103", streetAddress: "Office" }, geo: { latitude: 10, longitude: 20 } },
+    { "@type": "House", address: { postalCode: "98109", streetAddress: "1 Example St" }, geo: { latitude: 47.6, longitude: -122.3 } },
+    { "@type": "Place", geo: { latitude: 40, longitude: -70 } },
+  ] });
+  assert.equal(listing.zip, "98109"); assert.equal(listing.address, "1 Example St");
+  assert.equal(listing.latitude, 47.6); assert.equal(listing.longitude, -122.3);
+});
+
+test("missing or invalid listing coordinates never become a fabricated point", () => {
+  for (const latitude of [null, "", undefined, true, 91]) {
+    const listing = extract({ url: "https://www.zillow.com/homedetails/1-Main-St-MA-02139/123_zpid/", jsonld: [
+      { address: { postalCode: "02139" }, geo: { latitude, longitude: -71 } },
+    ] });
+    assert.equal(listing.latitude, null); assert.equal(listing.longitude, null);
+  }
+});
+
+test("opted-in listing point reaches embedded map even without local project coverage", async () => {
+  const state = await popup({ includeLocation: true, baselineOnly: true });
+  await state.el.research.onclick();
+  assert.match(state.el["project-map"].src, /lat=47.6/);
+  assert.equal(state.el["project-map"].hidden, false);
+  assert.match(state.el["location-status"].textContent, /home marker/);
+  const missing = await popup({ includeLocation: true, listing: { zip: "98103", latitude: null, longitude: null } });
+  await missing.el.research.onclick();
+  assert.doesNotMatch(missing.requests[0], /lat=|lng=/);
+  assert.match(missing.el["location-status"].textContent, /does not provide usable coordinates/);
 });

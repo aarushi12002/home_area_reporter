@@ -30,6 +30,8 @@ State what is implemented versus proposed, the rationale/tradeoff, and outstandi
 
 Update `docs/free-sources.md` and `sources.json` together whenever source contracts, license findings, coverage or readiness change. Do not label an untested connector integrated.
 
+For a user-facing feature release, add or update its announcement in the existing `lib/blog.mjs` collection using the canonical-design template. Check `/blog`, its post URL, metadata, sitemap and report CTA, and record actual publication/coverage limits. Social posting remains a separate authorized action.
+
 ## 4. Publish only within authorization
 - Preserve others' changes. Re-read the remote head before updating it; use guarded fast-forward updates and handle concurrent changes.
 - Follow the repository's existing branch/PR workflow. Commit/push only within the user's authorization; do not infer authorization for deployment, merging or changing access.

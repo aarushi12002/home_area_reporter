@@ -109,3 +109,9 @@ test("only documented event names and fixed categorical/coarse ZIP parameters su
   assert.equal(analyticsPage("/map?address=private"), null);
   assert.deepEqual(analyticsPage("/report?address=private#private"), analyticsPage("/report"));
 });
+
+
+test("blog analytics accept only published slugs and strip query context", () => {
+  assert.equal(analyticsPage("/blog/more-free-housing-context?address=private").page_location, "https://home-area-reporter.vercel.app/blog/more-free-housing-context");
+  assert.equal(analyticsPage("/blog/arbitrary-private-address"), null);
+});

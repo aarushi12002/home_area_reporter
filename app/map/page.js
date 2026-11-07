@@ -13,8 +13,9 @@ export default function CompactMapPage() {
     const location =
       params.has("lat") &&
       params.has("lng") &&
-      Number.isFinite(latitude) &&
-      Number.isFinite(longitude)
+      params.get("lat")?.trim() !== "" && params.get("lng")?.trim() !== "" &&
+      Number.isFinite(latitude) && Math.abs(latitude) <= 90 &&
+      Number.isFinite(longitude) && Math.abs(longitude) <= 180
         ? { latitude, longitude }
         : null;
     const controller = new AbortController();

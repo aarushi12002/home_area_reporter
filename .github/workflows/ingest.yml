@@ -7,26 +7,51 @@ on:
       region:
         description: Connected jurisdiction
         type: choice
-        options: [seattle]
+        options: [seattle, wa]
         default: seattle
+      jurisdiction:
+        description: Optional approved jurisdiction ID (empty = all in region)
+        type: string
+        required: false
       zips:
         description: Optional comma-separated reviewed ZIPs (empty = all)
         type: string
         required: false
 permissions:
   contents: read
-concurrency:
-  group: neighborhood-refresh-seattle
-  cancel-in-progress: false
 jobs:
-  refresh:
+  discover:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.coverage.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - id: coverage
+        env:
+          REQUESTED_REGION: ${{ inputs.region || 'wa' }}
+          REQUESTED_JURISDICTION: ${{ inputs.jurisdiction }}
+          REQUESTED_ZIPS: ${{ inputs.zips }}
+        run: node scripts/registered-jurisdictions.mjs
+  refresh:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    concurrency:
+      group: neighborhood-refresh-${{ matrix.jurisdiction }}
+      cancel-in-progress: false
     timeout-minutes: 45
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
       DATABASE_STORAGE_LIMIT_BYTES: ${{ vars.DATABASE_STORAGE_LIMIT_BYTES || '1000000000' }}
-      REQUESTED_REGION: ${{ inputs.region || 'seattle' }}
+      REQUESTED_REGION: ${{ inputs.region || 'wa' }}
+      REQUESTED_JURISDICTION: ${{ matrix.jurisdiction }}
       REQUESTED_ZIPS: ${{ inputs.zips }}
     steps:
       - uses: actions/checkout@v4
@@ -38,6 +63,6 @@ jobs:
       - name: Verify database configuration
         run: test -n "$DATABASE_URL"
       - run: npm run db:migrate
-      - run: npm run db:ingest -- --region="$REQUESTED_REGION" --zips="$REQUESTED_ZIPS"
+      - run: npm run db:ingest -- --region="$REQUESTED_REGION" --jurisdiction="$REQUESTED_JURISDICTION" --zips="$REQUESTED_ZIPS"
       - name: Coverage and capacity
         run: npm run db:status

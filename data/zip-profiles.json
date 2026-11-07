@@ -1249,6 +1249,117 @@
       ],
       "reviewedAt": "2026-10-24",
       "reviewUntil": "2027-01-22"
+    },
+    "98052": {
+      "area": "Redmond \u00b7 Downtown & Overlake",
+      "character": "Microsoft\u2019s Redmond headquarters, Town Center shopping and Link light rail.",
+      "work": [
+        {
+          "name": "Microsoft \u00b7 Redmond headquarters",
+          "url": "https://www.microsoft.com/en-us/about/office-locations",
+          "postalCode": "98052",
+          "address": "One Microsoft Way"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "Redmond Town Center",
+          "url": "https://redmondtowncenter.com/about",
+          "postalCode": "98052",
+          "address": "7345 164th Ave NE"
+        }
+      ],
+      "medical": [
+        {
+          "name": "Swedish Redmond Campus",
+          "url": "https://www.swedish.org/locations/redmond-campus",
+          "postalCode": "98052",
+          "address": "18100 NE Union Hill Rd"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Downtown Redmond Station \u00b7 Link 2 Line",
+          "url": "https://www.soundtransit.org/ride-with-us/stops-stations/downtown-redmond-station",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-11-03",
+      "reviewUntil": "2027-02-01"
+    },
+    "98402": {
+      "area": "Downtown Tacoma",
+      "character": "UW Tacoma and T Line stations, with Hilltop groceries and medical care nearby.",
+      "work": [
+        {
+          "name": "University of Washington Tacoma",
+          "url": "https://www.tacoma.uw.edu/campus-map",
+          "postalCode": "98402",
+          "address": "1900 Commerce St"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "Safeway \u00b7 M Street",
+          "url": "https://local.safeway.com/safeway/wa/tacoma.html",
+          "postalCode": "98405",
+          "address": "1112 S M St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "MultiCare Tacoma General Hospital",
+          "url": "https://www.wsha.org/members/multicare-tacoma-general-hospital/",
+          "postalCode": "98405",
+          "address": "315 Martin Luther King Jr Way"
+        }
+      ],
+      "transport": [
+        {
+          "name": "Union Station \u00b7 T Line",
+          "url": "https://www.soundtransit.org/ride-with-us/stops-stations/union-station",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-11-03",
+      "reviewUntil": "2027-02-01"
+    },
+    "98405": {
+      "area": "Hilltop & Central Tacoma",
+      "character": "Tacoma General, Hilltop groceries and T Line connections.",
+      "work": [
+        {
+          "name": "MultiCare Tacoma General Hospital",
+          "url": "https://www.wsha.org/members/multicare-tacoma-general-hospital/",
+          "postalCode": "98405",
+          "address": "315 Martin Luther King Jr Way"
+        }
+      ],
+      "shopping": [
+        {
+          "name": "Safeway \u00b7 M Street",
+          "url": "https://local.safeway.com/safeway/wa/tacoma.html",
+          "postalCode": "98405",
+          "address": "1112 S M St"
+        }
+      ],
+      "medical": [
+        {
+          "name": "MultiCare Tacoma General Hospital",
+          "url": "https://www.wsha.org/members/multicare-tacoma-general-hospital/",
+          "postalCode": "98405",
+          "address": "315 Martin Luther King Jr Way"
+        }
+      ],
+      "transport": [
+        {
+          "name": "St Joseph Station \u00b7 T Line",
+          "url": "https://www.soundtransit.org/ride-with-us/stops-stations/st-joseph-station",
+          "relation": "serves_area"
+        }
+      ],
+      "reviewedAt": "2026-11-03",
+      "reviewUntil": "2027-02-01"
     }
   }
 }

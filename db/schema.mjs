@@ -13,6 +13,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const serviceAreas = pgTable("service_areas", {
+  state: text("state").notNull().default("WA"),
   postalCode: text("postal_code").primaryKey(),
   jurisdiction: text("jurisdiction").notNull(),
   enabled: boolean("enabled").notNull().default(true),
@@ -26,8 +27,18 @@ export const serviceAreas = pgTable("service_areas", {
 });
 
 export const jurisdictions = pgTable("jurisdictions", {
+  state: text("state").notNull().default("WA"), kind: text("kind").notNull().default("city"),
+  sourceStatus: text("source_status").notNull().default("needs_source_review"),
   id: text("id").primaryKey(), name: text("name").notNull(), region: text("region").notNull(), countryCode: text("country_code").notNull().default("US"),
 });
+
+export const jurisdictionReportPartitions = pgTable("jurisdiction_report_partitions", {
+  postalCode: text("postal_code").notNull().references(() => serviceAreas.postalCode),
+  jurisdictionId: text("jurisdiction_id").notNull().references(() => jurisdictions.id),
+  generation: text("generation").notNull(), publishedAt: timestamp("published_at", { withTimezone: true }).notNull(),
+  successfulRefreshes: integer("successful_refreshes").notNull().default(0), coverage: jsonb("coverage").notNull(),
+  enabled: boolean("enabled").notNull().default(false),
+}, (table) => [primaryKey({ columns: [table.postalCode, table.jurisdictionId] })]);
 
 export const mcpRateLimits = pgTable("mcp_rate_limits", {
   bucket: text("bucket").notNull(),

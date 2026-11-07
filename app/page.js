@@ -26,8 +26,9 @@ export default function Home() {
           </div>
         </form>
         <p className="muted">
-          Seattle project reports and nationwide Census neighborhood snapshots. Coverage varies by ZIP.
+          Seattle and selected Washington project reports, plus nationwide Census snapshots. Coverage varies by ZIP.
         </p>
+        <p><a href="/coverage">See Washington coverage and expansion progress →</a></p>
       </section>
       <section className="grid">
         <article>
@@ -39,7 +40,7 @@ export default function Home() {
         <article>
           <h2>Check the source</h2>
           <p>
-            Links to Seattle’s city records so you can explore each project.
+            Links to official city records so you can explore each project.
           </p>
         </article>
         <article>

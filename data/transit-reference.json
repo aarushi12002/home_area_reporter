@@ -525,6 +525,63 @@
         "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=031",
         "relation": "serves_area"
       }
+    ],
+    "98052": [
+      {
+        "name": "Metro Route 224",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=224",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 225",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=225",
+        "relation": "serves_area"
+      },
+      {
+        "name": "Metro Route 250",
+        "url": "https://kingcounty.gov/en/dept/metro/routes-and-service/schedules-and-maps/schedule?route=250",
+        "relation": "serves_area"
+      }
     ]
+  },
+  "overlayZips": [
+    "98101",
+    "98102",
+    "98103",
+    "98104",
+    "98105",
+    "98106",
+    "98107",
+    "98108",
+    "98109",
+    "98112",
+    "98115",
+    "98116",
+    "98117",
+    "98118",
+    "98119",
+    "98121",
+    "98122",
+    "98125",
+    "98126",
+    "98133",
+    "98134",
+    "98136",
+    "98144",
+    "98146",
+    "98154",
+    "98164",
+    "98174",
+    "98177",
+    "98178",
+    "98195",
+    "98199",
+    "98052"
+  ],
+  "reviews": {
+    "98052": {
+      "reviewedAt": "2026-11-03",
+      "reviewUntil": "2027-02-01"
+    }
   }
 }

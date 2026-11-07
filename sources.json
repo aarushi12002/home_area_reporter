@@ -1,7 +1,7 @@
 {
-  "scope": "Seattle municipal permit reports and national Census neighborhood baselines",
+  "scope": "Seattle published reports, Washington jurisdiction expansion and national Census baselines",
   "checked_date": "2026-10-17",
-  "research_checked_date": "2026-10-24",
+  "research_checked_date": "2026-11-03",
   "sources": [
     {
       "id": "76t5-zqzr",
@@ -93,14 +93,21 @@
       "reuse_scope": "Short facts and original summaries only; no copied listing text, ratings, marketing descriptions, schedules or automated feed ingestion",
       "limits": "Selected highlights, not complete coverage; nearby institutions explicitly labeled; no live hours, distance, headway or hiring claims",
       "additional_path": "data/zip-profiles.json",
-      "reviewed_profile_count": 31,
+      "reviewed_profile_count": 34,
       "additional_reviewed_at": "2026-10-24",
       "additional_review_until": "2027-01-22",
-      "coverage_registry": "data/service-areas.json"
+      "coverage_registry": "data/service-areas.json",
+      "selected_expansion_zips": [
+        "98052",
+        "98402",
+        "98405"
+      ],
+      "selected_expansion_reviewed_at": "2026-11-03",
+      "selected_expansion_review_until": "2027-02-01"
     },
     {
       "id": "reviewed_public_project_facts",
-      "name": "Selected Seattle Parks and SPU project facts",
+      "name": "Selected Seattle, Redmond and Tacoma public-project facts",
       "integration": "manual_reviewed_reference",
       "path": "lib/public-projects.mjs",
       "reviewed_at": "2026-10-21",
@@ -120,7 +127,12 @@
         "98125",
         "98133",
         "98199"
-      ]
+      ],
+      "selected_expansion_zips": [
+        "98052",
+        "98405"
+      ],
+      "selected_expansion_reviewed_at": "2026-11-03"
     },
     {
       "id": "census_zcta_boundaries_candidate",
@@ -191,6 +203,16 @@
         "imported": 33772,
         "database_bytes_after": 229720064
       }
+    },
+    {
+      "id": "pierce_transit_route_review",
+      "name": "Pierce Transit Bus Routes",
+      "integration": "metadata_review_only",
+      "catalogUrl": "https://www.arcgis.com/home/item.html?id=4c4e92b1b357465fba1f507ac8d0f967",
+      "url": "https://services2.arcgis.com/fBDXdj7Zh91YF2mv/arcgis/rest/services/Bus_Routes/FeatureServer",
+      "checkedAt": "2026-11-03",
+      "reuseStatus": "terms_unresolved",
+      "blocker": "Official dataset terms link https://www.piercetransit.org/data-agreement-use returns 404. No route features downloaded or published; resolve terms before enabling a map connector."
     }
   ],
   "planned_sources": [
@@ -324,5 +346,237 @@
       "integration": "rejected_wrong_dataset",
       "limits": "Municipal boundary does not define postal ZIPs; use for reviewed city-intersection coverage only"
     }
-  ]
+  ],
+  "jurisdiction_sources": [
+    {
+      "id": "wa-tacoma-accela",
+      "jurisdictionId": "us-wa-tacoma",
+      "adapter": "arcgis-permits",
+      "name": "Tacoma building and land-use permits",
+      "enabled": true,
+      "reuseStatus": "approved",
+      "url": "https://services3.arcgis.com/SCwJH1pD8WSn5T5y/arcgis/rest/services/accela_permit_data/FeatureServer/0",
+      "termsUrl": "https://data.tacoma.gov/",
+      "catalogUrl": "https://www.arcgis.com/home/item.html?id=a12d6fbf58e4434b8ff5070c09646f19",
+      "checkedAt": "2026-11-03",
+      "reuseEvidence": "Official Tacoma Open Data policy permits use/reuse, subject to required attribution/disclaimer; obsolete catalog disclaimer host replaced by current city domain.",
+      "notice": "The information and data made available here has been modified for use from its original source, which is the City of Tacoma. The City of Tacoma makes no claims as to the completeness, accuracy, or timeliness of any information and data contained in this application; makes no representation of any kind, including, but not limited to, warranty of the accuracy or fitness for a particular use; nor are any such warranties to be implied or inferred with respect to the information or data furnished herein. The information and data is subject to change without notice. It is understood that the information and data contained in the web site is being used at user's own risk.",
+      "objectIdField": "objectid",
+      "select": "objectid,permit_number,permit_type,permit_subtype,current_status,application_date,issued_date,address_line_1,description,latitude,longitude,zip,link,pull_date",
+      "where": "permit_type IN ('Building','Land Use','Site','Pre-Application')",
+      "fields": {
+        "id": "permit_number",
+        "status": "current_status",
+        "address": "address_line_1",
+        "description": "description",
+        "type": "permit_type",
+        "applied": "application_date",
+        "issued": "issued_date",
+        "updated": "pull_date",
+        "zip": "zip",
+        "latitude": "latitude",
+        "longitude": "longitude",
+        "link": "link"
+      },
+      "statusMap": {
+        "Additional Info Needed": "in_review",
+        "Awaiting Resubmittal": "in_review",
+        "Awaiting Resubmittal/Revisions": "in_review",
+        "Pending": "in_review",
+        "In Review": "in_review",
+        "Under Review": "in_review",
+        "Ready to Issue": "in_review",
+        "Application Accepted": "in_review",
+        "Review In Progress": "in_review",
+        "Reviews In Process": "in_review",
+        "Pending Payment": "in_review",
+        "Permit Issued": "permitted",
+        "Issued": "permitted",
+        "Approved": "permitted",
+        "Comments Provided": "in_review",
+        "Complete Application": "in_review",
+        "Correction Review in Process": "in_review",
+        "Electronic Review": "in_review",
+        "Incomplete Application": "in_review",
+        "Incomplete Resubmittal": "in_review",
+        "Missing Required Documents": "in_review",
+        "Missing or Incorrect Info": "in_review",
+        "Pending Intake Screening": "in_review",
+        "Pending Internal Action": "in_review",
+        "Permit Fees Due": "in_review",
+        "Permit Ready to Issue": "in_review",
+        "Plan Review In Process": "in_review",
+        "Plan Review in Process": "in_review",
+        "Plan Review in Progress": "in_review",
+        "Plans Routed for Review": "in_review",
+        "Recording Revisions Required": "in_review",
+        "Recording Revisions Routed": "in_review",
+        "Resubmittal Required": "in_review",
+        "Review Complete": "in_review",
+        "Review Fees Due": "in_review",
+        "Revision Review in Process": "in_review",
+        "Revisions Approved": "in_review",
+        "Revisions Required": "in_review",
+        "Revisions Routed for Review": "in_review",
+        "Revisons Required": "in_review",
+        "Staff Report Complete": "in_review",
+        "Staff Report In Process": "in_review",
+        "Waiting for Information": "in_review",
+        "Decision Issued": "permitted",
+        "Meeting Scheduled": "early_proposal",
+        "Active": "issued_if_dated"
+      },
+      "evidenceHosts": [
+        "aca-prod.accela.com",
+        "aca.accela.com"
+      ],
+      "capabilities": [
+        "building_permits",
+        "land_use"
+      ],
+      "limits": "Unknown statuses are retained as raw evidence but excluded from findings. housing_units is not used as an additions field. Context, transit and citywide review gate publication. Complete downloads include terminal statuses before selecting the latest pull_date revision per permit. Conflicting equal-time revisions stop publication. Three-year update window matches report freshness policy.",
+      "lookbackField": "pull_date",
+      "lookbackYears": 3,
+      "latestRevisionField": "pull_date",
+      "sourceStatus": "context_review",
+      "nextAction": "Review all city ZIP geography, neighborhood highlights, Pierce Transit and public improvements before publication."
+    },
+    {
+      "id": "wa-bellevue-permits",
+      "jurisdictionId": "us-wa-bellevue",
+      "adapter": "arcgis-permits",
+      "enabled": false,
+      "reuseStatus": "permission_required",
+      "name": "Bellevue permits",
+      "url": "https://services1.arcgis.com/EYzEZbDhXZjURPbP/arcgis/rest/services/Bellevue_Permit/FeatureServer/0",
+      "catalogUrl": "https://www.arcgis.com/home/item.html?id=3085ee4a101c4380ba39a6663ccf1184",
+      "checkedAt": "2026-11-03",
+      "blocker": "Current dataset explicitly prohibits commercial use without express written city authorization. No permit records ingested.",
+      "authorizationStatus": "not_obtained",
+      "authorizationConfirmedAt": "2026-11-03",
+      "authorizationBasis": "Product owner confirmed written city authorization has not been obtained."
+    },
+    {
+      "id": "wa-vancouver-development",
+      "jurisdictionId": "us-wa-vancouver",
+      "enabled": false,
+      "reuseStatus": "permission_required",
+      "name": "Vancouver WA development dashboard",
+      "catalogUrl": "https://www.arcgis.com/home/item.html?id=e83af2a81e7f407ea85676e1a331049e",
+      "termsUrl": "https://www.arcgis.com/sharing/rest/content/items/e83af2a81e7f407ea85676e1a331049e/info/metadata/metadata.xml?format=default&output=html",
+      "checkedAt": "2026-11-03",
+      "blocker": "Dashboard metadata restricts reproduction/distribution. Verify a separately reusable building/application source or obtain permission."
+    },
+    {
+      "id": "wa-spokane-permit-map",
+      "jurisdictionId": "us-wa-spokane",
+      "adapter": "arcgis-permits",
+      "enabled": false,
+      "reuseStatus": "source_review",
+      "name": "Spokane permit activity",
+      "url": "https://services.spokanegis.org/arcgis/rest/services/Public/MapSpokane_WM_Dynamic/MapServer/26",
+      "termsUrl": "https://my.spokanecity.org/opendata/gis/data/",
+      "catalogUrl": "https://my.spokanecity.org/opendata/gis/permits/",
+      "checkedAt": "2026-11-03",
+      "blocker": "Official source and schema located. Review type/status meanings and short-note quality, coordinate-to-ZCTA assignment, context and transit before connecting."
+    },
+    {
+      "id": "wa-redmond-permits",
+      "name": "Redmond Permits",
+      "jurisdictionId": "us-wa-redmond",
+      "adapter": "arcgis-permits",
+      "enabled": true,
+      "reuseStatus": "approved",
+      "sourceStatus": "context_review",
+      "reviewedAt": "2026-11-03",
+      "url": "https://gis.redmond.gov/arcgis/rest/services/Projects/CIPProjects/MapServer/4",
+      "termsUrl": "https://www.redmond.gov/875/Data-Terms-of-Use",
+      "notice": "The data made available here has been modified for use from its original source, which is the City of Redmond. The City of Redmond makes no claims as to the completeness, timeliness, accuracy or content of any data contained in this application; makes any representation of any kind, including, but not limited to, warranty of the accuracy or fitness for a particular use; nor are any such warranties to be implied or inferred with respect to the information or data furnished herein. The data is subject to change as modifications and updates are complete. It is understood that the information contained in the web feed is being used at one's own risk.",
+      "objectIdField": "ObjectID",
+      "geometryMethod": "parcel_label_point",
+      "parcelDuplicates": true,
+      "select": "ObjectID,ProjectDesc,ProjectStatus,STARTDATE,PERMITNUMBER,Address,ZIPCODE,PermitType",
+      "fields": {
+        "id": "PERMITNUMBER",
+        "zip": "ZIPCODE",
+        "address": "Address",
+        "description": "ProjectDesc",
+        "status": "ProjectStatus",
+        "applied": "STARTDATE",
+        "type": "PermitType"
+      },
+      "statusMap": {
+        "Under Review": "in_review",
+        "Construction": "permitted"
+      },
+      "evidenceHosts": [
+        "gis.redmond.gov"
+      ],
+      "capabilities": [
+        "permits"
+      ],
+      "where": "1=1",
+      "nextAction": "Publish reviewed 98052 independently; other ZIP candidates still need geography, local context and transit review.",
+      "limitations": "Current project viewer, not a complete historic permit ledger. STARTDATE is an application event, not a completion estimate. Construction is the original city status; no independent start verification. Personal-contact and project-name fields are excluded. Parcel joins require identical-attribute reconciliation; geometry is an interior parcel label point.",
+      "joinedObjectIds": true,
+      "locationNote": "Redmond project markers use approximate points within parcels."
+    },
+    {
+      "id": "wa-redmond-plans",
+      "name": "Redmond Plans",
+      "jurisdictionId": "us-wa-redmond",
+      "adapter": "arcgis-permits",
+      "enabled": true,
+      "reuseStatus": "approved",
+      "sourceStatus": "context_review",
+      "reviewedAt": "2026-11-03",
+      "url": "https://gis.redmond.gov/arcgis/rest/services/Projects/CIPProjects/MapServer/5",
+      "termsUrl": "https://www.redmond.gov/875/Data-Terms-of-Use",
+      "notice": "The data made available here has been modified for use from its original source, which is the City of Redmond. The City of Redmond makes no claims as to the completeness, timeliness, accuracy or content of any data contained in this application; makes any representation of any kind, including, but not limited to, warranty of the accuracy or fitness for a particular use; nor are any such warranties to be implied or inferred with respect to the information or data furnished herein. The data is subject to change as modifications and updates are complete. It is understood that the information contained in the web feed is being used at one's own risk.",
+      "objectIdField": "OBJECTID",
+      "geometryMethod": "parcel_label_point",
+      "parcelDuplicates": true,
+      "select": "OBJECTID,ProjectDesc,ProjectStatus,STARTDATE,PLANNUMBER,Address,ZIP,PlanType",
+      "fields": {
+        "id": "PLANNUMBER",
+        "zip": "ZIP",
+        "address": "Address",
+        "description": "ProjectDesc",
+        "status": "ProjectStatus",
+        "applied": "STARTDATE",
+        "type": "PlanType"
+      },
+      "statusMap": {
+        "Under Review": "in_review",
+        "Construction": "permitted"
+      },
+      "evidenceHosts": [
+        "gis.redmond.gov"
+      ],
+      "capabilities": [
+        "land_use"
+      ],
+      "where": "PlanType IN ('Development Agreement','Civil Construction Plan','Comprehensive Plan Amendment','Conditional Use','Consolidated Review','Land Division','Master Planned Development','Pre Application','Site Plan Entitlement','Shoreline','Zoning Code Amendment')",
+      "nextAction": "Publish reviewed 98052 independently; other ZIP candidates still need geography, local context and transit review.",
+      "limitations": "Current project viewer, not a complete historic permit ledger. STARTDATE is an application event, not a completion estimate. Construction is the original city status; no independent start verification. Personal-contact and project-name fields are excluded. Parcel joins require identical-attribute reconciliation; geometry is an interior parcel label point.",
+      "joinedObjectIds": true,
+      "locationNote": "Redmond project markers use approximate points within parcels."
+    },
+    {
+      "id": "wa-kirkland-review",
+      "name": "Kirkland permit-source review",
+      "jurisdictionId": "us-wa-kirkland",
+      "enabled": false,
+      "reuseStatus": "not_reviewed",
+      "sourceStatus": "source_review",
+      "url": "https://www.kirklandwa.gov/Government/Departments/Planning-and-Building",
+      "nextAction": "Verify a comprehensive application/permit feed; issued housing-unit layers alone do not cover all planned development."
+    }
+  ],
+  "washington_inventory": {
+    "registry": "data/service-areas.json",
+    "jurisdictions": 320,
+    "zipIntersectionCandidates": 642,
+    "geography": "ACS2024 incorporated places/counties and 2020 ZCTAs; positive-area intersections are review candidates, not legal postal/permit authority."
+  }
 }

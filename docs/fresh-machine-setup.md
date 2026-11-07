@@ -78,9 +78,34 @@ Each batch downloads both citywide feeds once, then partitions and publishes sel
 npm run db:ingest -- --zips=98103
 ```
 
+### Washington expansion and backfill
+
+Apply all committed migrations, including `0004_jurisdiction_partitions.sql`, before running the new code. It preserves existing Seattle snapshots and partitions them by jurisdiction. Never manually enable an unreviewed ZIP to make an empty report appear ready.
+
+```sh
+npm run db:migrate
+npm run db:ingest -- --region=wa --jurisdiction=us-wa-tacoma
+npm run db:ingest -- --region=wa --jurisdiction=us-wa-redmond
+npm run db:status
+```
+
+Both city commands fetch sources citywide and backfill every candidate ZIP. A reviewed ZIP can publish independently when its own gates pass. Repeat complete runs to exercise the two-refresh gate; publication also requires reviewed geography, four named context groups, a genuine local transit connector and reviewed public improvements or a verified empty result. `--region=wa` without jurisdiction runs all approved enabled adapters sequentially. The CLI defaults to `seattle`; use `--region=wa --jurisdiction=us-wa-redmond --zips=98052` to refresh a selected associated ZIP. Complete upstream downloads still precede publication. Upstream public access does not establish reuse permission. No new paid subscription or key is required for the tested Tacoma/Redmond permit feeds. Redmond 98052 has independently reviewed context and Metro map support. Tacoma 98402/98405 have collected local highlights; 98405 also has a reviewed streetscape reference, which can appear with Census context while permit publication stays gated. Pierce Transit route reuse terms remain unresolved because the dataset terms link returns 404.
+
+Open `/coverage` for source/release blockers, or query `/api/service-areas?state=WA&limit=50&cursor=0`. Inventory membership is not project-report readiness; Census-only reports remain available. The registry `data/service-areas.json` contains 642 intersection candidates across 281 incorporated places and 39 county residuals, including boundary/sliver exceptions still requiring review.
+
+To reproduce the source-derived planning inventory (not needed to serve reports), use a private Python virtual environment and Shapely 2:
+
+```sh
+python3 -m venv .local/geo-venv
+.local/geo-venv/bin/pip install shapely==2.1.2
+.local/geo-venv/bin/python scripts/build-wa-registry.py
+```
+
+The generator uses pinned public Census geography, validates source counts and writes the existing registry plus server-only `data/washington-boundaries.json`. Review generated changes, current local boundaries and tribal/federal permitting authority before activating a jurisdiction. The generator resets non-Seattle geography approvals; carry forward manual review metadata only after checking the regenerated boundaries. Regeneration does not constitute factual review. Geometry and downloaded records stay out of browser bundles and listing context stays out of stored reports.
+
 ### Background production refresh and national imports
 
-Set `DATABASE_URL` as a Vercel Production variable and as an encrypted GitHub Actions repository secret; never commit it. Set optional `SOCRATA_APP_TOKEN` in both environments if used. `.github/workflows/ingest.yml` runs daily at 08:17 UTC; dispatch it manually first, using region `seattle` and optional comma-separated ZIPs. Other regions are rejected until an adapter is verified. The production manual dispatch passed on October 24, and the [first automatic run](https://github.com/aarushi12002/home_area_reporter/actions/runs/40196449759) passed on October 25 (13:11–13:14 UTC), with all 31 areas ready afterward. Its start was about 4 hours 54 minutes later than the configured trigger, so do not rely on an exact publication time. The legacy Vercel cron is removed. `CRON_SECRET` protects the legacy `/api/internal/ingest` endpoint; it is not needed by the Actions worker.
+Set `DATABASE_URL` as a Vercel Production variable and as an encrypted GitHub Actions repository secret; never commit it. Set optional `SOCRATA_APP_TOKEN` in both environments if used. `.github/workflows/ingest.yml` runs daily at 08:17 UTC; dispatch it manually first, using region `seattle` and optional comma-separated ZIPs. The scheduled run discovers approved Washington adapters and isolates jurisdiction jobs (at most two in parallel); manual region `wa` supports optional jurisdiction IDs. Bellevue/Vancouver remain disabled by source rights, and unreviewed sources cannot be dispatched. Schema changes are serialized using a PostgreSQL advisory lock. The November 3 Washington matrix and separate repeat Tacoma/Redmond dispatches passed in production; these backfills do not enable full reports without the remaining review gates. The production manual dispatch passed on October 24, and the [first automatic run](https://github.com/aarushi12002/home_area_reporter/actions/runs/40196449759) passed on October 25 (13:11–13:14 UTC), with all 31 areas ready afterward. Its start was about 4 hours 54 minutes later than the configured trigger, so do not rely on an exact publication time. The legacy Vercel cron is removed. `CRON_SECRET` protects the legacy `/api/internal/ingest` endpoint; it is not needed by the Actions worker.
 
 `DATABASE_STORAGE_LIMIT_BYTES` defaults to 1000000000. Confirm the account allowance; the batch pauses at 80%. Use `npm run db:status` for readiness, last publication, batch failures and database size. Provider compute/transfer remain separate account checks. Recover delayed/disabled GitHub schedules through manual dispatch; public-repository schedules may be disabled after 60 days without activity.
 

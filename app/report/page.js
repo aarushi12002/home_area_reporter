@@ -356,7 +356,8 @@ export default function Report() {
       )}
       {!summary && <PublicProjects projects={publicProjects} />}
       {summary?.baseline && <NeighborhoodBaseline baseline={summary.baseline} />}
-      {summary?.reportType === "baseline" && <p className="muted">Local project coverage is not connected here yet.</p>}
+      {summary?.reportType === "baseline" && <p className="muted">Permit-based development reports are not published here yet.</p>}
+      {summary?.reportType === "baseline" && <PublicProjects projects={publicProjects} />}
       {summary && summary.reportType !== "baseline" && (
         <>
           <section className="notice summary-hero">
@@ -375,7 +376,7 @@ export default function Report() {
                     Some city records may be missing from this search.
                   </p>
                 )}
-                {summary.sharedZip && <p className="impact-coverage">This ZIP crosses city limits. Project coverage includes Seattle municipal records only.</p>}
+                {(summary.sharedZip || summary.coverageComplete === false) && <p className="impact-coverage">Project records cover {(summary.coveredJurisdictionNames || ["Seattle"]).join(", ")}. Other jurisdictions in this ZIP may not be connected.</p>}
                 {summary.awaitingUpdate && <p className="impact-coverage" role="status">An update is pending. Showing the last complete report.</p>}
               </div>
               <section className="snapshot-map" aria-labelledby="snapshot-map-title">
@@ -383,7 +384,7 @@ export default function Report() {
                   <h2 id="snapshot-map-title">Projects in this ZIP</h2>
                   <span className="tag">Top {summary.highlights.length}</span>
                 </div>
-                <ProjectMap projects={mapProjects} location={context.location} zip={context.zip} noiseLocation={noiseLocation} onLocationSelect={setNoiseLocation} />
+                <ProjectMap locationNotes={(summary.coverage || []).map((source)=>source.locationNote).filter(Boolean)} projects={mapProjects} location={context.location} zip={context.zip} noiseLocation={noiseLocation} onLocationSelect={setNoiseLocation} />
               </section>
             </div>
             <DecisionSignals signals={summary.decisionSignals} />
@@ -475,6 +476,7 @@ export default function Report() {
                       records
                     </p>
                     {source.error && <p>{source.error}</p>}
+                    {source.notice && <p>{source.notice}</p>}
                   </article>
                 ))}
                 <p>
